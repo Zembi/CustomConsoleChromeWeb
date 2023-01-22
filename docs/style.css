@@ -35,11 +35,11 @@
 
 
 /* CONSOLE */
-#console * {
+.consoleMainElement * {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-#console {
+.consoleMainElement {
   display: flex;
   position: fixed;
   flex-direction: column;

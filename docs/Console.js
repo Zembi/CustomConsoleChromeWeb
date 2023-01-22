@@ -2,7 +2,7 @@
 // EITHER DISABLE THE FUNCTION OR USE OTHER TYPES OF DEBUG TOOL
 
 class Console {
-  constructor(consoleElmnt, consoleBtn, consoleContentElmnt) {
+  constructor(consoleElmnt) {
     this.consoleElmnt = consoleElmnt;
 
     this.consoleStatus = false;
@@ -75,6 +75,8 @@ class Console {
   }
 
   htmlConsoleStructure() {
+    this.consoleElmnt.classList.add('consoleMainElement');
+
     this.consoleElmnt.classList.add('closedCoreConsole');
     this.consoleElmnt.title = 'Shift + C';
     this.consoleElmnt.innerHTML = `
