@@ -63,7 +63,7 @@ class Console {
   cssCall() {
     var cssId = 'overallConsoleStyleFromWeb';
     if (!document.getElementById(cssId)) {
-      var head = document.getElementsByTagName('head')[0];
+      var head = document.querySelector('head');
       var link = document.createElement('link');
       link.id = cssId;
       link.rel = 'stylesheet';
