@@ -48,7 +48,7 @@
   bottom: 0;
   left: 0;
   overflow: visible;
-  z-index: 2;
+  z-index: 20000000000000;
   transition: height 0.3s;
 }
 .openCoreConsole {
