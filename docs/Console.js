@@ -5,10 +5,6 @@ class Console {
   constructor(consoleElmnt, consoleBtn, consoleContentElmnt) {
     this.consoleElmnt = consoleElmnt;
 
-    this.cssCall();
-    this.htmlConsoleStructure();
-    this.coreConsoleElements();
-
     this.consoleStatus = false;
 
     this.consoleIndexSymbol = '>>';
@@ -48,6 +44,10 @@ class Console {
   }
 
   start() {
+    this.cssCall();
+    this.htmlConsoleStructure();
+    this.coreConsoleElements();
+
     this.resizeConsole('--consoleChangeHeight', '25%');
     this.initializationMessage();
     this.addNewLineToConsole('msg', 'Test line');
