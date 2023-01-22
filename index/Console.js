@@ -5,7 +5,7 @@ export default class Console {
   constructor(consoleElmnt, consoleBtn, consoleContentElmnt) {
     this.consoleElmnt = consoleElmnt;
 
-    this.cssCall();
+    // this.cssCall();
     this.htmlConsoleStructure();
     this.coreConsoleElements();
 
@@ -57,27 +57,27 @@ export default class Console {
     this.enableConsoleLogEvent();
 
     this.shortcutEvents();
-  }
+    // }
 
 
-  cssCall() {
-    var cssId = 'overallConsoleStyle';
-    if (!document.getElementById(cssId)) {
-      var head = document.getElementsByTagName('head')[0];
-      var link = document.createElement('link');
-      link.id = cssId;
-      link.rel = 'stylesheet';
-      link.type = 'text/css';
-      link.href = 'http://website.example/css/stylesheet.css';
-      link.media = 'all';
-      head.appendChild(link);
+    cssCall() {
+      var cssId = 'overallConsoleStyle';
+      if (!document.getElementById(cssId)) {
+        var head = document.getElementsByTagName('head')[0];
+        var link = document.createElement('link');
+        link.id = cssId;
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://website.example/css/stylesheet.css';
+        link.media = 'all';
+        head.appendChild(link);
+      }
     }
-  }
 
-  htmlConsoleStructure() {
-    this.consoleElmnt.classList.add('closedCoreConsole');
-    this.consoleElmnt.title = 'Shift + C';
-    this.consoleElmnt.innerHTML = `
+    htmlConsoleStructure() {
+      this.consoleElmnt.classList.add('closedCoreConsole');
+      this.consoleElmnt.title = 'Shift + C';
+      this.consoleElmnt.innerHTML = `
       <div id='consoleTitle'>
         <button class='closedCoreConsoleBtn consoleImportantFocus'>
           <h2>Console</h2>
@@ -97,135 +97,135 @@ export default class Console {
               <option value="25%">25%</option>
         </select>
       </div>`;
-  }
-
-  // FUNCTION THAT HELPS TRACE THE LINE OF THE MESAGE IN CONSOLE
-  enableConsoleLogEvent() {
-    // GET TRACE AS STRING SO I CAN SHOW THE LINE OF MESSAGE ON MY CONSOLE
-    let getStackTraceImportant = function () {
-      var obj = {};
-      Error.captureStackTrace(obj, getStackTraceImportant);
-
-      let urlAndLine = obj.stack;
-
-      // FIRST URL FROM CONSOLE.LOG OVERRIDEN CUSTOM FUNCTION
-      let firstUrl = urlAndLine.substring(urlAndLine.indexOf('(') + 1, urlAndLine.indexOf(')'));
-      urlAndLine = urlAndLine.replace(urlAndLine.substring(0, urlAndLine.indexOf(')') + 1), ' ');
-
-      // IMPORTANT URL TO SHOW WHERE MESSAGE CAME FROM, ON CONSOLE
-      let secondUrl = urlAndLine.substring(urlAndLine.indexOf('(') + 1, urlAndLine.indexOf(')'));
-      urlAndLine = urlAndLine.replace(urlAndLine.substring(0, urlAndLine.indexOf(')') + 1), ' ');
-
-      // SPLIT URL AND GET FILE LOCATION AS WELL AS LINE NUMBER
-      let urlEnd = secondUrl.substring(secondUrl.lastIndexOf('/') + 1, secondUrl.length);
-      let urlImprtEnd = urlEnd.substring(0, urlEnd.lastIndexOf(':'));
-      let file = urlImprtEnd.substring(0, urlImprtEnd.lastIndexOf(':'));
-      let line = urlImprtEnd.substring(urlImprtEnd.lastIndexOf(':') + 1, urlImprtEnd.length);
-
-      return { file, line };
     }
 
-    let thisObj = this;
-    // CHANGE CONSOLE FUNCTION
-    window.console.log = function (message) {
-      let urlLine = getStackTraceImportant();
-      const msgAndInfo = { message, file: urlLine.file, line: urlLine.line };
+    // FUNCTION THAT HELPS TRACE THE LINE OF THE MESAGE IN CONSOLE
+    enableConsoleLogEvent() {
+      // GET TRACE AS STRING SO I CAN SHOW THE LINE OF MESSAGE ON MY CONSOLE
+      let getStackTraceImportant = function () {
+        var obj = {};
+        Error.captureStackTrace(obj, getStackTraceImportant);
 
-      thisObj.addNewLineToConsole('msg', msgAndInfo);
+        let urlAndLine = obj.stack;
+
+        // FIRST URL FROM CONSOLE.LOG OVERRIDEN CUSTOM FUNCTION
+        let firstUrl = urlAndLine.substring(urlAndLine.indexOf('(') + 1, urlAndLine.indexOf(')'));
+        urlAndLine = urlAndLine.replace(urlAndLine.substring(0, urlAndLine.indexOf(')') + 1), ' ');
+
+        // IMPORTANT URL TO SHOW WHERE MESSAGE CAME FROM, ON CONSOLE
+        let secondUrl = urlAndLine.substring(urlAndLine.indexOf('(') + 1, urlAndLine.indexOf(')'));
+        urlAndLine = urlAndLine.replace(urlAndLine.substring(0, urlAndLine.indexOf(')') + 1), ' ');
+
+        // SPLIT URL AND GET FILE LOCATION AS WELL AS LINE NUMBER
+        let urlEnd = secondUrl.substring(secondUrl.lastIndexOf('/') + 1, secondUrl.length);
+        let urlImprtEnd = urlEnd.substring(0, urlEnd.lastIndexOf(':'));
+        let file = urlImprtEnd.substring(0, urlImprtEnd.lastIndexOf(':'));
+        let line = urlImprtEnd.substring(urlImprtEnd.lastIndexOf(':') + 1, urlImprtEnd.length);
+
+        return { file, line };
+      }
+
+      let thisObj = this;
+      // CHANGE CONSOLE FUNCTION
+      window.console.log = function (message) {
+        let urlLine = getStackTraceImportant();
+        const msgAndInfo = { message, file: urlLine.file, line: urlLine.line };
+
+        thisObj.addNewLineToConsole('msg', msgAndInfo);
+      }
+
+      window.onerror = function (error, url, line) {
+        thisObj.addNewLineToConsole('err', { message: error, file: url, line: line });
+      }
     }
 
-    window.onerror = function (error, url, line) {
-      thisObj.addNewLineToConsole('err', { message: error, file: url, line: line });
-    }
-  }
 
+    // STATUS INITIALIZATION
+    consoleStatusCheckFromLocalStorage() {
+      let localStoreStatus = JSON.parse(localStorage.getItem('overallConsoleStatus'));
 
-  // STATUS INITIALIZATION
-  consoleStatusCheckFromLocalStorage() {
-    let localStoreStatus = JSON.parse(localStorage.getItem('overallConsoleStatus'));
-
-    if (localStoreStatus == null || localStoreStatus[0] == false) {
-      //DEFAULT
-      this.closeConsole();
-    }
-    else {
-      this.openConsole();
-    }
-
-    // HEIGHT INITIALIZATION
-    if (localStoreStatus != null) {
-      let consoleHeight = localStoreStatus[1];
-      let arrOptions = Array.from(this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').querySelectorAll('option'));
-
-      arrOptions.map((option) => {
-        if (option.value === consoleHeight) {
-          this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').value = option.value;
-        }
-      });
-      //consoleHeight = consoleHeight.slice(0, consoleHeight.indexOf('%'));
-      this.resizeConsole('--consoleChangeHeight', consoleHeight);
-    }
-
-    // ALIGN INITIALIZATION
-    if (localStoreStatus != null) {
-      this.initialAlign('--flexDirect', '--consoleAlign', localStoreStatus[2]);
-    }
-    else {
-      this.initialAlign('--flexDirect', '--consoleAlign', 'center');
-    }
-
-    let buttonInfo = this.nextAlign.toUpperCase();
-    this.consoleElmnt.querySelector('#changeConsoleAlignBtn').innerHTML = `Align [${buttonInfo}]`;
-
-
-    this.consoleBtn.addEventListener('click', () => {
-      if (this.consoleElmnt.classList.contains('openCoreConsole')) {
+      if (localStoreStatus == null || localStoreStatus[0] == false) {
+        //DEFAULT
         this.closeConsole();
       }
       else {
         this.openConsole();
       }
-    });
 
-    let consoleFunct = [this.getConsoleCurrentStatus(), this.consoleSize, this.alignContent];
-    consoleFunct = JSON.stringify(consoleFunct);
-    localStorage.setItem('overallConsoleStatus', consoleFunct);
-  }
+      // HEIGHT INITIALIZATION
+      if (localStoreStatus != null) {
+        let consoleHeight = localStoreStatus[1];
+        let arrOptions = Array.from(this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').querySelectorAll('option'));
 
-  // CORE CONSOLE FUNCTIONS
-  consoleCoreButtonsEvents() {
-    // ALIGN CONSOLE EVENT
-    this.consoleElmnt.querySelector('#changeConsoleAlignBtn').addEventListener('click', () => {
-      this.changeAlign('--consoleAlign');
+        arrOptions.map((option) => {
+          if (option.value === consoleHeight) {
+            this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').value = option.value;
+          }
+        });
+        //consoleHeight = consoleHeight.slice(0, consoleHeight.indexOf('%'));
+        this.resizeConsole('--consoleChangeHeight', consoleHeight);
+      }
+
+      // ALIGN INITIALIZATION
+      if (localStoreStatus != null) {
+        this.initialAlign('--flexDirect', '--consoleAlign', localStoreStatus[2]);
+      }
+      else {
+        this.initialAlign('--flexDirect', '--consoleAlign', 'center');
+      }
 
       let buttonInfo = this.nextAlign.toUpperCase();
       this.consoleElmnt.querySelector('#changeConsoleAlignBtn').innerHTML = `Align [${buttonInfo}]`;
 
-      let consoleFunct = [this.getConsoleCurrentStatus(), this.consoleSize, this.alignContent];
-      consoleFunct = JSON.stringify(consoleFunct);
-      localStorage.setItem('overallConsoleStatus', consoleFunct);
-    });
 
-    // CLEAR CONSOLE EVENT
-    this.consoleElmnt.querySelector('#clearConsoleBtn').addEventListener('click', () => {
-      this.clearConsoleEvent();
-    });
-
-    // CHANGE SIZE CONSOLE EVENT
-    this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').addEventListener('change', () => {
-      let newHeight = this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').value;
-      this.resizeConsole('--consoleChangeHeight', newHeight);
-
+      this.consoleBtn.addEventListener('click', () => {
+        if (this.consoleElmnt.classList.contains('openCoreConsole')) {
+          this.closeConsole();
+        }
+        else {
+          this.openConsole();
+        }
+      });
 
       let consoleFunct = [this.getConsoleCurrentStatus(), this.consoleSize, this.alignContent];
       consoleFunct = JSON.stringify(consoleFunct);
       localStorage.setItem('overallConsoleStatus', consoleFunct);
-    });
-  }
+    }
+
+    // CORE CONSOLE FUNCTIONS
+    consoleCoreButtonsEvents() {
+      // ALIGN CONSOLE EVENT
+      this.consoleElmnt.querySelector('#changeConsoleAlignBtn').addEventListener('click', () => {
+        this.changeAlign('--consoleAlign');
+
+        let buttonInfo = this.nextAlign.toUpperCase();
+        this.consoleElmnt.querySelector('#changeConsoleAlignBtn').innerHTML = `Align [${buttonInfo}]`;
+
+        let consoleFunct = [this.getConsoleCurrentStatus(), this.consoleSize, this.alignContent];
+        consoleFunct = JSON.stringify(consoleFunct);
+        localStorage.setItem('overallConsoleStatus', consoleFunct);
+      });
+
+      // CLEAR CONSOLE EVENT
+      this.consoleElmnt.querySelector('#clearConsoleBtn').addEventListener('click', () => {
+        this.clearConsoleEvent();
+      });
+
+      // CHANGE SIZE CONSOLE EVENT
+      this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').addEventListener('change', () => {
+        let newHeight = this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').value;
+        this.resizeConsole('--consoleChangeHeight', newHeight);
 
 
-  initializationMessage() {
-    this.consoleContentElmnt.innerHTML += `
+        let consoleFunct = [this.getConsoleCurrentStatus(), this.consoleSize, this.alignContent];
+        consoleFunct = JSON.stringify(consoleFunct);
+        localStorage.setItem('overallConsoleStatus', consoleFunct);
+      });
+    }
+
+
+    initializationMessage() {
+      this.consoleContentElmnt.innerHTML += `
       <div class='newConsoleLine'>
          <p class='intiliazedLineOfConsole'>
          --------------------------------------------------------------------------
@@ -239,31 +239,31 @@ export default class Console {
       </div>`;
 
 
-  }
-
-  // UPDATE IF CONSOLE IS OPENED OR CLOSED BY RETURNING TRUE FOR OPENED AND FALSE FOR CLOSED
-  getConsoleCurrentStatus() {
-    let status;
-
-    if (this.consoleElmnt.classList.contains('openCoreConsole')) {
-      return true;
-    }
-    else if (this.consoleElmnt.classList.contains('closedCoreConsole')) {
-      return false;
-    }
-  }
-
-  addNewLineToConsole(typeOfMsg, msgfileLocLine) {
-    let consolePointer = document.getElementById('consolePointer');
-
-    // IF IT ISN'T FIRST LINE OF CONSOLE
-    if (consolePointer != null) {
-      consolePointer.id = '';
-      consolePointer.className = 'consoleCountPointer';
     }
 
-    if (this.counter < 0) {
-      this.consoleContentElmnt.innerHTML += `
+    // UPDATE IF CONSOLE IS OPENED OR CLOSED BY RETURNING TRUE FOR OPENED AND FALSE FOR CLOSED
+    getConsoleCurrentStatus() {
+      let status;
+
+      if (this.consoleElmnt.classList.contains('openCoreConsole')) {
+        return true;
+      }
+      else if (this.consoleElmnt.classList.contains('closedCoreConsole')) {
+        return false;
+      }
+    }
+
+    addNewLineToConsole(typeOfMsg, msgfileLocLine) {
+      let consolePointer = document.getElementById('consolePointer');
+
+      // IF IT ISN'T FIRST LINE OF CONSOLE
+      if (consolePointer != null) {
+        consolePointer.id = '';
+        consolePointer.className = 'consoleCountPointer';
+      }
+
+      if (this.counter < 0) {
+        this.consoleContentElmnt.innerHTML += `
          <div class='newConsoleLine'>
             <span></span>
             <p></p>
@@ -272,19 +272,19 @@ export default class Console {
             <span id='consolePointer'>${this.consoleIndexSymbol}</span>
             <p></p>
          </div>`;
-    }
-    else {
-
-      // DELETE LAST LINE OF CONSOLE AND RECREATE IT AFTER
-      document.getElementById('lastLineInConsole').remove();
-
-      // NUMBER COUNT CONSOLE
-      let finalCountForm = (this.counter + 1) + ':';
-      if (this.counter < 9) {
-        finalCountForm = '0' + finalCountForm;
       }
+      else {
 
-      let consolePointerLine = `
+        // DELETE LAST LINE OF CONSOLE AND RECREATE IT AFTER
+        document.getElementById('lastLineInConsole').remove();
+
+        // NUMBER COUNT CONSOLE
+        let finalCountForm = (this.counter + 1) + ':';
+        if (this.counter < 9) {
+          finalCountForm = '0' + finalCountForm;
+        }
+
+        let consolePointerLine = `
         <div class='newConsoleLine' id='lastLineInConsole'>
           <hr>
           <div class='lastLineInConsole'>
@@ -294,7 +294,7 @@ export default class Console {
         </div>`;
 
 
-      this.consoleContentElmnt.innerHTML += `
+        this.consoleContentElmnt.innerHTML += `
             <hr>
             <div class='newConsoleLine'>
                <span class='consoleCountPointer'>${finalCountForm}</span>
@@ -302,134 +302,134 @@ export default class Console {
             </div>
             ${consolePointerLine}`;
 
-      let parentOfObj = document.querySelector(`#consoleObj${this.counter}`);
+        let parentOfObj = document.querySelector(`#consoleObj${this.counter}`);
 
-      let consoleObjIdElmnts = { mainC: this.counter, secondaryC: 0 };
-      const consoleObj = new ConsoleLine(parentOfObj, msgfileLocLine, consoleObjIdElmnts, this, typeOfMsg);
-      consoleObj.start();
-    }
-
-    this.consoleContentElmnt.scrollTop = this.consoleContentElmnt.scrollHeight;
-
-    this.counter++;
-  }
-
-  closeConsole() {
-    this.consoleElmnt.classList.remove('openCoreConsole');
-    this.consoleElmnt.classList.add('closedCoreConsole');
-
-    this.consoleBtn.classList.remove('openCoreConsoleBtn');
-    this.consoleBtn.classList.add('closedCoreConsoleBtn');
-
-    this.consoleContentElmnt.classList.remove('openCoreConsoleContent');
-    this.consoleContentElmnt.classList.add('closedCoreConsoleContent');
-
-    this.consoleStatus = false;
-
-    let buttonsToDisable = Array.from(this.consoleElmnt.querySelectorAll('button:not(.consoleImportantFocus), input:not(.consoleImportantFocus), select'));
-
-    buttonsToDisable.map((option) => {
-      option.tabIndex = '-1';
-      option.blur();
-    });
-  }
-
-  openConsole() {
-    this.consoleElmnt.classList.remove('closedCoreConsole');
-    this.consoleElmnt.classList.add('openCoreConsole');
-
-    this.consoleBtn.classList.remove('closedCoreConsoleBtn');
-    this.consoleBtn.classList.add('openCoreConsoleBtn');
-
-    this.consoleContentElmnt.classList.remove('closedCoreConsoleContent');
-    this.consoleContentElmnt.classList.add('openCoreConsoleContent');
-
-    this.consoleStatus = true;
-
-    let buttonsToDisable = Array.from(this.consoleElmnt.querySelectorAll('button:not(.consoleImportantFocus), input, select'));
-
-    buttonsToDisable.map((option) => {
-      option.tabIndex = '0';
-    });
-  }
-
-  initialAlign(flexDirect, consoleAlignCssVar, currAlign) {
-    let root = document.querySelector(':root');
-
-    currAlign = currAlign.toLowerCase();
-
-    root.style.setProperty(flexDirect, 'row');
-    root.style.setProperty(consoleAlignCssVar, currAlign);
-
-    this.alignContent = currAlign;
-    if (currAlign === 'center') {
-      this.nextAlign = 'left';
-    }
-    else {
-      this.nextAlign = 'center';
-    }
-
-    document.getElementById('consolePointer').innerHTML = this.consoleIndexSymbol;
-  }
-
-  changeAlign(consoleAlignCssVar) {
-    let root = document.querySelector(':root');
-
-    if (this.alignContent === 'center') {
-      this.nextAlign = this.alignContent;
-      this.alignContent = 'left';
-    }
-    else {
-      this.nextAlign = this.alignContent;
-      this.alignContent = 'center';
-    }
-
-    root.style.setProperty(consoleAlignCssVar, this.alignContent);
-  }
-
-  clearConsoleEvent() {
-    this.counter = -1;
-    document.getElementById('consoleContent').innerHTML = '';
-    this.initializationMessage();
-    this.addNewLineToConsole('Test line');
-  }
-
-  resizeConsole(consoleHeightCssVar, newHeight) {
-    let root = document.querySelector(':root');
-    root.style.setProperty(consoleHeightCssVar, newHeight);
-    this.consoleSize = newHeight;
-  }
-
-  // ADD SHORTCUT KEYS AND EVENTS
-  shortcutEvents() {
-    document.addEventListener('keydown', (e) => {
-      let specialKey = e.altKey;
-
-      if (e.key.toLowerCase() === 'c' && specialKey) {
-        this.consoleBtn.click();
-        e.preventDefault();
+        let consoleObjIdElmnts = { mainC: this.counter, secondaryC: 0 };
+        const consoleObj = new ConsoleLine(parentOfObj, msgfileLocLine, consoleObjIdElmnts, this, typeOfMsg);
+        consoleObj.start();
       }
 
-      // IMPORTANT CONSOLE BUTTONS
-      if (e.key.toLowerCase() === 'q' && specialKey && this.consoleStatus) {
-        this.consoleElmnt.querySelector('#changeConsoleAlignBtn').focus();
-        e.preventDefault();
+      this.consoleContentElmnt.scrollTop = this.consoleContentElmnt.scrollHeight;
+
+      this.counter++;
+    }
+
+    closeConsole() {
+      this.consoleElmnt.classList.remove('openCoreConsole');
+      this.consoleElmnt.classList.add('closedCoreConsole');
+
+      this.consoleBtn.classList.remove('openCoreConsoleBtn');
+      this.consoleBtn.classList.add('closedCoreConsoleBtn');
+
+      this.consoleContentElmnt.classList.remove('openCoreConsoleContent');
+      this.consoleContentElmnt.classList.add('closedCoreConsoleContent');
+
+      this.consoleStatus = false;
+
+      let buttonsToDisable = Array.from(this.consoleElmnt.querySelectorAll('button:not(.consoleImportantFocus), input:not(.consoleImportantFocus), select'));
+
+      buttonsToDisable.map((option) => {
+        option.tabIndex = '-1';
+        option.blur();
+      });
+    }
+
+    openConsole() {
+      this.consoleElmnt.classList.remove('closedCoreConsole');
+      this.consoleElmnt.classList.add('openCoreConsole');
+
+      this.consoleBtn.classList.remove('closedCoreConsoleBtn');
+      this.consoleBtn.classList.add('openCoreConsoleBtn');
+
+      this.consoleContentElmnt.classList.remove('closedCoreConsoleContent');
+      this.consoleContentElmnt.classList.add('openCoreConsoleContent');
+
+      this.consoleStatus = true;
+
+      let buttonsToDisable = Array.from(this.consoleElmnt.querySelectorAll('button:not(.consoleImportantFocus), input, select'));
+
+      buttonsToDisable.map((option) => {
+        option.tabIndex = '0';
+      });
+    }
+
+    initialAlign(flexDirect, consoleAlignCssVar, currAlign) {
+      let root = document.querySelector(':root');
+
+      currAlign = currAlign.toLowerCase();
+
+      root.style.setProperty(flexDirect, 'row');
+      root.style.setProperty(consoleAlignCssVar, currAlign);
+
+      this.alignContent = currAlign;
+      if (currAlign === 'center') {
+        this.nextAlign = 'left';
       }
-      if (e.key.toLowerCase() === 'w' && specialKey && this.consoleStatus) {
-        this.consoleElmnt.querySelector('#clearConsoleBtn').focus();
-        e.preventDefault();
+      else {
+        this.nextAlign = 'center';
       }
-      if (e.key.toLowerCase() === 'e' && specialKey && this.consoleStatus) {
-        this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').focus();
-        e.preventDefault();
+
+      document.getElementById('consolePointer').innerHTML = this.consoleIndexSymbol;
+    }
+
+    changeAlign(consoleAlignCssVar) {
+      let root = document.querySelector(':root');
+
+      if (this.alignContent === 'center') {
+        this.nextAlign = this.alignContent;
+        this.alignContent = 'left';
       }
-      if (e.key.toLowerCase() === 'p' && specialKey) {
-        localStorage.removeItem('overallConsoleStatus');
-        e.preventDefault();
+      else {
+        this.nextAlign = this.alignContent;
+        this.alignContent = 'center';
       }
-    });
+
+      root.style.setProperty(consoleAlignCssVar, this.alignContent);
+    }
+
+    clearConsoleEvent() {
+      this.counter = -1;
+      document.getElementById('consoleContent').innerHTML = '';
+      this.initializationMessage();
+      this.addNewLineToConsole('Test line');
+    }
+
+    resizeConsole(consoleHeightCssVar, newHeight) {
+      let root = document.querySelector(':root');
+      root.style.setProperty(consoleHeightCssVar, newHeight);
+      this.consoleSize = newHeight;
+    }
+
+    // ADD SHORTCUT KEYS AND EVENTS
+    shortcutEvents() {
+      document.addEventListener('keydown', (e) => {
+        let specialKey = e.altKey;
+
+        if (e.key.toLowerCase() === 'c' && specialKey) {
+          this.consoleBtn.click();
+          e.preventDefault();
+        }
+
+        // IMPORTANT CONSOLE BUTTONS
+        if (e.key.toLowerCase() === 'q' && specialKey && this.consoleStatus) {
+          this.consoleElmnt.querySelector('#changeConsoleAlignBtn').focus();
+          e.preventDefault();
+        }
+        if (e.key.toLowerCase() === 'w' && specialKey && this.consoleStatus) {
+          this.consoleElmnt.querySelector('#clearConsoleBtn').focus();
+          e.preventDefault();
+        }
+        if (e.key.toLowerCase() === 'e' && specialKey && this.consoleStatus) {
+          this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').focus();
+          e.preventDefault();
+        }
+        if (e.key.toLowerCase() === 'p' && specialKey) {
+          localStorage.removeItem('overallConsoleStatus');
+          e.preventDefault();
+        }
+      });
+    }
   }
-}
 
 class ConsoleLine {
   constructor(parentOfObj, obj, thisIdElmtns, consoleObj, typeOfLine) {
