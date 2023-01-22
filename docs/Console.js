@@ -61,17 +61,17 @@ class Console {
 
 
   cssCall() {
-    // var cssId = 'overallConsoleStyle';
-    // if (!document.getElementById(cssId)) {
-    //   var head = document.getElementsByTagName('head')[0];
-    //   var link = document.createElement('link');
-    //   link.id = cssId;
-    //   link.rel = 'stylesheet';
-    //   link.type = 'text/css';
-    //   link.href = 'http://website.example/css/stylesheet.css';
-    //   link.media = 'all';
-    //   head.appendChild(link);
-    // }
+    var cssId = 'overallConsoleStyleFromWeb';
+    if (!document.getElementById(cssId)) {
+      var head = document.getElementsByTagName('head')[0];
+      var link = document.createElement('link');
+      link.id = cssId;
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = 'https://zembi.github.io/CustomConsoleChromeWeb/docs/style.css';
+      link.media = 'all';
+      head.appendChild(link);
+    }
   }
 
   htmlConsoleStructure() {
