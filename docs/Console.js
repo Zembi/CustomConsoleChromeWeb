@@ -1,7 +1,7 @@
 // DO NOT USE CONSOLE.LOG FUNCTION ANYWHERE HERE
 // EITHER DISABLE THE FUNCTION OR USE OTHER TYPES OF DEBUG TOOL
 
-export default class Console {
+class Console {
   constructor(consoleElmnt, consoleBtn, consoleContentElmnt) {
     this.consoleElmnt = consoleElmnt;
 
