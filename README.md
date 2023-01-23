@@ -1,5 +1,6 @@
 # CustomConsoleChromeWeb
 Created my own console, using it to my projects, for my convience. You can try it out, too.<br>
+The idea is that after following the steps, down below, by calling the function console.log(), the messages will be appeared in the custom Console and not in the Chrome's console.<br>
 Future versions will be posted, so if you are interested, be aware! Any new ideas about its development, will be appreciated.
 
 
@@ -22,7 +23,8 @@ Future versions will be posted, so if you are interested, be aware! Any new idea
 4-Finally, to activate the functionality of Console, call the function start()
 
     consoleObj.start(); // consoleObj is the variable that contains the Console object (see previous step)
+    //.... any call of the console.log() function from now on, will be executed, only in the custom Console
     
-(!Warning!): This will result in overwriting the console.log() function, so no messages will be shown in the actual console.<br>
-You can always disable the custom Console, by stop calling the function start(). This will lead to a properly working <br>
-console.log() function, again. No need to delete the object everytime you decide to work with the Chrome's console!
+(!Warning!): This will result in overwriting the console.log() function and so no messages will be shown in the default console of Chrome.<br>
+You can always disable the custom Console, by stop calling the function start(). This will lead to the default functionality of<br>
+console.log(), again. No need to delete the object everytime you decide to work with the Chrome's console!
