@@ -163,7 +163,6 @@ class Console {
   consoleStatusCheckFromLocalStorage() {
     let localStoreStatus = JSON.parse(localStorage.getItem(this.localStorageVarString));
 
-    console.log(localStoreStatus);
     if (localStoreStatus == null || localStoreStatus[0] == false) {
       //DEFAULT
       this.closeConsole();
@@ -651,6 +650,7 @@ class ConsoleLine {
         }
 
         parents.map((value) => {
+          thisObj.consoleElmnt.style.background = 'transparent';
           objsChild.classList.add('consoleDomHoverMouseOverflowForce');
         });
       }
@@ -673,6 +673,7 @@ class ConsoleLine {
 
         parents.splice(0, 3);
         parents.map((value) => {
+          thisObj.consoleElmnt.style.background = 'rgb(55, 55, 55, 0.9)';
           objsChild.classList.remove('consoleDomHoverMouseOverflowForce');
         });
       }
