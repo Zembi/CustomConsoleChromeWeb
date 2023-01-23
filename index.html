@@ -2,10 +2,21 @@
 <html lang="en">
 
 <head>
+   <script type="text/javascript" src='docs/Console.js'></script>
    <title>Custom Console</title>
 </head>
 
 <body>
+   <div id='console'></div>
+   <div id='hello' style='width: 100%; height: 100px; background: red;'></div>
+
+   <script type="text/javascript">
+      const consoleEl = document.getElementById('console');
+      const consoleObj = new Console(consoleEl);
+      consoleObj.start();
+
+      console.log(document.getElementById('hello'));
+   </script>
 </body>
 
 </html>

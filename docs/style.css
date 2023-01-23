@@ -48,7 +48,7 @@
   left: 0;
   overflow: visible;
   z-index: 20000000000000;
-  transition: height 0.3s;
+  transition: height 0.3s, background 0.3s;
 }
 .openCoreConsole {
   height: var(--consoleChangeHeightHSQL0219);

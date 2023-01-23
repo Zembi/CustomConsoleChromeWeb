@@ -11,7 +11,8 @@ var onlyOnce = (function () {
         link.id = cssId;
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = 'https://zembi.github.io/CustomConsoleChromeWeb-V.1/docs/style.css';
+        // link.href = 'https://zembi.github.io/CustomConsoleChromeWeb-V.1/docs/style.css';
+        link.href = 'docs/style.css';
         link.media = 'all';
         head.appendChild(link);
       }
@@ -650,7 +651,7 @@ class ConsoleLine {
         }
 
         parents.map((value) => {
-          thisObj.consoleElmnt.style.background = 'transparent';
+          thisObj.consoleObj.consoleElmnt.style.background = 'transparent';
           objsChild.classList.add('consoleDomHoverMouseOverflowForce');
         });
       }
@@ -673,7 +674,7 @@ class ConsoleLine {
 
         parents.splice(0, 3);
         parents.map((value) => {
-          thisObj.consoleElmnt.style.background = 'rgb(55, 55, 55, 0.9)';
+          thisObj.consoleObj.consoleElmnt.style.background = 'rgb(55, 55, 55, 0.9)';
           objsChild.classList.remove('consoleDomHoverMouseOverflowForce');
         });
       }
