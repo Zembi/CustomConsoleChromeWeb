@@ -1,9 +1,8 @@
 :root {
-  /* CONSOLE VARS */
-  --consoleChangeHeight: null;
-  --flexDirect: row;
-  --consoleAlign: null;
-  --consoleLineFlexDirect: row;
+  /* CONSOLE VARS with UNICODE: HSQL0219*/
+  --consoleChangeHeightHSQL0219: null;
+  --flexDirectHSQL0219: row;
+  --consoleAlignHSQL0219: null;
 }
 
 *::after, *::before {
@@ -30,7 +29,7 @@
  
  /* Handle on hover */
  ::-webkit-scrollbar-thumb:hover {
-   background: rgb(255, 199, 199); 
+   background: rgb(255, 166, 0);
  }
 
 
@@ -52,7 +51,7 @@
   transition: height 0.3s;
 }
 .openCoreConsole {
-  height: var(--consoleChangeHeight);
+  height: var(--consoleChangeHeightHSQL0219);
 }
 .closedCoreConsole {
   height: 0;
@@ -113,14 +112,14 @@
 .intiliazedLineOfConsole {
   width: 100%;
   color: white;
-  text-align: var(--consoleAlign);
+  text-align: var(--consoleAlignHSQL0219);
   word-break: break-all;
   margin: 0;
 }
 .newConsoleLine {
   display: flex;
-  flex-direction: var(--flexDirect);
-  justify-content: var(--consoleAlign);
+  flex-direction: var(--flexDirectHSQL0219);
+  justify-content: var(--consoleAlignHSQL0219);
   background: transparent;
   border-radius: 0.2em;
   padding: 0.1rem;
@@ -137,9 +136,8 @@
   position: sticky;
   display: flex;
   background: rgba(0, 0, 0, 0.4) !important;
-  flex-direction: var(--flexDirect);
-  justify-content: var(--consoleAlign);
-  background: transparent;
+  flex-direction: var(--flexDirectHSQL0219);
+  justify-content: var(--consoleAlignHSQL0219);
   border-radius: 0.2em;
   bottom: -3rem;
   padding: 0.4rem 0.6rem;
@@ -168,8 +166,8 @@
 }
 .newConsoleLineMsg {
   display: flex;
-  flex-direction: var(--consoleLineFlexDirect);
-  justify-content: var(--consoleAlign);
+  flex-direction: row;
+  justify-content: var(--consoleAlignHSQL0219);
   word-break: break-all;
   padding: 0;
   margin: 1px 0 0 0;
@@ -211,7 +209,7 @@
 .errorConsolePar {
   justify-content: center;
   color: rgb(255, 128, 111);
-  text-align: var(--consoleAlign);
+  text-align: var(--consoleAlignHSQL0219);
 }
 
 .errorConsoleMainAndDestinLine {
@@ -276,7 +274,7 @@
 }
 .beforeConsoleObjBtnFirst {
   display: flex;
-  justify-content: var(--consoleAlign);
+  justify-content: var(--consoleAlignHSQL0219);
 }
 
 .consoleObjBtn {
@@ -321,7 +319,7 @@
 
 .consoleObjLineWrapInfo {
   display: flex;
-  justify-content: var(--consoleAlign);
+  justify-content: var(--consoleAlignHSQL0219);
   width: 100%;
   box-sizing: border-box;
   padding: 0.3rem 0.1rem;

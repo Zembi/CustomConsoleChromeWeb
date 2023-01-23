@@ -1,6 +1,30 @@
-// DO NOT USE CONSOLE.LOG FUNCTION ANYWHERE HERE
-// EITHER DISABLE THE FUNCTION OR USE OTHER TYPES OF DEBUG TOOL
 
+// CALL THE CSS FILE OF CONSOLE
+var onlyOnce = (function () {
+  var executed = false;
+  return function () {
+    if (!executed) {
+      var cssId = 'overallConsoleStyleFromWeb';
+      if (!document.getElementById(cssId)) {
+        var head = document.querySelector('head');
+        var link = document.createElement('link');
+        link.id = cssId;
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://zembi.github.io/CustomConsoleChromeWeb/docs/style.css';
+        link.media = 'all';
+        head.appendChild(link);
+      }
+
+      executed = true;
+    }
+  };
+})();
+
+onlyOnce();
+
+// DO NOT USE CONSOLE.LOG FUNCTION ANYWHERE HERE
+// EITHER DISABLE THE FUNCTION OR USE OTHER TYPES OF DEBUG TOO
 class Console {
   constructor(consoleElmnt) {
     this.consoleElmnt = consoleElmnt;
@@ -15,6 +39,15 @@ class Console {
     this.counter = -1;
 
     this.consoleSize = null;
+
+    // VALUES OF VARS
+    this.consoleUniCode = 'HSQL0219';
+    // LOCAL STORAGE
+    this.localStorageVarString = 'overallConsoleStatus' + this.consoleUniCode;
+    // CSS
+    this.consoleChangeHeightCssVar = '--consoleChangeHeight' + this.consoleUniCode;
+    this.flexDirectCssVar = '--flexDirect' + this.consoleUniCode;
+    this.consoleAlignCssVar = '--consoleAlign' + this.consoleUniCode;
   }
 
   coreConsoleElements() {
@@ -44,11 +77,10 @@ class Console {
   }
 
   start() {
-    this.cssCall();
     this.htmlConsoleStructure();
     this.coreConsoleElements();
 
-    this.resizeConsole('--consoleChangeHeight', '25%');
+    this.resizeConsole(this.consoleChangeHeightCssVar, '25%');
     this.initializationMessage();
     this.addNewLineToConsole('msg', 'Test line');
 
@@ -59,26 +91,11 @@ class Console {
     this.shortcutEvents();
   }
 
-
-  cssCall() {
-    var cssId = 'overallConsoleStyleFromWeb';
-    if (!document.getElementById(cssId)) {
-      var head = document.querySelector('head');
-      var link = document.createElement('link');
-      link.id = cssId;
-      link.rel = 'stylesheet';
-      link.type = 'text/css';
-      link.href = 'https://zembi.github.io/CustomConsoleChromeWeb/docs/style.css';
-      link.media = 'all';
-      head.appendChild(link);
-    }
-  }
-
   htmlConsoleStructure() {
     this.consoleElmnt.classList.add('consoleMainElement');
 
     this.consoleElmnt.classList.add('closedCoreConsole');
-    this.consoleElmnt.title = 'Shift + C';
+    this.consoleElmnt.title = 'Alt + C';
     this.consoleElmnt.innerHTML = `
       <div id='consoleTitle'>
         <button class='closedCoreConsoleBtn consoleImportantFocus'>
@@ -89,14 +106,14 @@ class Console {
       <div class='closedCoreConsoleContent' id='consoleContent'></div>
 
       <div id='consoleBtns'>
-        <button class='imprtntConsoleBtn' id='changeConsoleAlignBtn'></button>
-        <button class='imprtntConsoleBtn' id='clearConsoleBtn'>Clear</button>
-        <select class='imprtntConsoleBtn' id="sizesOfCoreConsoleSlct">
-              <option value="calc(100% - 32px)">100%</option>
-              <option value="65%">65%</option>
-              <option value="50%">50%</option>
-              <option value="35%">35%</option>
-              <option value="25%">25%</option>
+        <button class='imprtntConsoleBtn' id='changeConsoleAlignBtn' title='Alt + Q'></button>
+        <button class='imprtntConsoleBtn' id='clearConsoleBtn' title='Alt + W'>Clear</button>
+        <select class='imprtntConsoleBtn' id='sizesOfCoreConsoleSlct' title='Alt + E'>
+              <option value='calc(100% - 32px)'>100%</option>
+              <option value='65%'>65%</option>
+              <option value='50%'>50%</option>
+              <option value='35%'>35%</option>
+              <option value='25%'>25%</option>
         </select>
       </div>`;
   }
@@ -144,8 +161,9 @@ class Console {
 
   // STATUS INITIALIZATION
   consoleStatusCheckFromLocalStorage() {
-    let localStoreStatus = JSON.parse(localStorage.getItem('overallConsoleStatus'));
+    let localStoreStatus = JSON.parse(localStorage.getItem(this.localStorageVarString));
 
+    console.log(localStoreStatus);
     if (localStoreStatus == null || localStoreStatus[0] == false) {
       //DEFAULT
       this.closeConsole();
@@ -165,15 +183,15 @@ class Console {
         }
       });
       //consoleHeight = consoleHeight.slice(0, consoleHeight.indexOf('%'));
-      this.resizeConsole('--consoleChangeHeight', consoleHeight);
+      this.resizeConsole(this.consoleChangeHeightCssVar, consoleHeight);
     }
 
     // ALIGN INITIALIZATION
     if (localStoreStatus != null) {
-      this.initialAlign('--flexDirect', '--consoleAlign', localStoreStatus[2]);
+      this.initialAlign(this.flexDirectCssVar, this.consoleAlignCssVar, localStoreStatus[2]);
     }
     else {
-      this.initialAlign('--flexDirect', '--consoleAlign', 'center');
+      this.initialAlign(this.flexDirectCssVar, this.consoleAlignCssVar, 'center');
     }
 
     let buttonInfo = this.nextAlign.toUpperCase();
@@ -187,25 +205,29 @@ class Console {
       else {
         this.openConsole();
       }
+
+      let consoleFunct = [this.getConsoleCurrentStatus(), this.consoleSize, this.alignContent];
+      consoleFunct = JSON.stringify(consoleFunct);
+      localStorage.setItem(this.localStorageVarString, consoleFunct);
     });
 
     let consoleFunct = [this.getConsoleCurrentStatus(), this.consoleSize, this.alignContent];
     consoleFunct = JSON.stringify(consoleFunct);
-    localStorage.setItem('overallConsoleStatus', consoleFunct);
+    localStorage.setItem(this.localStorageVarString, consoleFunct);
   }
 
   // CORE CONSOLE FUNCTIONS
   consoleCoreButtonsEvents() {
     // ALIGN CONSOLE EVENT
     this.consoleElmnt.querySelector('#changeConsoleAlignBtn').addEventListener('click', () => {
-      this.changeAlign('--consoleAlign');
+      this.changeAlign(this.consoleAlignCssVar);
 
       let buttonInfo = this.nextAlign.toUpperCase();
       this.consoleElmnt.querySelector('#changeConsoleAlignBtn').innerHTML = `Align [${buttonInfo}]`;
 
       let consoleFunct = [this.getConsoleCurrentStatus(), this.consoleSize, this.alignContent];
       consoleFunct = JSON.stringify(consoleFunct);
-      localStorage.setItem('overallConsoleStatus', consoleFunct);
+      localStorage.setItem(this.localStorageVarString, consoleFunct);
     });
 
     // CLEAR CONSOLE EVENT
@@ -216,12 +238,12 @@ class Console {
     // CHANGE SIZE CONSOLE EVENT
     this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').addEventListener('change', () => {
       let newHeight = this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').value;
-      this.resizeConsole('--consoleChangeHeight', newHeight);
+      this.resizeConsole(this.consoleChangeHeightCssVar, newHeight);
 
 
       let consoleFunct = [this.getConsoleCurrentStatus(), this.consoleSize, this.alignContent];
       consoleFunct = JSON.stringify(consoleFunct);
-      localStorage.setItem('overallConsoleStatus', consoleFunct);
+      localStorage.setItem(this.localStorageVarString, consoleFunct);
     });
   }
 
@@ -426,7 +448,7 @@ class Console {
         e.preventDefault();
       }
       if (e.key.toLowerCase() === 'p' && specialKey) {
-        localStorage.removeItem('overallConsoleStatus');
+        localStorage.removeItem(this.localStorageVarString);
         e.preventDefault();
       }
     });
