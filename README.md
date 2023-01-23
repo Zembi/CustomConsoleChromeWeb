@@ -5,7 +5,7 @@ Future versions will be posted, so if you are interested, be aware! Any new idea
 
 1-Import the console to your project, by adding to header the following line:
 
-    <script type="text/javascript" src='https://zembi.github.io/CustomConsoleChromeWeb/docs/Console.js'></script>
+    <script type="text/javascript" src='https://zembi.github.io/CustomConsoleChromeWeb-V.1/docs/Console.js'></script>
 
 
 2-In html, inside the body element, add an empty div with just one id of your choice or just add the following line:
