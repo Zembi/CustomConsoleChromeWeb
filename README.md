@@ -30,6 +30,7 @@ Future versions will be posted, so if you are interested, be aware! Any new idea
     consoleObj.start(); // consoleObj is the variable that contains the Console object (see previous step)
     //.... any call of the console.log() function from now on, will be executed, only in the custom Console
     
+<h3 align='center'>Be aware pf</h3>
 > (**!_TIP_!**): Custom Console, currently, is a debugging tool rather than a copy of the default console, as it starts working, only after html is loaded.
 >               Therefore, it is essential that you understand that any messages that is to be shown in console from other apis or server requests, will not
 >               be appeared in the custom Console, but in the default one. I recommend you to intialize the Console object, exactly after the last element of
