@@ -1,10 +1,6 @@
 # CustomConsoleChromeWeb
-Created my own console, using it to my projects, for my convience. You can try it out, too.<br>
-The idea is that after following the steps, down below, by calling the function console.log(), the messages will be appeared in the custom Console and not in the Chrome's console.<br>
-Future versions will be posted, so if you are interested, be aware! Any new ideas about its development, will be appreciated.
-<img src="header.svg" width="800" height="400">
-<span style='width: 100%; text-align: center;'>HEADER</span>
-<br>
+<img src='readMeSupp.svg' width="100%">
+
 1-Import the console to your project, by adding to header the following line:
     
     <header>
