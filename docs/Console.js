@@ -12,6 +12,7 @@ var onlyOnce = (function () {
         link.rel = 'stylesheet';
         link.type = 'text/css';
         link.href = 'https://zembi.github.io/CustomConsoleChromeWeb-V.1/docs/style.css';
+        // link.href = 'docs/style.css';
         link.media = 'all';
         head.appendChild(link);
       }
@@ -122,24 +123,23 @@ class Console {
   enableConsoleLogEvent() {
     // GET TRACE AS STRING SO I CAN SHOW THE LINE OF MESSAGE ON MY CONSOLE
     let getStackTraceImportant = function () {
-      var obj = {};
-      Error.captureStackTrace(obj, getStackTraceImportant);
-
-      let urlAndLine = obj.stack;
-
-      // FIRST URL FROM CONSOLE.LOG OVERRIDEN CUSTOM FUNCTION
-      let firstUrl = urlAndLine.substring(urlAndLine.indexOf('(') + 1, urlAndLine.indexOf(')'));
-      urlAndLine = urlAndLine.replace(urlAndLine.substring(0, urlAndLine.indexOf(')') + 1), ' ');
+      let urlAndLine = Error().stack;
+      let ar = urlAndLine.split('\n');
+      let lastLine = ar[ar.length - 1];
 
       // IMPORTANT URL TO SHOW WHERE MESSAGE CAME FROM, ON CONSOLE
-      let secondUrl = urlAndLine.substring(urlAndLine.indexOf('(') + 1, urlAndLine.indexOf(')'));
-      urlAndLine = urlAndLine.replace(urlAndLine.substring(0, urlAndLine.indexOf(')') + 1), ' ');
+      let lastUrl = lastLine.split(' ');
+      lastUrl = lastUrl[lastUrl.length - 1];
 
       // SPLIT URL AND GET FILE LOCATION AS WELL AS LINE NUMBER
-      let urlEnd = secondUrl.substring(secondUrl.lastIndexOf('/') + 1, secondUrl.length);
+      let urlEnd = lastUrl.substring(lastUrl.length, -lastUrl.lastIndexOf('/'));
       let urlImprtEnd = urlEnd.substring(0, urlEnd.lastIndexOf(':'));
-      let file = urlImprtEnd.substring(0, urlImprtEnd.lastIndexOf(':'));
-      let line = urlImprtEnd.substring(urlImprtEnd.lastIndexOf(':') + 1, urlImprtEnd.length);
+      let fileAndLine = urlImprtEnd.substring(urlImprtEnd.lastIndexOf('/') + 1, urlImprtEnd.length);
+      let file = fileAndLine.substring(0, fileAndLine.lastIndexOf(':'));
+      if (file === '') {
+        file = '(index)';
+      }
+      let line = fileAndLine.substring(fileAndLine.lastIndexOf(':') + 1, fileAndLine.length);
 
       return { file, line };
     }
@@ -638,6 +638,7 @@ class ConsoleLine {
       const target = e.target.closest('#' + spanDom.id);
 
       if (target) {
+        thisObj.consoleObj.consoleElmnt.style.background = 'transparent';
         objsChild.classList.add('consoleDomHoverMouse');
 
         // GET ALL PARENTS AND THEN FORCE THEM TO OVERFLOW
@@ -650,8 +651,7 @@ class ConsoleLine {
         }
 
         parents.map((value) => {
-          thisObj.consoleObj.consoleElmnt.style.background = 'transparent';
-          objsChild.classList.add('consoleDomHoverMouseOverflowForce');
+          // objsChild.classList.add('consoleDomHoverMouseOverflowForce');
         });
       }
     });
@@ -660,6 +660,7 @@ class ConsoleLine {
       const target = e.target.closest('#' + spanDom.id);
 
       if (target) {
+        thisObj.consoleObj.consoleElmnt.style.background = 'rgb(55, 55, 55, 0.9)';
         objsChild.classList.remove('consoleDomHoverMouse');
 
         // GET ALL PARENTS AND THEN RELEASE THEM FROM OVERFLOW
@@ -673,8 +674,7 @@ class ConsoleLine {
 
         parents.splice(0, 3);
         parents.map((value) => {
-          thisObj.consoleObj.consoleElmnt.style.background = 'rgb(55, 55, 55, 0.9)';
-          objsChild.classList.remove('consoleDomHoverMouseOverflowForce');
+          // objsChild.classList.remove('consoleDomHoverMouseOverflowForce');
         });
       }
     });

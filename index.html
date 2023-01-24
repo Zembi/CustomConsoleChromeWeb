@@ -2,21 +2,66 @@
 <html lang="en">
 
 <head>
+   <link rel="shortcut icon" href="#">
+
    <script type="text/javascript" src='docs/Console.js'></script>
+
    <title>Custom Console</title>
+
+   <style>
+      #helloWrap {
+         display: flex;
+         justify-content: center;
+         background: transparent;
+         margin-top: 1rem;
+      }
+      #helloWrap .title {
+         font-size: 1.3rem;
+         text-align: center;
+         box-sizing: border-box;
+         padding: 0.5rem 1rem;
+         animation: BorderAnim 2s infinite;
+      }
+
+      @keyframes BorderAnim{
+         0% {
+            border: 2px solid transparent;
+            border-top: 2px solid cadetblue;
+         }
+         25% {
+            border: 2px solid transparent;
+            border-right: 2px solid cadetblue;
+         }
+         50% {
+            border: 2px solid transparent;
+            border-bottom: 2px solid cadetblue;
+         }
+         75% {
+            border: 2px solid transparent;
+            border-left: 2px solid cadetblue;
+         }
+         100% {
+            border: 2px solid transparent;
+            border-top: 2px solid cadetblue;
+         }
+      }
+   </style>
 </head>
 
 <body>
    <div id='console'></div>
-   <div id='hello' style='width: 100%; height: 100px; background: red;'></div>
+   <div id='helloWrap'>
+      <h1 class='title'>This is a storage site of my programming tools.</h1>
+   </div>
 
    <script type="text/javascript">
       const consoleEl = document.getElementById('console');
       const consoleObj = new Console(consoleEl);
       consoleObj.start();
 
-      console.log(document.getElementById('hello'));
+      console.log(document.querySelector('#helloWrap .title'));
    </script>
+
 </body>
 
 </html>
