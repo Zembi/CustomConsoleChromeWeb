@@ -1,5 +1,5 @@
 # CustomConsoleChromeWeb
-<img src='readMeSupp.svg' width="100%" height='auto'>
+<canvas src='readMeSupp.svg' width="100%" height='auto'>
 
 1-Import the console to your project, by adding to header the following line:
     
