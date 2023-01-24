@@ -35,6 +35,7 @@ Future versions will be posted, so if you are interested, be aware! Any new idea
 >               be appeared in the custom Console, but in the default one. I recommend you to intialize the Console object, exactly after the last element of
 >               html and before any other script.
 <br>
+
 > (**!_WARNING_!**): This will result in overwriting the console.log() function and so no messages will be shown in the default console of Chrome.
 
 You can always disable the custom Console, by stop calling the function start(). This will lead to the default functionality of<br>
