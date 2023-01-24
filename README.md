@@ -32,7 +32,8 @@ Future versions will be posted, so if you are interested, be aware! Any new idea
     
 > (**!_TIP_!**): Custom Console, currently, is a debugging tool rather than a copy of the default console, as it starts working, only after html is loaded.
 >               Therefore, it is essential that you understand that any messages that is to be shown in console from other apis or server requests, will not
->               be appeared in the custom Console, but in the default one. I recommend you to intialize the Console object, exactly after the last element of html.
+>               be appeared in the custom Console, but in the default one. I recommend you to intialize the Console object, exactly after the last element of
+>               html and before any other script.
 <br>
 > (**!_WARNING_!**): This will result in overwriting the console.log() function and so no messages will be shown in the default console of Chrome.
 
