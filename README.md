@@ -47,9 +47,9 @@ and not, in the default one of your broswer. Future versions will be posted, so 
     You can always disable the custom Console, by calling the function <b><i>disable()</i></b>. This will lead back to the default function of console.log(). 
     You can, also, enable it back again, by calling the function <b><i>enable()</i></b>.  
 
-        // Disable custom console
-        consoleObj.disable();
+    // Disable custom console
+    consoleObj.disable();
 
-        // Enable it back again
-        consoleObj.enable();  
+    // Enable it back again
+    consoleObj.enable();  
  </li>
