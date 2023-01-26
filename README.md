@@ -44,7 +44,7 @@ and not, in the default one of your broswer. Future versions will be posted, so 
 <h3 align='center'>Functions To Interact</h3>
 <ol>
     <li>
-    You can always disable the custom Console, by calling the function <b><i>disable()</i></b>. This will lead back to the default function of console.log(), again. 
+    You can always disable the custom Console, by calling the function <b><i>disable()</i></b>. This will lead back to the default function of console.log(). 
     You can, also, enable it back again, by calling the function <b><i>enable()</i></b>.  
 
         // Disable custom console
