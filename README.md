@@ -51,5 +51,5 @@ and not, in the default one of your broswer. Future versions will be posted, so 
         consoleObj.disable();
 
         // Enable it back again
-        consoleObj.ebale();  
+        consoleObj.enable();  
  </li>
