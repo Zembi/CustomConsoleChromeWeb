@@ -176,8 +176,10 @@
 
 .msgConsolePar {
   flex: 1;
+  width: 80px;
   color: white;
   font-size: 1rem;
+  overflow: hidden;
   box-sizing: border-box;
   margin: 0 1.2rem;
 }
@@ -317,6 +319,9 @@
 .consoleObjBtn:hover .consoleObjBtnP {
   color: darkgray;
 }
+.consoleObjBtn:hover .consoleLineArrayParenthesis {
+  color: darkgray;
+}
 
 .consoleObjLineWrapInfo {
   display: flex;
@@ -348,10 +353,10 @@
   align-items: baseline;
   align-self: left;
   padding: 0;
-  margin: 5px 0 0 0;
+  margin: 10px 0 0 0;
 }
 .consoleObjLineLeftSp {
-  color: lightblue;
+  color: rgb(93, 171, 239);
   font-size: 0.9rem;
   font-weight: bold;
 }
@@ -359,7 +364,10 @@
 
 }
 .consoleObjLineRightSp {
+  flex: 1;
+  max-width: 100%;
   font-size: 1rem;
+  overflow: hidden;
   padding: 0 0 0 6px;
 }
 .insideConsoleObjLine {
@@ -388,9 +396,9 @@
   color: rgb(103, 220, 156);
 }
 .consoleDomHoverMouse {
-  background: rgb(173, 216, 230, 0.7) !important;
-  border: 2px solid rgb(173, 216, 230) !important;
-  box-sizing: border-box;
+  background: rgba(211, 207, 6, 0.7) !important;
+  /* color: red !important; */
+  border-color: transparent !important;
   transition: background 0.2s;
 }
 .consoleDomHoverMouseOverflowForce {
@@ -440,16 +448,40 @@
 }
 .consoleObjLineFunctionSecondary {
   background: rgb(0, 0, 0, 0);
-  color: rgba(255, 255, 255, 0.75);
-  font-style: italic;
-  text-align: left;
-  white-space: pre;
-  letter-spacing: 1.5px;
   border-radius: 0.3em;
   border-top: 2px solid rgb(66, 44, 2);
   border-bottom: 2px solid rgb(114, 75, 3);
   padding: 2px;
   margin: 0;
+}
+.consoleObjLineFunctionSecondaryBtn {
+  background: transparent;
+  color: rgba(255, 255, 255, 1);
+  border: none;
+  font-style: italic;
+  text-align: left;
+  white-space: pre;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  padding: 2px;
+}
+.consoleObjLineFunctionSecondaryBtn:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+.consoleObjLineFunctionSecondaryBtnContent {
+  max-height: 100px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  border: none;
+  font-style: italic;
+  text-align: left;
+  white-space: pre;
+  overflow: hidden;
+  letter-spacing: 1.5px;
+}
+.openedFunctionOrClassContent {
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
 .consoleObjLineNull {

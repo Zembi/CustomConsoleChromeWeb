@@ -59,7 +59,54 @@
       const consoleObj = new Console(consoleEl);
       consoleObj.start();
 
-      console.log(document.querySelector('#helloWrap .title'));
+      const map = new Map();
+      map.set(consoleObj, 'help');
+      map.set(12, 'help2');
+      // map.add(consoleObj);
+
+      let ourh = { message: consoleObj, file: 'ooo.ks', line: '12' };
+      console.log(ourh.message);
+      consoleObj.addNewLineToConsole('msg', ourh);
+      // let fuo = () => {
+      //    let c = 0; c++;
+      //    document.getElementById('helloWrap').innerHTML = '<div>fejfejfiejfi</div>';
+      // };
+      // let ourh12 = { message: fuo, file: 'ooo.ks', line: '12' };
+      // consoleObj.addNewLineToConsole('msg', ourh12);
+      consoleObj.disable();
+      consoleObj.enable();
+
+      myString = `
+         <div id='consoleTitle'>
+            <button class='closedCoreConsoleBtn consoleImportantFocus'>
+               <h2>Console</h2>
+            </button>
+         </div>
+
+         <div class='closedCoreConsoleContent' id='consoleContent'></div>
+
+         <div id='consoleBtns'>
+            <button class='imprtntConsoleBtn' id='changeConsoleAlignBtn' title='Alt + Q'></button>
+            <button class='imprtntConsoleBtn' id='clearConsoleBtn' title='Alt + W'>Clear</button>
+            <select class='imprtntConsoleBtn' id='sizesOfCoreConsoleSlct' title='Alt + E'>
+               <option value='calc(100% - 32px)'>100%</option>
+               <option value='65%'>65%</option>
+               <option value='50%'>50%</option>
+               <option value='35%'>35%</option>
+               <option value='25%'>25%</option>
+            </select>
+         </div>`;
+
+      recognizeAndDisableDomElementsInAString(myString);
+      function recognizeAndDisableDomElementsInAString(string) {
+         let editString = string;
+
+         let parser = new DOMParser();
+         const result = parser.parseFromString(editString, 'text/html');
+
+         let ourh = { message: result, file: 'ooo.ks', line: '12' };
+         consoleObj.addNewLineToConsole('msg', ourh);
+      }
    </script>
 
 </body>

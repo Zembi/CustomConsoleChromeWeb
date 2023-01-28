@@ -11,8 +11,8 @@ var onlyOnce = (function () {
         link.id = cssId;
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = 'https://zembi.github.io/CustomConsoleChromeWeb-V.1/docs/style.css';
-        // link.href = 'docs/style.css';
+        // link.href = 'https://zembi.github.io/CustomConsoleChromeWeb-V.1/docs/style.css';
+        link.href = 'docs/style.css';
         link.media = 'all';
         head.appendChild(link);
       }
@@ -22,12 +22,21 @@ var onlyOnce = (function () {
   };
 })();
 
+class Parent {
+
+}
+
 onlyOnce();
 
 // DO NOT USE CONSOLE.LOG FUNCTION ANYWHERE HERE
 // EITHER DISABLE THE FUNCTION OR USE OTHER TYPES OF DEBUG TOO
 class Console {
+  #started;
+  #enabOrDisab;
+  #consoleDefaultFunc;
   constructor(consoleElmnt) {
+    this.#started = false;
+    this.#enabOrDisab = true;
     this.consoleElmnt = consoleElmnt;
 
     this.consoleStatus = false;
@@ -78,6 +87,15 @@ class Console {
   }
 
   start() {
+    if (!this.#started) {
+      this.structureTheObject();
+      this.#started = true;
+    }
+    else {
+    }
+  }
+
+  structureTheObject() {
     this.htmlConsoleStructure();
     this.coreConsoleElements();
 
@@ -87,7 +105,8 @@ class Console {
 
     this.consoleStatusCheckFromLocalStorage();
     this.consoleCoreButtonsEvents();
-    this.enableConsoleLogEvent();
+    // this.enableConsoleLogEvent();
+    // this.enable();
 
     this.shortcutEvents();
   }
@@ -97,6 +116,29 @@ class Console {
 
     this.consoleElmnt.classList.add('closedCoreConsole');
     this.consoleElmnt.title = 'Alt + C';
+
+    let string = `
+    &lt;div id='consoleTitle'&gt;
+      &lt;button class='closedCoreConsoleBtn consoleImportantFocus'&gt;
+        &lt;h2&gt;Console&lt;/h2&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div class='closedCoreConsoleContent' id='consoleContent'&gt;&lt;/div&gt;
+
+    &lt;div id='consoleBtns'&gt;
+      &lt;button class='imprtntConsoleBtn' id='changeConsoleAlignBtn' title='Alt + Q'&gt;&lt;/button&gt;
+      &lt;button class='imprtntConsoleBtn' id='clearConsoleBtn' title='Alt + W'&gt;Clear&lt;/button&gt;
+      &lt;select class='imprtntConsoleBtn' id='sizesOfCoreConsoleSlct' title='Alt + E'&gt;
+            &lt;option value='calc(100% - 32px)'&gt;100%&lt;/option&gt;
+            &lt;option value='65%'&gt;65%&lt;/option&gt;
+            &lt;option value='50%'&gt;50%&lt;/option&gt;
+            &lt;option value='35%'&gt;35%&lt;/option&gt;
+            &lt;option value='25%'&gt;25%&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;'`;
+    let string2 = `<span style='background: red'>fefejfejfhejfhejf</span>`;
+
     this.consoleElmnt.innerHTML = `
       <div id='consoleTitle'>
         <button class='closedCoreConsoleBtn consoleImportantFocus'>
@@ -121,6 +163,7 @@ class Console {
 
   // FUNCTION THAT HELPS TRACE THE LINE OF THE MESAGE IN CONSOLE
   enableConsoleLogEvent() {
+    this.#consoleDefaultFunc = console.log;
     // GET TRACE AS STRING SO I CAN SHOW THE LINE OF MESSAGE ON MY CONSOLE
     let getStackTraceImportant = function () {
       let urlAndLine = Error().stack;
@@ -157,7 +200,6 @@ class Console {
       thisObj.addNewLineToConsole('err', { message: error, file: url, line: line });
     }
   }
-
 
   // STATUS INITIALIZATION
   consoleStatusCheckFromLocalStorage() {
@@ -222,7 +264,7 @@ class Console {
       this.changeAlign(this.consoleAlignCssVar);
 
       let buttonInfo = this.nextAlign.toUpperCase();
-      this.consoleElmnt.querySelector('#changeConsoleAlignBtn').innerHTML = `Align [${buttonInfo}]`;
+      this.consoleElmnt.querySelector('#changeConsoleAlignBtn').innerHTML = `Align[${buttonInfo}]`;
 
       let consoleFunct = [this.getConsoleCurrentStatus(), this.consoleSize, this.alignContent];
       consoleFunct = JSON.stringify(consoleFunct);
@@ -249,15 +291,15 @@ class Console {
 
   initializationMessage() {
     this.consoleContentElmnt.innerHTML += `
-      <div class='newConsoleLine'>
-         <p class='intiliazedLineOfConsole'>
-         --------------------------------------------------------------------------
+      < div class='newConsoleLine' >
+        <p class='intiliazedLineOfConsole'>
+          --------------------------------------------------------------------------
          <br>
-         | Welcome to custom Console |
+            | Welcome to custom Console |
          <br>
-         | Important console functions under output |
+              | Important console functions under output |
          <br>
-         --------------------------------------------------------------------------
+                --------------------------------------------------------------------------
          </p>
       </div>`;
 
@@ -309,21 +351,21 @@ class Console {
 
       let consolePointerLine = `
         <div class='newConsoleLine' id='lastLineInConsole'>
-          <hr>
-          <div class='lastLineInConsole'>
-            <span id='consolePointer'>${this.consoleIndexSymbol}</span>
-            <span id='consolePointerPar'></span>
-          </div>
+              <hr>
+                <div class='lastLineInConsole'>
+                  <span id='consolePointer'>${this.consoleIndexSymbol}</span>
+                  <span id='consolePointerPar'></span>
+                </div>
         </div>`;
 
 
       this.consoleContentElmnt.innerHTML += `
             <hr>
-            <div class='newConsoleLine'>
-               <span class='consoleCountPointer'>${finalCountForm}</span>
-               <span class='consoleLineContent' id='consoleObj${this.counter}'></span>
-            </div>
-            ${consolePointerLine}`;
+                <div class='newConsoleLine'>
+                  <span class='consoleCountPointer'>${finalCountForm}</span>
+                  <span class='consoleLineContent' id='consoleObj${this.counter}'></span>
+                </div>
+                ${consolePointerLine}`;
 
       let parentOfObj = document.querySelector(`#consoleObj${this.counter}`);
 
@@ -332,7 +374,7 @@ class Console {
       consoleObj.start();
     }
 
-    this.consoleContentElmnt.scrollTop = this.consoleContentElmnt.scrollHeight;
+    // this.consoleContentElmnt.scrollTop = this.consoleContentElmnt.scrollHeight;
 
     this.counter++;
   }
@@ -452,11 +494,33 @@ class Console {
       }
     });
   }
+
+  // PUBLIC EVENTS WITH THE OBJECT, FOR THE USER ->
+
+  // OPTION OF THE USER TO DISABLE THE CONSOLE AND CONTINUE SHOWING MESSAGES IN THE WEB CONSOLE
+  disable() {
+    if (this.#started && this.#enabOrDisab) {
+      let buffer = window.console.log;
+      window.console.log = this.#consoleDefaultFunc;
+      this.#consoleDefaultFunc = buffer;
+      this.#enabOrDisab = false;
+    }
+  }
+
+  enable() {
+    if (this.#started && !this.#enabOrDisab) {
+      let buffer = window.console.log;
+      window.console.log = this.#consoleDefaultFunc;
+      this.#consoleDefaultFunc = buffer;
+      this.#enabOrDisab = true;
+    }
+  }
 }
 
 
-class ConsoleLine {
+class ConsoleLine extends Parent {
   constructor(parentOfObj, obj, thisIdElmtns, consoleObj, typeOfLine) {
+    super();
     this.coreParentOfObj = parentOfObj;
     this.parentOfObj = parentOfObj;
     this.obj = obj.message;
@@ -478,6 +542,8 @@ class ConsoleLine {
       this.prototypeMsgLineOfConsole();
     }
 
+    // console.log(this.obj);
+
     if (this.typeOfLine === 'msg') {
       if (typeof this.obj === 'object' && this.obj !== null) {
         if (this.isNode(this.obj)) {
@@ -491,6 +557,14 @@ class ConsoleLine {
         else if (Array.isArray(this.obj)) {
           this.obj.sort();
           this.typeOf = 'arrList';
+          this.lineIsArrayList();
+        }
+        else if (this.obj instanceof Map) {
+          this.typeOf = 'map';
+          this.lineIsArrayList();
+        }
+        else if (this.obj instanceof Set) {
+          this.typeOf = 'set';
           this.lineIsArrayList();
         }
         else {
@@ -512,7 +586,7 @@ class ConsoleLine {
       }
       else if (this.isFunction(this.obj)) {
         this.typeOf = 'func';
-        this.lineIsFunction();
+        this.lineIsFunctionOrClass();
       }
       else if (this.obj === null) {
         this.typeOf = 'null';
@@ -532,9 +606,16 @@ class ConsoleLine {
     }
   }
 
+  ///
+  SUPPORTACTION(same) {
+    let ourh = { message: same, file: 'help.ks', line: '00' };
+    this.consoleObj.addNewLineToConsole('msg', ourh);
+  }
+  ///
+
   // CHECKS CONTROL
   isNode(key) {
-    return (typeof Node === 'object' ? key instanceof Node : key && typeof key === 'object' && typeof key.nodeType === 'number' && typeof key.nodeName === 'string');
+    return (typeof Node === 'object' ? key instanceof Node : key && typeof key === 'object');
   }
   isNodeList(key) {
     return (key instanceof NodeList);
@@ -590,94 +671,98 @@ class ConsoleLine {
   lineIsDom() {
     let currObjELmnt = this.parentOfObj;
     let objsChild = this.obj;
-
-    const uniqueInId = this.uniqueId;
-    const tagN = objsChild.tagName.toLowerCase();
-    let id = '';
-    if (objsChild.id !== '') {
-      id = '#' + objsChild.id;
+    if (objsChild.tagName === undefined) {
+      this.lineIsSimpleObject();
     }
-    let classesAr = null;
-    let classes = '';
-
-    classesAr = objsChild.className.split(' ');
-
-    classesAr.map((value) => {
-      if (value !== '') {
-        classes += '.' + value;
+    else {
+      const uniqueInId = this.uniqueId;
+      const tagN = objsChild.tagName.toLowerCase();
+      let id = '';
+      if (objsChild.id !== '') {
+        id = '#' + objsChild.id;
       }
-    });
+      let classesAr = null;
+      let classes = '';
 
-    // CREATE HTML PROTOTYPE
-    let spanDom = document.createElement('span');
-    spanDom.id = 'consoleDomWrap' + uniqueInId;
-    spanDom.className = 'consoleDomWrap';
-    currObjELmnt.appendChild(spanDom);
+      classesAr = objsChild.className.split(' ');
 
-    let spanTagN = document.createElement('span');
-    spanDom.id = 'consoleDomTagN' + uniqueInId;
-    spanTagN.className = 'consoleDomTagN';
-    spanTagN.innerHTML = tagN;
-    spanDom.appendChild(spanTagN);
-
-    let spanId = document.createElement('span');
-    spanId.id = 'consoleDomId' + uniqueInId;
-    spanId.className = 'consoleDomId';
-    spanId.innerHTML = id;
-    // spanDom.innerHTML += '_';
-    spanDom.appendChild(spanId);
-
-    let spanClasses = document.createElement('span');
-    spanClasses.id = 'consoleDomClasses' + uniqueInId;
-    spanClasses.className = 'consoleDomClasses';
-    spanClasses.innerHTML = classes;
-    spanDom.appendChild(spanClasses);
-
-    const thisObj = this;
-    document.addEventListener('mouseover', function (e) {
-      const target = e.target.closest('#' + spanDom.id);
-
-      if (target) {
-        thisObj.consoleObj.consoleElmnt.style.background = 'transparent';
-        objsChild.classList.add('consoleDomHoverMouse');
-
-        // GET ALL PARENTS AND THEN FORCE THEM TO OVERFLOW
-        let helper = objsChild;
-        const parents = [];
-
-        while (helper) {
-          parents.unshift(helper);
-          helper = helper.parentNode;
+      classesAr.map((value) => {
+        if (value !== '') {
+          classes += '.' + value;
         }
+      });
 
-        parents.map((value) => {
-          // objsChild.classList.add('consoleDomHoverMouseOverflowForce');
-        });
-      }
-    });
+      // CREATE HTML PROTOTYPE
+      let spanDom = document.createElement('span');
+      spanDom.id = 'consoleDomWrap' + uniqueInId;
+      spanDom.className = 'consoleDomWrap';
+      currObjELmnt.appendChild(spanDom);
 
-    document.addEventListener('mouseout', function (e) {
-      const target = e.target.closest('#' + spanDom.id);
+      let spanTagN = document.createElement('span');
+      spanDom.id = 'consoleDomTagN' + uniqueInId;
+      spanTagN.className = 'consoleDomTagN';
+      spanTagN.innerHTML = tagN + '';
+      spanDom.appendChild(spanTagN);
 
-      if (target) {
-        thisObj.consoleObj.consoleElmnt.style.background = 'rgb(55, 55, 55, 0.9)';
-        objsChild.classList.remove('consoleDomHoverMouse');
+      let spanId = document.createElement('span');
+      spanId.id = 'consoleDomId' + uniqueInId;
+      spanId.className = 'consoleDomId';
+      spanId.innerHTML = id;
+      // spanDom.innerHTML += '_';
+      spanDom.appendChild(spanId);
 
-        // GET ALL PARENTS AND THEN RELEASE THEM FROM OVERFLOW
-        let helper = objsChild;
-        const parents = [];
+      let spanClasses = document.createElement('span');
+      spanClasses.id = 'consoleDomClasses' + uniqueInId;
+      spanClasses.className = 'consoleDomClasses';
+      spanClasses.innerHTML = classes;
+      spanDom.appendChild(spanClasses);
 
-        while (helper) {
-          parents.unshift(helper);
-          helper = helper.parentNode;
+      const thisObj = this;
+      document.addEventListener('mouseover', function (e) {
+        const target = e.target.closest('#' + spanDom.id);
+
+        if (target) {
+          thisObj.consoleObj.consoleElmnt.style.background = 'transparent';
+          objsChild.classList.add('consoleDomHoverMouse');
+
+          // GET ALL PARENTS AND THEN FORCE THEM TO OVERFLOW
+          let helper = objsChild;
+          const parents = [];
+
+          while (helper) {
+            parents.unshift(helper);
+            helper = helper.parentNode;
+          }
+
+          parents.map((value) => {
+            // objsChild.classList.add('consoleDomHoverMouseOverflowForce');
+          });
         }
+      });
 
-        parents.splice(0, 3);
-        parents.map((value) => {
-          // objsChild.classList.remove('consoleDomHoverMouseOverflowForce');
-        });
-      }
-    });
+      document.addEventListener('mouseout', function (e) {
+        const target = e.target.closest('#' + spanDom.id);
+
+        if (target) {
+          thisObj.consoleObj.consoleElmnt.style.background = 'rgb(55, 55, 55, 0.9)';
+          objsChild.classList.remove('consoleDomHoverMouse');
+
+          // GET ALL PARENTS AND THEN RELEASE THEM FROM OVERFLOW
+          let helper = objsChild;
+          const parents = [];
+
+          while (helper) {
+            parents.unshift(helper);
+            helper = helper.parentNode;
+          }
+
+          parents.splice(0, 3);
+          parents.map((value) => {
+            // objsChild.classList.remove('consoleDomHoverMouseOverflowForce');
+          });
+        }
+      });
+    }
   }
 
   // CONSOLE LINE ACTION TO NODELIST
@@ -707,7 +792,12 @@ class ConsoleLine {
     let btnPar = document.createElement('span');
     btnPar.className = 'consoleLineArrayParenthesis';
     btnPar.id = 'consoleLineArrayParenthesis' + this.uniqueId;
-    btnPar.innerHTML = `(${this.obj.length})`;
+    if (this.typeOf === 'arrList') {
+      btnPar.innerHTML = `(${this.obj.length})`;
+    }
+    else if (this.typeOf === 'map' || this.typeOf === 'set') {
+      btnPar.innerHTML = `(${this.obj.size})`;
+    }
     btn.appendChild(btnPar);
     let btnP = document.createElement('p');
     btnP.className = 'consoleObjBtnP';
@@ -735,6 +825,7 @@ class ConsoleLine {
           wrapOfBtn: document.querySelector('#beforeConsoleObjBtn' + thisObj.uniqueId),
           btn: document.querySelector('#consoleObjBtn' + thisObj.uniqueId),
           btnImg: document.querySelector('#consoleObjBtnImg' + thisObj.uniqueId),
+          btnPar: document.querySelector('#consoleLineArrayParenthesis' + thisObj.uniqueId),
           btnP: document.querySelector('#consoleObjBtnP' + thisObj.uniqueId),
           wrapObjInfo: document.querySelector('#consoleObjLineWrapInfo' + thisObj.uniqueId),
           objInfo: document.querySelector('#consoleObjLineInfo' + thisObj.uniqueId)
@@ -747,25 +838,71 @@ class ConsoleLine {
 
         if (store.btnImg.classList.contains('consoleObjBtnOpenedImg')) {
           // OBJ'S CHILDREN CHECK
-          for (const [key, value] of Object.entries(thisObj.obj)) {
-            // OBJ'S CHILD PROTOTYPE
-            let lineOfObj = document.createElement('p');
-            lineOfObj.className = 'consoleArrayLineInfoP';
-            store.objInfo.appendChild(lineOfObj);
+          if (thisObj.typeOf === 'arrList') {
+            for (const [key, value] of Object.entries(thisObj.obj)) {
+              // OBJ'S CHILD PROTOTYPE
+              let lineOfObj = document.createElement('p');
+              lineOfObj.className = 'consoleArrayLineInfoP';
+              store.objInfo.appendChild(lineOfObj);
 
-            let keyObj = document.createElement('span');
-            keyObj.className = 'consoleObjLineLeftSp';
-            keyObj.innerHTML = key;
-            lineOfObj.appendChild(keyObj);
-            let splitObj = document.createElement('span');
-            splitObj.className = 'consoleObjLineMidSp';
-            splitObj.innerHTML = ':';
-            lineOfObj.appendChild(splitObj);
-            let valueObj = document.createElement('span');
-            valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
-            lineOfObj.appendChild(valueObj);
+              let keyObj = document.createElement('span');
+              keyObj.className = 'consoleObjLineLeftSp';
+              keyObj.innerHTML = key;
+              lineOfObj.appendChild(keyObj);
+              let splitObj = document.createElement('span');
+              splitObj.className = 'consoleObjLineMidSp';
+              splitObj.innerHTML = ':';
+              lineOfObj.appendChild(splitObj);
+              let valueObj = document.createElement('span');
+              valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
+              lineOfObj.appendChild(valueObj);
 
-            thisObj.createChildConsoleLine(valueObj, value);
+              thisObj.createChildConsoleLine(valueObj, value);
+            }
+          }
+          else if (thisObj.typeOf === 'map') {
+            thisObj.obj.forEach((value, key) => {
+              let lineOfObj = document.createElement('p');
+              lineOfObj.className = 'consoleArrayLineInfoP';
+              store.objInfo.appendChild(lineOfObj);
+
+              let keyObj = document.createElement('span');
+              keyObj.className = 'consoleObjLineLeftSp';
+              keyObj.innerHTML = value;
+              lineOfObj.appendChild(keyObj);
+              let splitObj = document.createElement('span');
+              splitObj.className = 'consoleObjLineMidSp';
+              splitObj.innerHTML = ':';
+              lineOfObj.appendChild(splitObj);
+              let valueObj = document.createElement('span');
+              valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
+              lineOfObj.appendChild(valueObj);
+
+              thisObj.createChildConsoleLine(valueObj, key);
+            });
+          }
+          else if (thisObj.typeOf === 'set') {
+            var setC = 0;
+            thisObj.obj.forEach((value) => {
+              let lineOfObj = document.createElement('p');
+              lineOfObj.className = 'consoleArrayLineInfoP';
+              store.objInfo.appendChild(lineOfObj);
+
+              let keyObj = document.createElement('span');
+              keyObj.className = 'consoleObjLineLeftSp';
+              keyObj.innerHTML = setC;
+              lineOfObj.appendChild(keyObj);
+              let splitObj = document.createElement('span');
+              splitObj.className = 'consoleObjLineMidSp';
+              splitObj.innerHTML = ':';
+              lineOfObj.appendChild(splitObj);
+              let valueObj = document.createElement('span');
+              valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
+              lineOfObj.appendChild(valueObj);
+
+              thisObj.createChildConsoleLine(valueObj, value);
+              setC++;
+            });
           }
 
           // ADD LINE FOR LENGTH
@@ -775,7 +912,6 @@ class ConsoleLine {
 
           let keyObj = document.createElement('span');
           keyObj.className = 'consoleObjLineSecondary';
-          keyObj.innerHTML = 'length';
           lineOfObj.appendChild(keyObj);
           let splitObj = document.createElement('span');
           splitObj.className = 'consoleObjLineMidSp';
@@ -785,8 +921,16 @@ class ConsoleLine {
           valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
           lineOfObj.appendChild(valueObj);
 
-          let l = thisObj.obj.length;
-          thisObj.createChildConsoleLine(valueObj, l);
+          let size = null;
+          if (thisObj.typeOf === 'arrList') {
+            keyObj.innerHTML = 'length';
+            size = thisObj.obj.length;
+          }
+          else if (thisObj.typeOf === 'map' || thisObj.typeOf === 'set') {
+            keyObj.innerHTML = 'size';
+            size = thisObj.obj.size;
+          }
+          thisObj.createChildConsoleLine(valueObj, size);
 
 
           // ADD LINE FOR PROTOTYPE OF OBJECT
@@ -806,7 +950,7 @@ class ConsoleLine {
           protValueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
           protLineOfObj.appendChild(protValueObj);
 
-          thisObj.createChildConsoleLine(protValueObj, Object.getPrototypeOf(thisObj.obj));
+          thisObj.createChildConsoleLine(protValueObj, thisObj.obj);
         }
         else {
           store.objInfo.innerHTML = '';
@@ -875,8 +1019,78 @@ class ConsoleLine {
         store.wrapObjInfo.classList.toggle('closedConsoleObjLineInfo');
 
         if (store.btnImg.classList.contains('consoleObjBtnOpenedImg')) {
-          // OBJ'S CHILDREN CHECK
-          for (const [key, value] of Object.entries(thisObj.obj)) {
+          // OBJ'S VARIABLES TO
+          const getVars = (obj) => {
+            let properties = new Set();
+            let currentObj = obj;
+
+            do {
+              Object.getOwnPropertyNames(currentObj).map((item) => {
+                properties.add(item);
+              });
+            }
+            while ((currentObj = Object.getPrototypeOf(currentObj)));
+
+            let result = [...properties.keys()].filter((item) => {
+              return (typeof obj[item] !== 'function');
+            });
+            result.sort(function (a, b) {
+              a = a.toLowerCase();
+              b = b.toLowerCase();
+              if (a == b) return 0;
+              return a < b ? -1 : 1;
+            });
+
+            return result;
+          }
+
+          // OBJ'S FUNCTIONS TO
+          const getMethods = (obj) => {
+            let properties = new Set();
+            let currentObj = obj;
+
+            do {
+              Object.getOwnPropertyNames(currentObj).map((item) => {
+                properties.add(item);
+              });
+            }
+            while ((currentObj = Object.getPrototypeOf(currentObj)));
+
+            let result = [...properties.keys()].filter((item) => {
+              return (typeof obj[item] === 'function');
+            });
+            console.log(result.map(i => obj[i]));
+            result.sort(function (a, b) {
+              a = a.toLowerCase();
+              b = b.toLowerCase();
+              if (a == b) return 0;
+              return a < b ? -1 : 1;
+            });
+
+            return result;
+          }
+
+          let vars = [...getVars(thisObj.obj)];
+          let methods = [...getMethods(thisObj.obj)];
+          let allOutput = [...getVars(thisObj.obj), ...getMethods(thisObj.obj)];
+          delete allOutput[allOutput.indexOf('__proto__')];
+
+          delete vars[vars.indexOf('__proto__')];
+          delete methods[methods.indexOf('__proto__')];
+
+
+          vars.map((methodName) => {
+            createTheElement(methodName, 'varsGetsSets');
+          });
+          methods.map((methodName) => {
+            createTheElement(methodName, 'methods');
+          })
+
+          createTheElement('__proto__', 'prototype');
+
+
+          function createTheElement(methodName, typeOf) {
+            let value = thisObj.obj[methodName];
             // OBJ'S CHILD PROTOTYPE
             let lineOfObj = document.createElement('p');
             lineOfObj.className = 'consoleObjLineInfoP';
@@ -884,7 +1098,19 @@ class ConsoleLine {
 
             let keyObj = document.createElement('span');
             keyObj.className = 'consoleObjLineLeftSp';
-            keyObj.innerHTML = key;
+            if (typeOf === 'prototype') {
+              keyObj.innerHTML = '[[Prototype]]';
+              keyObj.style.color = 'grey';
+            }
+            else {
+              keyObj.innerHTML = methodName;
+              if (typeOf === 'varsGetsSets') {
+              }
+              else {
+                keyObj.style.color = 'rgb(93, 171, 239, 0.7)';
+              }
+            }
+
             lineOfObj.appendChild(keyObj);
             let splitObj = document.createElement('span');
             splitObj.className = 'consoleObjLineMidSp';
@@ -895,7 +1121,6 @@ class ConsoleLine {
             lineOfObj.appendChild(valueObj);
 
             thisObj.childObj = valueObj;
-
             thisObj.createChildConsoleLine(valueObj, value);
           }
         }
@@ -928,27 +1153,32 @@ class ConsoleLine {
 
   // CONSOLE ACTION TO STRING
   lineIsString() {
-    this.parentOfObj.innerHTML += `<span>'${this.obj}'</span>`;
+    this.parentOfObj.innerHTML += `<span>"${this.obj}"</span>`;
 
     // STYLING
     this.parentOfObj.classList.add('consoleObjLineString');
   }
 
   // CONSOLE LINE ACTION TO FUNCTION
-  lineIsFunction() {
+  lineIsFunctionOrClass() {
     let objStr = this.obj.toString();
 
     // STYLING
-    let main = objStr.substring(0, objStr.indexOf(')'));
-    let sec = objStr.substring(objStr.indexOf(')'), objStr.length);
+    let main = objStr.substring(0, objStr.indexOf('{'));
+    let sec = objStr.substring(objStr.indexOf('{'), objStr.length);
 
     let main1, main2 = '';
-    if (main.includes('function ')) {
+    if (main.includes('class ')) {
+      main1 = 'class  ';
+      main2 = main.substring(main1.length - 1, main.length);
+    }
+    else if (main.includes('function ')) {
       [main1, ...main2] = main.split(' ');
       main1 = 'f  ';
+      main2 = main2[0];
     }
     else {
-      main1 = ' ';
+      main1 = 'f ';
       main2 = main;
     }
 
@@ -959,10 +1189,48 @@ class ConsoleLine {
     spanF.innerHTML = main1;
     this.parentOfObj.appendChild(spanF);
 
-    let spanC = document.createElement('p');
+    let spanC = document.createElement('div');
     spanC.className = 'consoleObjLineFunctionSecondary';
-    spanC.innerHTML = main2 + ' ' + sec;
     this.parentOfObj.appendChild(spanC);
+    let spanBtn = document.createElement('button');
+    spanBtn.className = 'consoleObjLineFunctionSecondaryBtn';
+    spanBtn.title = 'Open Method';
+    spanBtn.innerHTML = main2 + ' { ... }';
+    spanC.appendChild(spanBtn);
+    let spanContent = document.createElement('span');
+    spanContent.className = 'consoleObjLineFunctionSecondaryBtnContent';
+    spanC.appendChild(spanContent);
+
+    spanBtn.addEventListener('click', () => {
+      spanBtn.classList.toggle('openedFunctionOrClassContent');
+
+      if (spanBtn.classList.contains('openedFunctionOrClassContent')) {
+        spanBtn.title = 'Close Method';
+        spanBtn.innerHTML = main2;
+        spanContent.title = main1 + main2 + ' ' + sec;
+        let content = sec.slice(1);
+
+        let lineNumber = sec.split('\n').length;
+        let lineLimit = 10;
+        if (lineNumber > lineLimit) {
+          let c = 0;
+          content = '';
+          sec.split('\n').map((line) => {
+            if (c < lineLimit) {
+              content += line + '\n';
+              c++;
+            }
+          });
+          content += '    ......    \n  }';
+        }
+        spanContent.innerHTML = content;
+      }
+      else {
+        spanBtn.title = 'Open Method';
+        spanBtn.innerHTML = main2 + ' { ... }';
+        spanContent.innerHTML = '';
+      }
+    });
   }
 
   // CONSOLE ACTION TO NULL
