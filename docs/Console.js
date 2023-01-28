@@ -112,32 +112,39 @@ class Console {
   }
 
   htmlConsoleStructure() {
+    let h = `
+      <div id='consoleTitle'>
+        <button class='closedCoreConsoleBtn consoleImportantFocus'>
+          <h2>Console</h2>
+        </button>
+      </div>`;
+
     this.consoleElmnt.classList.add('consoleMainElement');
 
     this.consoleElmnt.classList.add('closedCoreConsole');
     this.consoleElmnt.title = 'Alt + C';
 
-    let string = `
-    &lt;div id='consoleTitle'&gt;
-      &lt;button class='closedCoreConsoleBtn consoleImportantFocus'&gt;
-        &lt;h2&gt;Console&lt;/h2&gt;
-      &lt;/button&gt;
-    &lt;/div&gt;
+    // let string = `
+    // &lt;div id='consoleTitle'&gt;
+    //   &lt;button class='closedCoreConsoleBtn consoleImportantFocus'&gt;
+    //     &lt;h2&gt;Console&lt;/h2&gt;
+    //   &lt;/button&gt;
+    // &lt;/div&gt;
 
-    &lt;div class='closedCoreConsoleContent' id='consoleContent'&gt;&lt;/div&gt;
+    // &lt;div class='closedCoreConsoleContent' id='consoleContent'&gt;&lt;/div&gt;
 
-    &lt;div id='consoleBtns'&gt;
-      &lt;button class='imprtntConsoleBtn' id='changeConsoleAlignBtn' title='Alt + Q'&gt;&lt;/button&gt;
-      &lt;button class='imprtntConsoleBtn' id='clearConsoleBtn' title='Alt + W'&gt;Clear&lt;/button&gt;
-      &lt;select class='imprtntConsoleBtn' id='sizesOfCoreConsoleSlct' title='Alt + E'&gt;
-            &lt;option value='calc(100% - 32px)'&gt;100%&lt;/option&gt;
-            &lt;option value='65%'&gt;65%&lt;/option&gt;
-            &lt;option value='50%'&gt;50%&lt;/option&gt;
-            &lt;option value='35%'&gt;35%&lt;/option&gt;
-            &lt;option value='25%'&gt;25%&lt;/option&gt;
-      &lt;/select&gt;
-    &lt;/div&gt;'`;
-    let string2 = `<span style='background: red'>fefejfejfhejfhejf</span>`;
+    // &lt;div id='consoleBtns'&gt;
+    //   &lt;button class='imprtntConsoleBtn' id='changeConsoleAlignBtn' title='Alt + Q'&gt;&lt;/button&gt;
+    //   &lt;button class='imprtntConsoleBtn' id='clearConsoleBtn' title='Alt + W'&gt;Clear&lt;/button&gt;
+    //   &lt;select class='imprtntConsoleBtn' id='sizesOfCoreConsoleSlct' title='Alt + E'&gt;
+    //         &lt;option value='calc(100% - 32px)'&gt;100%&lt;/option&gt;
+    //         &lt;option value='65%'&gt;65%&lt;/option&gt;
+    //         &lt;option value='50%'&gt;50%&lt;/option&gt;
+    //         &lt;option value='35%'&gt;35%&lt;/option&gt;
+    //         &lt;option value='25%'&gt;25%&lt;/option&gt;
+    //   &lt;/select&gt;
+    // &lt;/div&gt;'`;
+    // let string2 = `<span style='background: red'>fefejfejfhejfhejf</span>`;
 
     this.consoleElmnt.innerHTML = `
       <div id='consoleTitle'>
@@ -291,7 +298,7 @@ class Console {
 
   initializationMessage() {
     this.consoleContentElmnt.innerHTML += `
-      < div class='newConsoleLine' >
+      <div class='newConsoleLine'>
         <p class='intiliazedLineOfConsole'>
           --------------------------------------------------------------------------
          <br>
@@ -327,16 +334,17 @@ class Console {
       consolePointer.className = 'consoleCountPointer';
     }
 
+    let consoleLastLine = `
+      <div class='newConsoleLine' id='lastLineInConsole'>
+        <hr>
+        <div class='lastLineInConsole'>
+          <span id='consolePointer'>${this.consoleIndexSymbol}</span>
+          <span id='consolePointerPar'></span>
+        </div>
+      </div>`;
+
     if (this.counter < 0) {
-      this.consoleContentElmnt.innerHTML += `
-         <div class='newConsoleLine'>
-            <span></span>
-            <p></p>
-         </div>
-         <div class='newConsoleLine' id='lastLineInConsole'>
-            <span id='consolePointer'>${this.consoleIndexSymbol}</span>
-            <p></p>
-         </div>`;
+      this.consoleContentElmnt.innerHTML += consoleLastLine;
     }
     else {
 
@@ -349,23 +357,14 @@ class Console {
         finalCountForm = '0' + finalCountForm;
       }
 
-      let consolePointerLine = `
-        <div class='newConsoleLine' id='lastLineInConsole'>
-              <hr>
-                <div class='lastLineInConsole'>
-                  <span id='consolePointer'>${this.consoleIndexSymbol}</span>
-                  <span id='consolePointerPar'></span>
-                </div>
-        </div>`;
-
 
       this.consoleContentElmnt.innerHTML += `
-            <hr>
-                <div class='newConsoleLine'>
-                  <span class='consoleCountPointer'>${finalCountForm}</span>
-                  <span class='consoleLineContent' id='consoleObj${this.counter}'></span>
-                </div>
-                ${consolePointerLine}`;
+        <hr>
+        <div class='newConsoleLine'>
+          <span class='consoleCountPointer'>${finalCountForm}</span>
+          <span class='consoleLineContent' id='consoleObj${this.counter}'></span>
+        </div>
+        ${consoleLastLine}`;
 
       let parentOfObj = document.querySelector(`#consoleObj${this.counter}`);
 
@@ -374,7 +373,7 @@ class Console {
       consoleObj.start();
     }
 
-    // this.consoleContentElmnt.scrollTop = this.consoleContentElmnt.scrollHeight;
+    this.consoleContentElmnt.scrollTop = this.consoleContentElmnt.scrollHeight;
 
     this.counter++;
   }
@@ -456,7 +455,7 @@ class Console {
     this.counter = -1;
     document.getElementById('consoleContent').innerHTML = '';
     this.initializationMessage();
-    this.addNewLineToConsole('Test line');
+    this.addNewLineToConsole('msg', 'Test line');
   }
 
   resizeConsole(consoleHeightCssVar, newHeight) {
@@ -542,8 +541,6 @@ class ConsoleLine extends Parent {
       this.prototypeMsgLineOfConsole();
     }
 
-    // console.log(this.obj);
-
     if (this.typeOfLine === 'msg') {
       if (typeof this.obj === 'object' && this.obj !== null) {
         if (this.isNode(this.obj)) {
@@ -606,13 +603,6 @@ class ConsoleLine extends Parent {
     }
   }
 
-  ///
-  SUPPORTACTION(same) {
-    let ourh = { message: same, file: 'help.ks', line: '00' };
-    this.consoleObj.addNewLineToConsole('msg', ourh);
-  }
-  ///
-
   // CHECKS CONTROL
   isNode(key) {
     return (typeof Node === 'object' ? key instanceof Node : key && typeof key === 'object');
@@ -672,6 +662,7 @@ class ConsoleLine extends Parent {
     let currObjELmnt = this.parentOfObj;
     let objsChild = this.obj;
     if (objsChild.tagName === undefined) {
+      this.lineIsDomAsHtml();
       this.lineIsSimpleObject();
     }
     else {
@@ -763,6 +754,10 @@ class ConsoleLine extends Parent {
         }
       });
     }
+  }
+
+  lineIsDomAsHtml() {
+
   }
 
   // CONSOLE LINE ACTION TO NODELIST
@@ -1020,7 +1015,7 @@ class ConsoleLine extends Parent {
 
         if (store.btnImg.classList.contains('consoleObjBtnOpenedImg')) {
           // OBJ'S VARIABLES TO
-          const getVars = (obj) => {
+          const getAllVars = (obj) => {
             let properties = new Set();
             let currentObj = obj;
 
@@ -1034,18 +1029,24 @@ class ConsoleLine extends Parent {
             let result = [...properties.keys()].filter((item) => {
               return (typeof obj[item] !== 'function');
             });
+
+            function startsWithUppercase(str) {
+              return str.substr(0, 1).match(/[A-Z\u00C0-\u00DC]/);
+            }
             result.sort(function (a, b) {
-              a = a.toLowerCase();
-              b = b.toLowerCase();
-              if (a == b) return 0;
-              return a < b ? -1 : 1;
+              if (startsWithUppercase(a) && !startsWithUppercase(b)) {
+                return 1;
+              } else if (startsWithUppercase(b) && !startsWithUppercase(a)) {
+                return -1;
+              }
+              return a.localeCompare(b);
             });
 
             return result;
           }
 
           // OBJ'S FUNCTIONS TO
-          const getMethods = (obj) => {
+          const getAllMethods = (obj) => {
             let properties = new Set();
             let currentObj = obj;
 
@@ -1059,38 +1060,69 @@ class ConsoleLine extends Parent {
             let result = [...properties.keys()].filter((item) => {
               return (typeof obj[item] === 'function');
             });
-            console.log(result.map(i => obj[i]));
+
+            function startsWithUppercase(str) {
+              return str.substr(0, 1).match(/[A-Z\u00C0-\u00DC]/);
+            }
             result.sort(function (a, b) {
-              a = a.toLowerCase();
-              b = b.toLowerCase();
-              if (a == b) return 0;
-              return a < b ? -1 : 1;
+              if (startsWithUppercase(a) && !startsWithUppercase(b)) {
+                return -1;
+              } else if (startsWithUppercase(b) && !startsWithUppercase(a)) {
+                return 1;
+              }
+              return a.localeCompare(b);
             });
 
             return result;
           }
 
-          let vars = [...getVars(thisObj.obj)];
-          let methods = [...getMethods(thisObj.obj)];
-          let allOutput = [...getVars(thisObj.obj), ...getMethods(thisObj.obj)];
-          delete allOutput[allOutput.indexOf('__proto__')];
+          let getMethods = [];
+          let setMethods = [];
 
+          let vars = [...getAllVars(thisObj.obj)];
           delete vars[vars.indexOf('__proto__')];
-          delete methods[methods.indexOf('__proto__')];
-
-
           vars.map((methodName) => {
-            createTheElement(methodName, 'varsGetsSets');
+            if (thisObj.obj[methodName] !== undefined) {
+              createTheElement(methodName, thisObj.obj[methodName], 'vars');
+            }
+
+            let check = Object.getOwnPropertyDescriptor(thisObj.obj, methodName);
+            if (check === undefined) {
+              let getOrSet = Object.getOwnPropertyDescriptor(thisObj.obj.constructor.prototype, methodName);
+              // SETTERS
+              if (getOrSet !== undefined) {
+                if (getOrSet.get === undefined) {
+                  setMethods.push({ name: methodName, method: getOrSet.set });
+                }
+                // GETTERS
+                else if (getOrSet.set === undefined) {
+                  getMethods.push({ name: methodName, method: getOrSet.get });
+                }
+              }
+            }
           });
+
+          let methods = [...getAllMethods(thisObj.obj)];
+          delete methods[methods.indexOf('__proto__')];
+          delete methods[methods.indexOf('__defineGetter__')];
+          delete methods[methods.indexOf('__defineSetter__')];
+          delete methods[methods.indexOf('__lookupGetter__')];
+          delete methods[methods.indexOf('__lookupSetter__')];
+
           methods.map((methodName) => {
-            createTheElement(methodName, 'methods');
+            createTheElement(methodName, thisObj.obj[methodName], 'methods');
           })
+          getMethods.map((getter) => {
+            createTheElement(getter.name, getter.method, 'get');
+          });
+          setMethods.map((setter) => {
+            createTheElement(setter.name, setter.method, 'set');
+          });
 
-          createTheElement('__proto__', 'prototype');
+          createTheElement('__proto__', thisObj.obj['__proto__'], 'prototype');
 
 
-          function createTheElement(methodName, typeOf) {
-            let value = thisObj.obj[methodName];
+          function createTheElement(methodName, value, typeOf) {
             // OBJ'S CHILD PROTOTYPE
             let lineOfObj = document.createElement('p');
             lineOfObj.className = 'consoleObjLineInfoP';
@@ -1103,11 +1135,24 @@ class ConsoleLine extends Parent {
               keyObj.style.color = 'grey';
             }
             else {
-              keyObj.innerHTML = methodName;
-              if (typeOf === 'varsGetsSets') {
+              let colorMethods = 'rgb(47, 85, 117)';
+              let colorGetMethods = 'rgb(89, 222, 166)';
+              let colorSetMethods = 'rgb(97, 74, 189)';
+
+              if (typeOf === 'vars') {
+                keyObj.innerHTML = methodName;
+              }
+              else if (typeOf === 'get') {
+                keyObj.innerHTML = 'get ' + methodName;
+                keyObj.style.color = colorGetMethods;
+              }
+              else if (typeOf === 'set') {
+                keyObj.innerHTML = 'set ' + methodName;
+                keyObj.style.color = colorSetMethods;
               }
               else {
-                keyObj.style.color = 'rgb(93, 171, 239, 0.7)';
+                keyObj.innerHTML = methodName;
+                keyObj.style.color = colorMethods;
               }
             }
 
@@ -1167,10 +1212,25 @@ class ConsoleLine extends Parent {
     let main = objStr.substring(0, objStr.indexOf('{'));
     let sec = objStr.substring(objStr.indexOf('{'), objStr.length);
 
+    let spanF = document.createElement('span');
+    spanF.className = 'consoleObjLineFunctionMain';
+    this.parentOfObj.appendChild(spanF);
+    let spanC = document.createElement('div');
+    spanC.className = 'consoleObjLineFunctionSecondary';
+    this.parentOfObj.appendChild(spanC);
+    let spanBtn = document.createElement('button');
+    spanBtn.className = 'consoleObjLineFunctionSecondaryBtn';
+    spanBtn.title = 'Open Method';
+    spanC.appendChild(spanBtn);
+    let spanContent = document.createElement('span');
+    spanContent.className = 'consoleObjLineFunctionSecondaryBtnContent';
+    spanC.appendChild(spanContent);
+
     let main1, main2 = '';
     if (main.includes('class ')) {
-      main1 = 'class  ';
-      main2 = main.substring(main1.length - 1, main.length);
+      spanF.style.color = 'rgb(86, 182, 194)';
+      main1 = 'class ';
+      main2 = main.substring(main1.length, main.length);
     }
     else if (main.includes('function ')) {
       [main1, ...main2] = main.split(' ');
@@ -1184,22 +1244,8 @@ class ConsoleLine extends Parent {
 
     this.parentOfObj.classList.add('consoleObjLineFunction');
 
-    let spanF = document.createElement('span');
-    spanF.className = 'consoleObjLineFunctionMain';
     spanF.innerHTML = main1;
-    this.parentOfObj.appendChild(spanF);
-
-    let spanC = document.createElement('div');
-    spanC.className = 'consoleObjLineFunctionSecondary';
-    this.parentOfObj.appendChild(spanC);
-    let spanBtn = document.createElement('button');
-    spanBtn.className = 'consoleObjLineFunctionSecondaryBtn';
-    spanBtn.title = 'Open Method';
     spanBtn.innerHTML = main2 + ' { ... }';
-    spanC.appendChild(spanBtn);
-    let spanContent = document.createElement('span');
-    spanContent.className = 'consoleObjLineFunctionSecondaryBtnContent';
-    spanC.appendChild(spanContent);
 
     spanBtn.addEventListener('click', () => {
       spanBtn.classList.toggle('openedFunctionOrClassContent');

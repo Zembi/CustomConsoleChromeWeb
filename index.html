@@ -54,6 +54,8 @@
       <h1 class='title'>This is a storage site of my programming tools.</h1>
    </div>
 
+   <button id='hellll'></button>
+
    <script type="text/javascript">
       const consoleEl = document.getElementById('console');
       const consoleObj = new Console(consoleEl);
@@ -67,12 +69,7 @@
       let ourh = { message: consoleObj, file: 'ooo.ks', line: '12' };
       console.log(ourh.message);
       consoleObj.addNewLineToConsole('msg', ourh);
-      // let fuo = () => {
-      //    let c = 0; c++;
-      //    document.getElementById('helloWrap').innerHTML = '<div>fejfejfiejfi</div>';
-      // };
-      // let ourh12 = { message: fuo, file: 'ooo.ks', line: '12' };
-      // consoleObj.addNewLineToConsole('msg', ourh12);
+
       consoleObj.disable();
       consoleObj.enable();
 
@@ -106,7 +103,13 @@
 
          let ourh = { message: result, file: 'ooo.ks', line: '12' };
          consoleObj.addNewLineToConsole('msg', ourh);
+         console.dir(result);
       }
+
+      document.getElementById('hellll').addEventListener('click', () => {
+         let ourh1 = { message: 'Test line', file: 'ooo.ks', line: '12' };
+         consoleObj.addNewLineToConsole('msg', ourh1);
+      })
    </script>
 
 </body>

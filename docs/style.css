@@ -439,6 +439,7 @@
 }
 .consoleObjLineFunctionMain {
   color: rgb(184, 119, 0);
+  font-size: 1rem;
   font-weight: bold;
   font-style: italic;
   text-align: left !important;
