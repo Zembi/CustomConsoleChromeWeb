@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-   <link rel="shortcut icon" href="#">
+  <link rel="shortcut icon" href="#">
 
-   <script type="text/javascript" src='docs/Console.js'></script>
+  <script type="text/javascript" src='docs/Console.js'></script>
 
-   <title>Custom Console</title>
+  <title>Custom Console</title>
 
-   <style>
-      #helloWrap {
+  <style>
+    #helloWrap {
          display: flex;
          justify-content: center;
          background: transparent;
@@ -49,68 +49,52 @@
 </head>
 
 <body>
-   <div id='console'></div>
-   <div id='helloWrap'>
-      <h1 class='title'>This is a storage site of my programming tools.</h1>
-   </div>
+  <div id='console'></div>
+  <div id='helloWrap'>
+    <h1 class='title'>This is a storage site of my programming tools.</h1>
+  </div>
 
-   <button id='hellll'></button>
+  <button id='hellll'></button>
 
-   <script type="text/javascript">
-      const consoleEl = document.getElementById('console');
-      const consoleObj = new Console(consoleEl);
-      consoleObj.start();
+  <script type="text/javascript">
+    const consoleEl = document.getElementById('console');
+    const consoleObj = new Console(consoleEl);
+    consoleObj.start();
 
-      const map = new Map();
-      map.set(consoleObj, 'help');
-      map.set(12, 'help2');
-      // map.add(consoleObj);
 
-      let ourh = { message: consoleObj, file: 'ooo.ks', line: '12' };
-      console.log(ourh.message);
-      consoleObj.addNewLineToConsole('msg', ourh);
 
-      consoleObj.disable();
-      consoleObj.enable();
+    // let ar = [12391293, 1239129381, function Help() { fjkefjifjie }];
+    // console.log(ar);
+    // let ourh213231 = { message: ar, file: 'ooo.ks', line: '12' };
+    // consoleObj.addNewLineToConsole('msg', ourh213231);
+    // let ar10 = [];
+    // console.log(ar10);
+    // let ourh6 = { message: ar10, file: 'ooo.ks', line: '12' };
+    // consoleObj.addNewLineToConsole('msg', ourh6);
 
-      myString = `
-         <div id='consoleTitle'>
-            <button class='closedCoreConsoleBtn consoleImportantFocus'>
-               <h2>Console</h2>
-            </button>
-         </div>
+    // const map = new Map();
+    // map.set(consoleObj, 'help');
+    // map.set(12, 'help2');
+    // console.log(map);
+    // let ourh2131 = { message: map, file: 'ooo.ks', line: '12' };
+    // consoleObj.addNewLineToConsole('msg', ourh2131);
 
-         <div class='closedCoreConsoleContent' id='consoleContent'></div>
+    // console.log(consoleObj);
+    // let ourh2138 = { message: consoleObj, file: 'ooo.ks', line: '12' };
+    // consoleObj.addNewLineToConsole('msg', ourh2138);
 
-         <div id='consoleBtns'>
-            <button class='imprtntConsoleBtn' id='changeConsoleAlignBtn' title='Alt + Q'></button>
-            <button class='imprtntConsoleBtn' id='clearConsoleBtn' title='Alt + W'>Clear</button>
-            <select class='imprtntConsoleBtn' id='sizesOfCoreConsoleSlct' title='Alt + E'>
-               <option value='calc(100% - 32px)'>100%</option>
-               <option value='65%'>65%</option>
-               <option value='50%'>50%</option>
-               <option value='35%'>35%</option>
-               <option value='25%'>25%</option>
-            </select>
-         </div>`;
+    // const set = new Set();
+    // set.add(consoleObj, 'help');
+    // set.add(12, 'help2');
+    // console.log(set);
+    // let ourh2 = { message: set, file: 'ooo.ks', line: '12' };
+    // consoleObj.addNewLineToConsole('msg', ourh2);
 
-      recognizeAndDisableDomElementsInAString(myString);
-      function recognizeAndDisableDomElementsInAString(string) {
-         let editString = string;
 
-         let parser = new DOMParser();
-         const result = parser.parseFromString(editString, 'text/html');
 
-         let ourh = { message: result, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', ourh);
-         console.dir(result);
-      }
-
-      document.getElementById('hellll').addEventListener('click', () => {
-         let ourh1 = { message: 'Test line', file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', ourh1);
-      })
-   </script>
+    // consoleObj.disable();
+    // consoleObj.enable();
+  </script>
 
 </body>
 

@@ -180,6 +180,7 @@
   color: white;
   font-size: 1rem;
   overflow: hidden;
+  white-space: pre;
   box-sizing: border-box;
   margin: 0 1.2rem;
 }
@@ -328,7 +329,7 @@
   justify-content: var(--consoleAlignHSQL0219);
   width: 100%;
   box-sizing: border-box;
-  padding: 0.3rem 0.1rem;
+  padding: 0 0.1rem;
   margin: 0;
 }
 .openedConsoleObjLineInfo {
@@ -353,12 +354,24 @@
   align-items: baseline;
   align-self: left;
   padding: 0;
-  margin: 10px 0 0 0;
+  margin: 0.1rem 0 0 0;
 }
 .consoleObjLineLeftSp {
   color: rgb(93, 171, 239);
   font-size: 0.9rem;
   font-weight: bold;
+}
+/* (LEFT SIDE) for GETTERS */
+.consoleObjLineLeftGettersSp {
+  color: rgb(89, 222, 166);
+}
+/* (LEFT SIDE) for SETTERS */
+.consoleObjLineLeftSettersSp {
+  color: rgb(189, 162, 74);
+}
+/* (LEFT SIDE) for METHODS */
+.consoleObjLineLeftMethodsSp {
+  color: rgb(63, 114, 155);
 }
 .consoleObjLineMidSp {
 
@@ -375,6 +388,9 @@
 }
 .consoleObjLineSecondary {
   color: rgb(93, 176, 215);
+}
+.consoleObjLinePrototype {
+  color: grey;
 }
 
 .consoleDomWrap {
@@ -417,7 +433,7 @@
   align-self: left;
   text-align: left;
   padding: 0;
-  margin: 0;
+  margin: 0.1rem 0 0 0;
 }
 
 .consoleObjLineBoolean {
@@ -447,11 +463,34 @@
   border-top: 2px solid transparent;
   padding: 2px 0;
 }
+/* (For CLASS) extends */
+.consoleObjLineClassExtendsMain {
+  color: rgb(105, 183, 121);
+}
+/* (For CLASS) Object that extends */
+.consoleObjLineClassSpecialOccasionsMain {
+  color: rgb(224, 108, 117);
+}
+
+/* (For FUNCTION) parenthesis */
+.consoleObjLineFunctionParenthesisMain {
+  color: rgb(250, 181, 154);
+}
+/* (For FUNCTION) for parameters in parenthesis */
+.consoleObjLineFunctionParametersMain {
+  color: rgb(49, 138, 223);
+}
+/* (For FUNCTION) => */
+.consoleObjLineFunctionSpecialSymbolMain {
+  color: cyan;
+}
+
 .consoleObjLineFunctionSecondary {
   background: rgb(0, 0, 0, 0);
   border-radius: 0.3em;
-  border-top: 2px solid rgb(66, 44, 2);
+  /* border-top: 2px solid rgb(66, 44, 2); */
   border-bottom: 2px solid rgb(114, 75, 3);
+  box-sizing: border-box;
   padding: 2px;
   margin: 0;
 }
@@ -479,6 +518,10 @@
   white-space: pre;
   overflow: hidden;
   letter-spacing: 1.5px;
+}
+.consoleObjLineFunctionSecondaryBtnContent:hover {
+  background: rgb(0, 0, 0, 0.5);
+  cursor: crosshair;
 }
 .openedFunctionOrClassContent {
   font-weight: bold;

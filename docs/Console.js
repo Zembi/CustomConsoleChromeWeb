@@ -11,8 +11,8 @@ var onlyOnce = (function () {
         link.id = cssId;
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        // link.href = 'https://zembi.github.io/CustomConsoleChromeWeb-V.1/docs/style.css';
-        link.href = 'docs/style.css';
+        link.href = 'https://zembi.github.io/CustomConsoleChromeWeb-V.1/docs/style.css';
+        // link.href = 'docs/style.css';
         link.media = 'all';
         head.appendChild(link);
       }
@@ -21,10 +21,6 @@ var onlyOnce = (function () {
     }
   };
 })();
-
-class Parent {
-
-}
 
 onlyOnce();
 
@@ -112,39 +108,10 @@ class Console {
   }
 
   htmlConsoleStructure() {
-    let h = `
-      <div id='consoleTitle'>
-        <button class='closedCoreConsoleBtn consoleImportantFocus'>
-          <h2>Console</h2>
-        </button>
-      </div>`;
-
     this.consoleElmnt.classList.add('consoleMainElement');
 
     this.consoleElmnt.classList.add('closedCoreConsole');
     this.consoleElmnt.title = 'Alt + C';
-
-    // let string = `
-    // &lt;div id='consoleTitle'&gt;
-    //   &lt;button class='closedCoreConsoleBtn consoleImportantFocus'&gt;
-    //     &lt;h2&gt;Console&lt;/h2&gt;
-    //   &lt;/button&gt;
-    // &lt;/div&gt;
-
-    // &lt;div class='closedCoreConsoleContent' id='consoleContent'&gt;&lt;/div&gt;
-
-    // &lt;div id='consoleBtns'&gt;
-    //   &lt;button class='imprtntConsoleBtn' id='changeConsoleAlignBtn' title='Alt + Q'&gt;&lt;/button&gt;
-    //   &lt;button class='imprtntConsoleBtn' id='clearConsoleBtn' title='Alt + W'&gt;Clear&lt;/button&gt;
-    //   &lt;select class='imprtntConsoleBtn' id='sizesOfCoreConsoleSlct' title='Alt + E'&gt;
-    //         &lt;option value='calc(100% - 32px)'&gt;100%&lt;/option&gt;
-    //         &lt;option value='65%'&gt;65%&lt;/option&gt;
-    //         &lt;option value='50%'&gt;50%&lt;/option&gt;
-    //         &lt;option value='35%'&gt;35%&lt;/option&gt;
-    //         &lt;option value='25%'&gt;25%&lt;/option&gt;
-    //   &lt;/select&gt;
-    // &lt;/div&gt;'`;
-    // let string2 = `<span style='background: red'>fefejfejfhejfhejf</span>`;
 
     this.consoleElmnt.innerHTML = `
       <div id='consoleTitle'>
@@ -514,12 +481,68 @@ class Console {
       this.#enabOrDisab = true;
     }
   }
+
+  DomString() {
+    let h = `
+    <div id='consoleTitle'>
+      <button class='closedCoreConsoleBtn consoleImportantFocus'>
+        <h2>Console</h2>
+      </button>
+    </div>`;
+
+    let ddd = 'consoleMainElement';
+
+    ddd = 'closedCoreConsole';
+    ddd = 'Alt + C';
+
+    // let string = `
+    // <div id='consoleTitle'>
+    //   <button class='closedCoreConsoleBtn consoleImportantFocus'>
+    //     <h2>Console</h2>
+    //   </button>
+    // </div>
+
+    // <div class='closedCoreConsoleContent' id='consoleContent'></div>
+
+    // <div id='consoleBtns'>
+    //   <button class='imprtntConsoleBtn' id='changeConsoleAlignBtn' title='Alt + Q'></button>
+    //   <button class='imprtntConsoleBtn' id='clearConsoleBtn' title='Alt + W'>Clear</button>
+    //   <select class='imprtntConsoleBtn' id='sizesOfCoreConsoleSlct' title='Alt + E'>
+    //         <option value='calc(100% - 32px)'>100%</option>
+    //         <option value='65%'>65%</option>
+    //         <option value='50%'>50%</option>
+    //         <option value='35%'>35%</option>
+    //         <option value='25%'>25%</option>
+    //   </select>
+    // </div>'`;
+    // let string2 = `<span style='background: red'>fefejfejfhejfhejf</span>`;
+
+    ddd = `
+    <div id='consoleTitle'>
+      <button class='closedCoreConsoleBtn consoleImportantFocus'>
+        <h2>Console</h2>
+      </button>
+    </div>
+
+    <div class='closedCoreConsoleContent' id='consoleContent'></div>
+
+    <div id='consoleBtns'>
+      <button class='imprtntConsoleBtn' id='changeConsoleAlignBtn' title='Alt + Q'></button>
+      <button class='imprtntConsoleBtn' id='clearConsoleBtn' title='Alt + W'>Clear</button>
+      <select class='imprtntConsoleBtn' id='sizesOfCoreConsoleSlct' title='Alt + E'>
+            <option value='calc(100% - 32px)'>100%</option>
+            <option value='65%'>65%</option>
+            <option value='50%'>50%</option>
+            <option value='35%'>35%</option>
+            <option value='25%'>25%</option>
+      </select>
+    </div>`;
+  }
 }
 
 
-class ConsoleLine extends Parent {
-  constructor(parentOfObj, obj, thisIdElmtns, consoleObj, typeOfLine) {
-    super();
+class ConsoleLine {
+  constructor(parentOfObj, obj, thisIdElmtns, consoleObj, typeOfLine, isPrototype) {
     this.coreParentOfObj = parentOfObj;
     this.parentOfObj = parentOfObj;
     this.obj = obj.message;
@@ -529,6 +552,7 @@ class ConsoleLine extends Parent {
     this.thisIdElmtns = thisIdElmtns;
     this.consoleObj = consoleObj;
     this.typeOfLine = typeOfLine;
+    this.isPrototype = isPrototype || false;
 
     // IN VARS
     this.typeOf = null;
@@ -558,13 +582,13 @@ class ConsoleLine extends Parent {
         }
         else if (this.obj instanceof Map) {
           this.typeOf = 'map';
-          this.lineIsArrayList();
+          this.lineIsMap();
         }
         else if (this.obj instanceof Set) {
           this.typeOf = 'set';
-          this.lineIsArrayList();
+          this.lineIsSet();
         }
-        else {
+        else if (typeof this.obj === 'object') {
           this.typeOf = 'sObj';
           this.lineIsSimpleObject();
         }
@@ -605,7 +629,8 @@ class ConsoleLine extends Parent {
 
   // CHECKS CONTROL
   isNode(key) {
-    return (typeof Node === 'object' ? key instanceof Node : key && typeof key === 'object');
+    return (key && key.nodeType);
+    // return (typeof Node === 'object' ? key instanceof Node : key);
   }
   isNodeList(key) {
     return (key instanceof NodeList);
@@ -657,7 +682,7 @@ class ConsoleLine extends Parent {
 
 
 
-  // CONSOLE LINE ACTION TO NODE OBJ
+  // CONSOLE LINE REACTION TO NODE OBJ
   lineIsDom() {
     let currObjELmnt = this.parentOfObj;
     let objsChild = this.obj;
@@ -760,12 +785,12 @@ class ConsoleLine extends Parent {
 
   }
 
-  // CONSOLE LINE ACTION TO NODELIST
+  // CONSOLE LINE REACTION TO NODELIST
   lineIsNodeList() {
     this.lineIsSimpleObject();
   }
 
-  // CONSOLE LINE ACTION TO ARRAYLIST
+  // CONSOLE LINE REACTION TO ARRAYLIST
   lineIsArrayList() {
     // CREATE THE MAIN CORE OF HTML CONSOLE OBJECT LINE
     let wholeLineObj = document.createElement('div');
@@ -787,12 +812,7 @@ class ConsoleLine extends Parent {
     let btnPar = document.createElement('span');
     btnPar.className = 'consoleLineArrayParenthesis';
     btnPar.id = 'consoleLineArrayParenthesis' + this.uniqueId;
-    if (this.typeOf === 'arrList') {
-      btnPar.innerHTML = `(${this.obj.length})`;
-    }
-    else if (this.typeOf === 'map' || this.typeOf === 'set') {
-      btnPar.innerHTML = `(${this.obj.size})`;
-    }
+    btnPar.innerHTML = `(${this.obj.length})`;
     btn.appendChild(btnPar);
     let btnP = document.createElement('p');
     btnP.className = 'consoleObjBtnP';
@@ -833,119 +853,36 @@ class ConsoleLine extends Parent {
 
         if (store.btnImg.classList.contains('consoleObjBtnOpenedImg')) {
           // OBJ'S CHILDREN CHECK
-          if (thisObj.typeOf === 'arrList') {
-            for (const [key, value] of Object.entries(thisObj.obj)) {
-              // OBJ'S CHILD PROTOTYPE
-              let lineOfObj = document.createElement('p');
-              lineOfObj.className = 'consoleArrayLineInfoP';
-              store.objInfo.appendChild(lineOfObj);
+          for (const [key, value] of Object.entries(thisObj.obj)) {
+            // OBJ'S CHILD PROTOTYPE
+            let lineOfObj = document.createElement('p');
+            lineOfObj.className = 'consoleArrayLineInfoP';
+            store.objInfo.appendChild(lineOfObj);
 
-              let keyObj = document.createElement('span');
-              keyObj.className = 'consoleObjLineLeftSp';
-              keyObj.innerHTML = key;
-              lineOfObj.appendChild(keyObj);
-              let splitObj = document.createElement('span');
-              splitObj.className = 'consoleObjLineMidSp';
-              splitObj.innerHTML = ':';
-              lineOfObj.appendChild(splitObj);
-              let valueObj = document.createElement('span');
-              valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
-              lineOfObj.appendChild(valueObj);
+            let keyObj = document.createElement('span');
+            keyObj.className = 'consoleObjLineLeftSp';
+            keyObj.innerHTML = key;
+            lineOfObj.appendChild(keyObj);
+            let splitObj = document.createElement('span');
+            splitObj.className = 'consoleObjLineMidSp';
+            splitObj.innerHTML = ':';
+            lineOfObj.appendChild(splitObj);
+            let valueObj = document.createElement('span');
+            valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
+            lineOfObj.appendChild(valueObj);
 
-              thisObj.createChildConsoleLine(valueObj, value);
-            }
-          }
-          else if (thisObj.typeOf === 'map') {
-            thisObj.obj.forEach((value, key) => {
-              let lineOfObj = document.createElement('p');
-              lineOfObj.className = 'consoleArrayLineInfoP';
-              store.objInfo.appendChild(lineOfObj);
-
-              let keyObj = document.createElement('span');
-              keyObj.className = 'consoleObjLineLeftSp';
-              keyObj.innerHTML = value;
-              lineOfObj.appendChild(keyObj);
-              let splitObj = document.createElement('span');
-              splitObj.className = 'consoleObjLineMidSp';
-              splitObj.innerHTML = ':';
-              lineOfObj.appendChild(splitObj);
-              let valueObj = document.createElement('span');
-              valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
-              lineOfObj.appendChild(valueObj);
-
-              thisObj.createChildConsoleLine(valueObj, key);
-            });
-          }
-          else if (thisObj.typeOf === 'set') {
-            var setC = 0;
-            thisObj.obj.forEach((value) => {
-              let lineOfObj = document.createElement('p');
-              lineOfObj.className = 'consoleArrayLineInfoP';
-              store.objInfo.appendChild(lineOfObj);
-
-              let keyObj = document.createElement('span');
-              keyObj.className = 'consoleObjLineLeftSp';
-              keyObj.innerHTML = setC;
-              lineOfObj.appendChild(keyObj);
-              let splitObj = document.createElement('span');
-              splitObj.className = 'consoleObjLineMidSp';
-              splitObj.innerHTML = ':';
-              lineOfObj.appendChild(splitObj);
-              let valueObj = document.createElement('span');
-              valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
-              lineOfObj.appendChild(valueObj);
-
-              thisObj.createChildConsoleLine(valueObj, value);
-              setC++;
-            });
+            thisObj.createChildConsoleLine(valueObj, value);
           }
 
-          // ADD LINE FOR LENGTH
-          let lineOfObj = document.createElement('p');
-          lineOfObj.className = 'consoleArrayLineInfoP';
-          store.objInfo.appendChild(lineOfObj);
+          thisObj.lineIsObjLength(store.objInfo);
 
-          let keyObj = document.createElement('span');
-          keyObj.className = 'consoleObjLineSecondary';
-          lineOfObj.appendChild(keyObj);
-          let splitObj = document.createElement('span');
-          splitObj.className = 'consoleObjLineMidSp';
-          splitObj.innerHTML = ':';
-          lineOfObj.appendChild(splitObj);
-          let valueObj = document.createElement('span');
-          valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
-          lineOfObj.appendChild(valueObj);
-
-          let size = null;
-          if (thisObj.typeOf === 'arrList') {
-            keyObj.innerHTML = 'length';
-            size = thisObj.obj.length;
+          if (thisObj.isPrototype) {
+            thisObj.lineGetMethods(store.objInfo);
+            thisObj.lineGetters(store.objInfo);
+            thisObj.lineSetters(store.objInfo);
           }
-          else if (thisObj.typeOf === 'map' || thisObj.typeOf === 'set') {
-            keyObj.innerHTML = 'size';
-            size = thisObj.obj.size;
-          }
-          thisObj.createChildConsoleLine(valueObj, size);
 
-
-          // ADD LINE FOR PROTOTYPE OF OBJECT
-          let protLineOfObj = document.createElement('p');
-          protLineOfObj.className = 'consoleArrayLineInfoP';
-          store.objInfo.appendChild(protLineOfObj);
-
-          let protKeyObj = document.createElement('span');
-          protKeyObj.className = 'consoleObjLineSecondary';
-          protKeyObj.innerHTML = '[[Prototype]]';
-          protLineOfObj.appendChild(protKeyObj);
-          let protSplitObj = document.createElement('span');
-          protSplitObj.className = 'consoleObjLineMidSp';
-          protSplitObj.innerHTML = ':';
-          protLineOfObj.appendChild(protSplitObj);
-          let protValueObj = document.createElement('span');
-          protValueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
-          protLineOfObj.appendChild(protValueObj);
-
-          thisObj.createChildConsoleLine(protValueObj, thisObj.obj);
+          thisObj.lineIsObjsPrototype(store.objInfo);
         }
         else {
           store.objInfo.innerHTML = '';
@@ -958,7 +895,215 @@ class ConsoleLine extends Parent {
     this.parentOfObj = wrapOfBtn;
   }
 
-  // CONSOLE LINE ACTION TO CASUAL OBJ
+  // CONSOLE LINE REACTION TO MAP
+  lineIsMap() {
+    // CREATE THE MAIN CORE OF HTML CONSOLE OBJECT LINE
+    let wholeLineObj = document.createElement('div');
+    wholeLineObj.className = 'consoleObjLine';
+    wholeLineObj.id = 'consoleObjLine' + this.uniqueId;
+
+    let wrapOfBtn = document.createElement('div');
+    wrapOfBtn.className = 'beforeConsoleObjBtn';
+    wrapOfBtn.id = 'beforeConsoleObjBtn' + this.uniqueId;
+    wholeLineObj.appendChild(wrapOfBtn);
+    let btn = document.createElement('button');
+    btn.className = 'consoleObjBtn';
+    wrapOfBtn.appendChild(btn);
+    btn.id = 'consoleObjBtn' + this.uniqueId;
+    let btnImg = document.createElement('img');
+    btnImg.className = 'consoleObjBtnImg';
+    btnImg.id = 'consoleObjBtnImg' + this.uniqueId;
+    btn.appendChild(btnImg);
+    let btnPar = document.createElement('span');
+    btnPar.className = 'consoleLineArrayParenthesis';
+    btnPar.id = 'consoleLineArrayParenthesis' + this.uniqueId;
+    btnPar.innerHTML = `(${this.obj.size})`;
+    btn.appendChild(btnPar);
+    let btnP = document.createElement('p');
+    btnP.className = 'consoleObjBtnP';
+    btnP.id = 'consoleObjBtnP' + this.uniqueId;
+    btnP.innerHTML = this.obj.constructor.name;
+    btn.appendChild(btnP);
+
+    let wrapObjInfo = document.createElement('span');
+    wrapObjInfo.className = 'consoleObjLineWrapInfo closedConsoleObjLineInfo';
+    wrapObjInfo.id = 'consoleObjLineWrapInfo' + this.uniqueId;
+    wholeLineObj.appendChild(wrapObjInfo);
+    let objInfo = document.createElement('div');
+    objInfo.className = 'consoleObjLineInfo';
+    objInfo.id = 'consoleObjLineInfo' + this.uniqueId;
+    wrapObjInfo.appendChild(objInfo);
+
+    const thisObj = this;
+    // ADD CONSOLEOBJLINE'S BTN EVENT
+    document.addEventListener('click', function (e) {
+      const target = e.target.closest('#' + btn.id);
+
+      if (target) {
+        const store = {
+          wholeLineObj: document.querySelector('#consoleObjLine' + thisObj.uniqueId),
+          wrapOfBtn: document.querySelector('#beforeConsoleObjBtn' + thisObj.uniqueId),
+          btn: document.querySelector('#consoleObjBtn' + thisObj.uniqueId),
+          btnImg: document.querySelector('#consoleObjBtnImg' + thisObj.uniqueId),
+          btnPar: document.querySelector('#consoleLineArrayParenthesis' + thisObj.uniqueId),
+          btnP: document.querySelector('#consoleObjBtnP' + thisObj.uniqueId),
+          wrapObjInfo: document.querySelector('#consoleObjLineWrapInfo' + thisObj.uniqueId),
+          objInfo: document.querySelector('#consoleObjLineInfo' + thisObj.uniqueId)
+        };
+
+        store.btnP.classList.toggle('consoleObjBtnDecorate');
+        store.btnImg.classList.toggle('consoleObjBtnOpenedImg');
+
+        store.wrapObjInfo.classList.toggle('closedConsoleObjLineInfo');
+
+        if (store.btnImg.classList.contains('consoleObjBtnOpenedImg')) {
+          // OBJ'S CHILDREN CHECK
+          thisObj.obj.forEach((value, key) => {
+            let lineOfObj = document.createElement('p');
+            lineOfObj.className = 'consoleArrayLineInfoP';
+            store.objInfo.appendChild(lineOfObj);
+
+            let keyObj = document.createElement('span');
+            keyObj.className = 'consoleObjLineLeftSp';
+            keyObj.innerHTML = value;
+            lineOfObj.appendChild(keyObj);
+            let splitObj = document.createElement('span');
+            splitObj.className = 'consoleObjLineMidSp';
+            splitObj.innerHTML = ':';
+            lineOfObj.appendChild(splitObj);
+            let valueObj = document.createElement('span');
+            valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
+            lineOfObj.appendChild(valueObj);
+
+            thisObj.createChildConsoleLine(valueObj, key);
+          });
+
+          thisObj.lineIsObjLength(store.objInfo);
+          if (thisObj.isPrototype) {
+            thisObj.lineGetMethods(store.objInfo);
+            thisObj.lineGetters(store.objInfo);
+            thisObj.lineSetters(store.objInfo);
+          }
+
+          thisObj.lineIsObjsPrototype(store.objInfo);
+        }
+        else {
+          store.objInfo.innerHTML = '';
+        }
+      }
+    });
+
+    this.parentOfObj.appendChild(wholeLineObj);
+
+    this.parentOfObj = wrapOfBtn;
+  }
+
+  // CONSOLE LINE REACTION TO SET
+  lineIsSet() {
+    // CREATE THE MAIN CORE OF HTML CONSOLE OBJECT LINE
+    let wholeLineObj = document.createElement('div');
+    wholeLineObj.className = 'consoleObjLine';
+    wholeLineObj.id = 'consoleObjLine' + this.uniqueId;
+
+    let wrapOfBtn = document.createElement('div');
+    wrapOfBtn.className = 'beforeConsoleObjBtn';
+    wrapOfBtn.id = 'beforeConsoleObjBtn' + this.uniqueId;
+    wholeLineObj.appendChild(wrapOfBtn);
+    let btn = document.createElement('button');
+    btn.className = 'consoleObjBtn';
+    wrapOfBtn.appendChild(btn);
+    btn.id = 'consoleObjBtn' + this.uniqueId;
+    let btnImg = document.createElement('img');
+    btnImg.className = 'consoleObjBtnImg';
+    btnImg.id = 'consoleObjBtnImg' + this.uniqueId;
+    btn.appendChild(btnImg);
+    let btnPar = document.createElement('span');
+    btnPar.className = 'consoleLineArrayParenthesis';
+    btnPar.id = 'consoleLineArrayParenthesis' + this.uniqueId;
+    btnPar.innerHTML = `(${this.obj.size})`;
+    btn.appendChild(btnPar);
+    let btnP = document.createElement('p');
+    btnP.className = 'consoleObjBtnP';
+    btnP.id = 'consoleObjBtnP' + this.uniqueId;
+    btnP.innerHTML = this.obj.constructor.name;
+    btn.appendChild(btnP);
+
+    let wrapObjInfo = document.createElement('span');
+    wrapObjInfo.className = 'consoleObjLineWrapInfo closedConsoleObjLineInfo';
+    wrapObjInfo.id = 'consoleObjLineWrapInfo' + this.uniqueId;
+    wholeLineObj.appendChild(wrapObjInfo);
+    let objInfo = document.createElement('div');
+    objInfo.className = 'consoleObjLineInfo';
+    objInfo.id = 'consoleObjLineInfo' + this.uniqueId;
+    wrapObjInfo.appendChild(objInfo);
+
+    const thisObj = this;
+    // ADD CONSOLEOBJLINE'S BTN EVENT
+    document.addEventListener('click', function (e) {
+      const target = e.target.closest('#' + btn.id);
+
+      if (target) {
+        const store = {
+          wholeLineObj: document.querySelector('#consoleObjLine' + thisObj.uniqueId),
+          wrapOfBtn: document.querySelector('#beforeConsoleObjBtn' + thisObj.uniqueId),
+          btn: document.querySelector('#consoleObjBtn' + thisObj.uniqueId),
+          btnImg: document.querySelector('#consoleObjBtnImg' + thisObj.uniqueId),
+          btnPar: document.querySelector('#consoleLineArrayParenthesis' + thisObj.uniqueId),
+          btnP: document.querySelector('#consoleObjBtnP' + thisObj.uniqueId),
+          wrapObjInfo: document.querySelector('#consoleObjLineWrapInfo' + thisObj.uniqueId),
+          objInfo: document.querySelector('#consoleObjLineInfo' + thisObj.uniqueId)
+        };
+
+        store.btnP.classList.toggle('consoleObjBtnDecorate');
+        store.btnImg.classList.toggle('consoleObjBtnOpenedImg');
+
+        store.wrapObjInfo.classList.toggle('closedConsoleObjLineInfo');
+
+        if (store.btnImg.classList.contains('consoleObjBtnOpenedImg')) {
+          // OBJ'S CHILDREN CHECK
+          var setC = 0;
+          thisObj.obj.forEach((value) => {
+            let lineOfObj = document.createElement('p');
+            lineOfObj.className = 'consoleArrayLineInfoP';
+            store.objInfo.appendChild(lineOfObj);
+
+            let keyObj = document.createElement('span');
+            keyObj.className = 'consoleObjLineLeftSp';
+            keyObj.innerHTML = setC;
+            lineOfObj.appendChild(keyObj);
+            let splitObj = document.createElement('span');
+            splitObj.className = 'consoleObjLineMidSp';
+            splitObj.innerHTML = ':';
+            lineOfObj.appendChild(splitObj);
+            let valueObj = document.createElement('span');
+            valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
+            lineOfObj.appendChild(valueObj);
+
+            thisObj.createChildConsoleLine(valueObj, value);
+            setC++;
+          });
+
+          thisObj.lineIsObjLength(store.objInfo);
+          if (thisObj.isPrototype) {
+            thisObj.lineGetMethods(store.objInfo);
+            thisObj.lineGetters(store.objInfo);
+            thisObj.lineSetters(store.objInfo);
+          }
+
+          thisObj.lineIsObjsPrototype(store.objInfo);
+        }
+        else {
+          store.objInfo.innerHTML = '';
+        }
+      }
+    });
+
+    this.parentOfObj.appendChild(wholeLineObj);
+
+    this.parentOfObj = wrapOfBtn;
+  }
+
+  // CONSOLE LINE REACTION TO CASUAL OBJ
   lineIsSimpleObject() {
     // CREATE THE MAIN CORE OF HTML CONSOLE OBJECT LINE
     let wholeLineObj = document.createElement('div');
@@ -1014,160 +1159,15 @@ class ConsoleLine extends Parent {
         store.wrapObjInfo.classList.toggle('closedConsoleObjLineInfo');
 
         if (store.btnImg.classList.contains('consoleObjBtnOpenedImg')) {
-          // OBJ'S VARIABLES TO
-          const getAllVars = (obj) => {
-            let properties = new Set();
-            let currentObj = obj;
+          thisObj.lineGetVariables(store.objInfo);
 
-            do {
-              Object.getOwnPropertyNames(currentObj).map((item) => {
-                properties.add(item);
-              });
-            }
-            while ((currentObj = Object.getPrototypeOf(currentObj)));
-
-            let result = [...properties.keys()].filter((item) => {
-              return (typeof obj[item] !== 'function');
-            });
-
-            function startsWithUppercase(str) {
-              return str.substr(0, 1).match(/[A-Z\u00C0-\u00DC]/);
-            }
-            result.sort(function (a, b) {
-              if (startsWithUppercase(a) && !startsWithUppercase(b)) {
-                return 1;
-              } else if (startsWithUppercase(b) && !startsWithUppercase(a)) {
-                return -1;
-              }
-              return a.localeCompare(b);
-            });
-
-            return result;
+          if (thisObj.isPrototype) {
+            thisObj.lineGetMethods(store.objInfo);
+            thisObj.lineGetters(store.objInfo);
+            thisObj.lineSetters(store.objInfo);
           }
 
-          // OBJ'S FUNCTIONS TO
-          const getAllMethods = (obj) => {
-            let properties = new Set();
-            let currentObj = obj;
-
-            do {
-              Object.getOwnPropertyNames(currentObj).map((item) => {
-                properties.add(item);
-              });
-            }
-            while ((currentObj = Object.getPrototypeOf(currentObj)));
-
-            let result = [...properties.keys()].filter((item) => {
-              return (typeof obj[item] === 'function');
-            });
-
-            function startsWithUppercase(str) {
-              return str.substr(0, 1).match(/[A-Z\u00C0-\u00DC]/);
-            }
-            result.sort(function (a, b) {
-              if (startsWithUppercase(a) && !startsWithUppercase(b)) {
-                return -1;
-              } else if (startsWithUppercase(b) && !startsWithUppercase(a)) {
-                return 1;
-              }
-              return a.localeCompare(b);
-            });
-
-            return result;
-          }
-
-          let getMethods = [];
-          let setMethods = [];
-
-          let vars = [...getAllVars(thisObj.obj)];
-          delete vars[vars.indexOf('__proto__')];
-          vars.map((methodName) => {
-            if (thisObj.obj[methodName] !== undefined) {
-              createTheElement(methodName, thisObj.obj[methodName], 'vars');
-            }
-
-            let check = Object.getOwnPropertyDescriptor(thisObj.obj, methodName);
-            if (check === undefined) {
-              let getOrSet = Object.getOwnPropertyDescriptor(thisObj.obj.constructor.prototype, methodName);
-              // SETTERS
-              if (getOrSet !== undefined) {
-                if (getOrSet.get === undefined) {
-                  setMethods.push({ name: methodName, method: getOrSet.set });
-                }
-                // GETTERS
-                else if (getOrSet.set === undefined) {
-                  getMethods.push({ name: methodName, method: getOrSet.get });
-                }
-              }
-            }
-          });
-
-          let methods = [...getAllMethods(thisObj.obj)];
-          delete methods[methods.indexOf('__proto__')];
-          delete methods[methods.indexOf('__defineGetter__')];
-          delete methods[methods.indexOf('__defineSetter__')];
-          delete methods[methods.indexOf('__lookupGetter__')];
-          delete methods[methods.indexOf('__lookupSetter__')];
-
-          methods.map((methodName) => {
-            createTheElement(methodName, thisObj.obj[methodName], 'methods');
-          })
-          getMethods.map((getter) => {
-            createTheElement(getter.name, getter.method, 'get');
-          });
-          setMethods.map((setter) => {
-            createTheElement(setter.name, setter.method, 'set');
-          });
-
-          createTheElement('__proto__', thisObj.obj['__proto__'], 'prototype');
-
-
-          function createTheElement(methodName, value, typeOf) {
-            // OBJ'S CHILD PROTOTYPE
-            let lineOfObj = document.createElement('p');
-            lineOfObj.className = 'consoleObjLineInfoP';
-            store.objInfo.appendChild(lineOfObj);
-
-            let keyObj = document.createElement('span');
-            keyObj.className = 'consoleObjLineLeftSp';
-            if (typeOf === 'prototype') {
-              keyObj.innerHTML = '[[Prototype]]';
-              keyObj.style.color = 'grey';
-            }
-            else {
-              let colorMethods = 'rgb(47, 85, 117)';
-              let colorGetMethods = 'rgb(89, 222, 166)';
-              let colorSetMethods = 'rgb(97, 74, 189)';
-
-              if (typeOf === 'vars') {
-                keyObj.innerHTML = methodName;
-              }
-              else if (typeOf === 'get') {
-                keyObj.innerHTML = 'get ' + methodName;
-                keyObj.style.color = colorGetMethods;
-              }
-              else if (typeOf === 'set') {
-                keyObj.innerHTML = 'set ' + methodName;
-                keyObj.style.color = colorSetMethods;
-              }
-              else {
-                keyObj.innerHTML = methodName;
-                keyObj.style.color = colorMethods;
-              }
-            }
-
-            lineOfObj.appendChild(keyObj);
-            let splitObj = document.createElement('span');
-            splitObj.className = 'consoleObjLineMidSp';
-            splitObj.innerHTML = ':';
-            lineOfObj.appendChild(splitObj);
-            let valueObj = document.createElement('span');
-            valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
-            lineOfObj.appendChild(valueObj);
-
-            thisObj.childObj = valueObj;
-            thisObj.createChildConsoleLine(valueObj, value);
-          }
+          thisObj.lineIsObjsPrototype(store.objInfo);
         }
         else {
           store.objInfo.innerHTML = '';
@@ -1180,7 +1180,357 @@ class ConsoleLine extends Parent {
     this.parentOfObj = wrapOfBtn;
   }
 
-  // CONSOLE ACTION TO BOOLEAN
+  // CONSOLE OBJ'S AVAILABLE VARIABLE PROPERTIES
+  lineGetVariables(parentToStore) {
+    // OBJ'S VARIABLES TO
+    const getAllVars = (obj) => {
+      let properties = new Set();
+      let currentObj = obj;
+
+      do {
+        Object.getOwnPropertyNames(currentObj).map((item) => {
+          properties.add(item);
+        });
+      }
+      while ((currentObj = Object.getPrototypeOf(currentObj)));
+
+      let result = [...properties.keys()].filter((item) => {
+        try {
+          return (typeof obj[item] !== 'function');
+        } catch (e) {
+          return false;
+        }
+      });
+
+      function startsWithUppercase(str) {
+        return str.substr(0, 1).match(/[A-Z\u00C0-\u00DC]/);
+      }
+      result.sort(function (a, b) {
+        if (startsWithUppercase(a) && !startsWithUppercase(b)) {
+          return 1;
+        } else if (startsWithUppercase(b) && !startsWithUppercase(a)) {
+          return -1;
+        }
+        return a.localeCompare(b);
+      });
+
+      return result;
+    }
+
+    let vars = [...getAllVars(this.obj)];
+    delete vars[vars.indexOf('__proto__')];
+
+    vars.map((methodName) => {
+      if (this.obj[methodName] !== undefined) {
+        this.createVarAndMethodElements(parentToStore, methodName, this.obj[methodName], 'var');
+      }
+    });
+  }
+
+  // CONSOLE OBJ'S AVAILABLE METHOD PROPERTIES
+  lineGetMethods(parentToStore) {
+    // OBJ'S FUNCTIONS TO
+    const getAllMethods = (obj) => {
+      let properties = new Set();
+      let currentObj = obj;
+
+      do {
+        Object.getOwnPropertyNames(currentObj).map((item) => {
+          properties.add(item);
+        });
+      }
+      while ((currentObj = Object.getPrototypeOf(currentObj)));
+
+      let result = [...properties.keys()].filter((item) => {
+        try {
+          return (typeof obj[item] === 'function');
+        } catch (e) {
+          return false;
+        }
+      });
+
+      function startsWithUppercase(str) {
+        return str.substr(0, 1).match(/[A-Z\u00C0-\u00DC]/);
+      }
+      result.sort(function (a, b) {
+        if (startsWithUppercase(a) && !startsWithUppercase(b)) {
+          return -1;
+        } else if (startsWithUppercase(b) && !startsWithUppercase(a)) {
+          return 1;
+        }
+        return a.localeCompare(b);
+      });
+
+      return result;
+    }
+
+    let methods = [...getAllMethods(this.obj)];
+    delete methods[methods.indexOf('__proto__')];
+    delete methods[methods.indexOf('__defineGetter__')];
+    delete methods[methods.indexOf('__defineSetter__')];
+    delete methods[methods.indexOf('__lookupGetter__')];
+    delete methods[methods.indexOf('__lookupSetter__')];
+
+    methods.map((methodName) => {
+      this.createVarAndMethodElements(parentToStore, methodName, this.obj[methodName], 'methods');
+    })
+  }
+
+  // CONSOLE OBJ'S AVAILABLE GETTERS PROPERTIES
+  lineGetters(parentToStore) {
+    let leftOut = [];
+    // OBJ'S GETTERS TO
+    const getAllVars = (obj) => {
+      let properties = new Set();
+      let currentObj = obj;
+
+      do {
+        Object.getOwnPropertyNames(currentObj).map((item) => {
+          properties.add(item);
+        });
+      }
+      while ((currentObj = Object.getPrototypeOf(currentObj)));
+
+      let result = [...properties.keys()].filter((item) => {
+        try {
+          return (typeof obj[item] !== 'function');
+        } catch (e) {
+          leftOut.push(item);
+          return false;
+        }
+      });
+
+      function startsWithUppercase(str) {
+        return str.substr(0, 1).match(/[A-Z\u00C0-\u00DC]/);
+      }
+      result.sort(function (a, b) {
+        if (startsWithUppercase(a) && !startsWithUppercase(b)) {
+          return 1;
+        } else if (startsWithUppercase(b) && !startsWithUppercase(a)) {
+          return -1;
+        }
+        return a.localeCompare(b);
+      });
+
+      return result;
+    }
+
+    let vars = [...getAllVars(this.obj)];
+    delete vars[vars.indexOf('__proto__')];
+
+    let getMethods = [];
+    vars.map((methodName) => {
+      let check = Object.getOwnPropertyDescriptor(this.obj, methodName);
+      if (check !== undefined) {
+        let getOrSet = Object.getOwnPropertyDescriptor(this.obj, methodName);
+        if (getOrSet !== undefined) {
+          // GETTERS
+          if (getOrSet.set === undefined && getOrSet.get !== undefined) {
+            getMethods.push({ name: methodName, method: getOrSet.get });
+          }
+        }
+      }
+    });
+
+    getMethods.map((getter) => {
+      this.createVarAndMethodElements(parentToStore, getter.name, getter.method, 'get');
+    });
+
+
+    let leftOutMethods = [];
+    leftOut.map((leftOutMethodName) => {
+      let check = Object.getOwnPropertyDescriptor(this.obj, leftOutMethodName);
+      if (check !== undefined) {
+        let getOrSet = Object.getOwnPropertyDescriptor(this.obj, leftOutMethodName);
+        if (getOrSet !== undefined) {
+          // GETTERS
+          if (getOrSet.set === undefined && getOrSet.get !== undefined) {
+            leftOutMethods.push({ name: leftOutMethodName, method: getOrSet.get });
+          }
+        }
+      }
+    });
+
+    leftOutMethods.map((getter) => {
+      this.createVarAndMethodElements(parentToStore, getter.name, getter.method, 'get');
+    });
+  }
+
+  // CONSOLE OBJ'S AVAILABLE SETTERS PROPERTIES
+  lineSetters(parentToStore) {
+    let leftOut = [];
+    // OBJ'S GETTERS TO
+    const getAllVars = (obj) => {
+      let properties = new Set();
+      let currentObj = obj;
+
+      do {
+        Object.getOwnPropertyNames(currentObj).map((item) => {
+          properties.add(item);
+        });
+      }
+      while ((currentObj = Object.getPrototypeOf(currentObj)));
+
+      let result = [...properties.keys()].filter((item) => {
+        try {
+          return (typeof obj[item] !== 'function');
+        } catch (e) {
+          leftOut.push(item);
+          return false;
+        }
+      });
+
+      function startsWithUppercase(str) {
+        return str.substr(0, 1).match(/[A-Z\u00C0-\u00DC]/);
+      }
+      result.sort(function (a, b) {
+        if (startsWithUppercase(a) && !startsWithUppercase(b)) {
+          return 1;
+        } else if (startsWithUppercase(b) && !startsWithUppercase(a)) {
+          return -1;
+        }
+        return a.localeCompare(b);
+      });
+
+      return result;
+    }
+
+    let vars = [...getAllVars(this.obj)];
+    delete vars[vars.indexOf('__proto__')];
+
+    let setMethods = [];
+
+    vars.map((methodName) => {
+      let check = Object.getOwnPropertyDescriptor(this.obj, methodName);
+      if (check !== undefined) {
+        let getOrSet = Object.getOwnPropertyDescriptor(this.obj, methodName);
+        if (getOrSet !== undefined) {
+          // SETTERS
+          if (getOrSet.get === undefined && getOrSet.set !== undefined) {
+            setMethods.push({ name: methodName, method: getOrSet.set });
+          }
+        }
+      }
+    });
+
+    setMethods.map((setter) => {
+      this.createVarAndMethodElements(parentToStore, setter.name, setter.method, 'set');
+    });
+
+    let leftOutMethods = [];
+    leftOut.map((leftOutMethodName) => {
+      let check = Object.getOwnPropertyDescriptor(this.obj, leftOutMethodName);
+      if (check !== undefined) {
+        let getOrSet = Object.getOwnPropertyDescriptor(this.obj, leftOutMethodName);
+        if (getOrSet !== undefined) {
+          // GETTERS
+          if (getOrSet.get === undefined && getOrSet.set !== undefined) {
+            leftOutMethods.push({ name: leftOutMethodName, method: getOrSet.set });
+          }
+        }
+      }
+    });
+
+    leftOutMethods.map((setter) => {
+      this.createVarAndMethodElements(parentToStore, setter.name, setter.method, 'set');
+    });
+  }
+
+  // CONSOLE OBJ'S PROPERTIES' STRUCTURE
+  createVarAndMethodElements(parentNode, methodName, value, typeOf) {
+    // OBJ'S CHILD PROTOTYPE
+    let lineOfObj = document.createElement('p');
+    lineOfObj.className = 'consoleObjLineInfoP';
+    parentNode.appendChild(lineOfObj);
+
+    let keyObj = document.createElement('span');
+    keyObj.className = 'consoleObjLineLeftSp';
+
+    if (typeOf === 'var') {
+      keyObj.innerHTML = methodName;
+    }
+    else if (typeOf === 'get') {
+      keyObj.innerHTML = 'get ' + methodName;
+      keyObj.classList.add('consoleObjLineLeftGettersSp');
+    }
+    else if (typeOf === 'set') {
+      keyObj.innerHTML = 'set ' + methodName;
+      keyObj.classList.add('consoleObjLineLeftSettersSp');
+    }
+    else {
+      keyObj.innerHTML = methodName;
+      keyObj.classList.add('consoleObjLineLeftMethodsSp');
+    }
+
+    lineOfObj.appendChild(keyObj);
+    let splitObj = document.createElement('span');
+    splitObj.className = 'consoleObjLineMidSp';
+    splitObj.innerHTML = ':';
+    lineOfObj.appendChild(splitObj);
+    let valueObj = document.createElement('span');
+    valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
+    lineOfObj.appendChild(valueObj);
+
+    this.childObj = valueObj;
+    this.createChildConsoleLine(valueObj, value);
+  }
+
+  // CONSOLE LINE REACTON TO LENGTH OF ARRAY OR MAP OR SET ITEM
+  lineIsObjLength(parentToStore) {
+    // ADD LINE FOR LENGTH
+    let lineOfObj = document.createElement('p');
+    lineOfObj.className = 'consoleArrayLineInfoP';
+    parentToStore.appendChild(lineOfObj);
+
+    let keyObj = document.createElement('span');
+    keyObj.className = 'consoleObjLineSecondary';
+    lineOfObj.appendChild(keyObj);
+    let splitObj = document.createElement('span');
+    splitObj.className = 'consoleObjLineMidSp';
+    splitObj.innerHTML = ':';
+    lineOfObj.appendChild(splitObj);
+    let valueObj = document.createElement('span');
+    valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
+    lineOfObj.appendChild(valueObj);
+
+    let size = null;
+
+    if (this.typeOf === 'arrList') {
+      keyObj.innerHTML = 'length';
+      size = this.obj.length;
+    }
+    else if (this.typeOf === 'map' || this.typeOf === 'set') {
+      keyObj.innerHTML = 'size';
+      size = this.obj.size;
+    }
+
+    this.createChildConsoleLine(valueObj, size);
+  }
+
+  // CONSOLE LINE REACTON TO OBJECT PROTOTYPE
+  lineIsObjsPrototype(parentToStore) {
+    // ADD LINE FOR PROTOTYPE OF OBJECT
+    let protLineOfObj = document.createElement('p');
+    protLineOfObj.className = 'consoleArrayLineInfoP';
+    parentToStore.appendChild(protLineOfObj);
+
+    let protKeyObj = document.createElement('span');
+    protKeyObj.className = 'consoleObjLinePrototype';
+    protKeyObj.innerHTML = '[[Prototype]]';
+    protLineOfObj.appendChild(protKeyObj);
+    let protSplitObj = document.createElement('span');
+    protSplitObj.className = 'consoleObjLineMidSp';
+    protSplitObj.innerHTML = ':';
+    protLineOfObj.appendChild(protSplitObj);
+    let protValueObj = document.createElement('span');
+    protValueObj.className = 'consoleObjLineRightSp insideConsoleObjLine';
+    protLineOfObj.appendChild(protValueObj);
+
+    this.createChildConsoleLine(protValueObj, Object.getPrototypeOf(this.obj), true);
+  }
+
+
+  // CONSOLE REACTION TO BOOLEAN
   lineIsBoolean() {
     this.parentOfObj.innerHTML += `<span>${this.obj}</span>`;
 
@@ -1188,7 +1538,7 @@ class ConsoleLine extends Parent {
     this.parentOfObj.classList.add('consoleObjLineBoolean');
   }
 
-  // CONSOLE ACTION TO NUMBER
+  // CONSOLE REACTION TO NUMBER
   lineIsNumber() {
     this.parentOfObj.innerHTML += `<span>${this.obj}</span>`;
 
@@ -1196,21 +1546,24 @@ class ConsoleLine extends Parent {
     this.parentOfObj.classList.add('consoleObjLineNumber');
   }
 
-  // CONSOLE ACTION TO STRING
+  // CONSOLE REACTION TO STRING
   lineIsString() {
-    this.parentOfObj.innerHTML += `<span>"${this.obj}"</span>`;
+    let disableIfHtmlIsToShowUp = this.recognizeAndDisableDomElementsInAString(this.obj);
+    this.parentOfObj.innerHTML += `<span>"${disableIfHtmlIsToShowUp}"</span>`;
 
     // STYLING
     this.parentOfObj.classList.add('consoleObjLineString');
   }
 
-  // CONSOLE LINE ACTION TO FUNCTION
+  // CONSOLE LINE REACTION TO FUNCTION
   lineIsFunctionOrClass() {
     let objStr = this.obj.toString();
 
     // STYLING
     let main = objStr.substring(0, objStr.indexOf('{'));
-    let sec = objStr.substring(objStr.indexOf('{'), objStr.length);
+    let sec = objStr.substring(objStr.indexOf('{'), objStr.length).toString();
+    sec = this.recognizeAndDisableDomElementsInAString(sec);
+    // sec = this.styleFunctionAndClassCodeInConsole(sec);
 
     let spanF = document.createElement('span');
     spanF.className = 'consoleObjLineFunctionMain';
@@ -1220,10 +1573,12 @@ class ConsoleLine extends Parent {
     this.parentOfObj.appendChild(spanC);
     let spanBtn = document.createElement('button');
     spanBtn.className = 'consoleObjLineFunctionSecondaryBtn';
+    spanBtn.id = 'consoleObjLineFunctionSecondaryBtn' + this.uniqueId;
     spanBtn.title = 'Open Method';
     spanC.appendChild(spanBtn);
     let spanContent = document.createElement('span');
     spanContent.className = 'consoleObjLineFunctionSecondaryBtnContent';
+    spanContent.id = 'consoleObjLineFunctionSecondaryBtnContent' + this.uniqueId;
     spanC.appendChild(spanContent);
 
     let main1, main2 = '';
@@ -1231,15 +1586,39 @@ class ConsoleLine extends Parent {
       spanF.style.color = 'rgb(86, 182, 194)';
       main1 = 'class ';
       main2 = main.substring(main1.length, main.length);
-    }
-    else if (main.includes('function ')) {
-      [main1, ...main2] = main.split(' ');
-      main1 = 'f  ';
-      main2 = main2[0];
+      if (main2.includes(' extends ')) {
+        let main2ArExten = main2.split(' extends ');
+        let main2Edit = main2.replace(main2ArExten[main2ArExten.length - 1], '<span class="consoleObjLineClassExtendsMain">' + main2ArExten[main2ArExten.length - 1] + '</span>');
+        main2Edit = main2Edit.replace(' extends ', ' <span class="consoleObjLineClassSpecialOccasionsMain">extends</span > ');
+        main2 = main2Edit;
+      }
     }
     else {
-      main1 = 'f ';
-      main2 = main;
+      let main2Edit = '';
+      if (main.includes('function ')) {
+        let mainAr = main.split(' ');
+        main1 = 'f ';
+        main2 = mainAr[mainAr.length - 2] + ' ';
+        main2Edit = main2;
+      }
+      else {
+        main1 = 'f ';
+        main2 = main;
+        main2Edit = main2.replace('=>', '<span class="consoleObjLineFunctionSpecialSymbolMain">=></span >');
+      }
+
+      if (main2.includes('(') && main2.includes(')')) {
+        main2Edit = main2Edit.replace('(', '<span class="consoleObjLineFunctionParenthesisMain">(</span >');
+        main2Edit = main2Edit.replace(')', '<span class="consoleObjLineFunctionParenthesisMain">)</span >');
+        let functionsParameters = main2.substring(main2.indexOf('(') + 1, main2.indexOf(')'));
+        if (functionsParameters.includes(',')) {
+          functionsParameters = functionsParameters.split(',');
+          functionsParameters.map((param) => {
+            main2Edit = main2Edit.replace(param, '<span class="consoleObjLineFunctionParametersMain">' + param + '</span>');
+          });
+        }
+        main2 = main2Edit;
+      }
     }
 
     this.parentOfObj.classList.add('consoleObjLineFunction');
@@ -1247,39 +1626,58 @@ class ConsoleLine extends Parent {
     spanF.innerHTML = main1;
     spanBtn.innerHTML = main2 + ' { ... }';
 
-    spanBtn.addEventListener('click', () => {
-      spanBtn.classList.toggle('openedFunctionOrClassContent');
+    const thisObj = this;
+    document.addEventListener('click', (e) => {
+      const target = e.target.closest('#' + spanBtn.id);
 
-      if (spanBtn.classList.contains('openedFunctionOrClassContent')) {
-        spanBtn.title = 'Close Method';
-        spanBtn.innerHTML = main2;
-        spanContent.title = main1 + main2 + ' ' + sec;
-        let content = sec.slice(1);
+      if (target) {
 
-        let lineNumber = sec.split('\n').length;
-        let lineLimit = 10;
-        if (lineNumber > lineLimit) {
-          let c = 0;
-          content = '';
-          sec.split('\n').map((line) => {
-            if (c < lineLimit) {
-              content += line + '\n';
-              c++;
-            }
-          });
-          content += '    ......    \n  }';
+        const store = {
+          spanBtn: document.querySelector('#consoleObjLineFunctionSecondaryBtn' + thisObj.uniqueId),
+          spanContent: document.querySelector('#consoleObjLineFunctionSecondaryBtnContent' + thisObj.uniqueId)
         }
-        spanContent.innerHTML = content;
-      }
-      else {
-        spanBtn.title = 'Open Method';
-        spanBtn.innerHTML = main2 + ' { ... }';
-        spanContent.innerHTML = '';
+
+        store.spanBtn.classList.toggle('openedFunctionOrClassContent');
+
+        if (store.spanBtn.classList.contains('openedFunctionOrClassContent')) {
+          store.spanBtn.title = 'Close Method';
+          store.spanBtn.innerHTML = main2;
+          store.spanContent.title = main1 + main2 + ' ' + sec;
+          // let content = sec.slice(1);
+
+          // let lineNumber = sec.split('\n').length;
+          // let lineLimit = 1000;
+          // if (lineNumber > lineLimit) {
+          //   let c = 0;
+          //   content = '';
+          //   sec.split('\n').map((line) => {
+          //     if (c < lineLimit) {
+          //       content += line + '\n';
+          //       c++;
+          //     }
+          //   });
+          //   content += '    ......    \n  }';
+          // }
+          store.spanContent.innerHTML = sec;
+          store.spanContent.title = 'Double click to close';
+
+          store.spanContent.addEventListener('dblclick', () => {
+            store.spanBtn.classList.remove('openedFunctionOrClassContent');
+            store.spanBtn.title = 'Open Method';
+            store.spanBtn.innerHTML = main2 + ' { ... }';
+            store.spanContent.innerHTML = '';
+          })
+        }
+        else {
+          store.spanBtn.title = 'Open Method';
+          store.spanBtn.innerHTML = main2 + ' { ... }';
+          store.spanContent.innerHTML = '';
+        }
       }
     });
   }
 
-  // CONSOLE ACTION TO NULL
+  // CONSOLE REACTION TO NULL
   lineIsNullOrUndefined(msg) {
     this.parentOfObj.innerHTML += `<span>${msg}</span>`;
 
@@ -1300,6 +1698,64 @@ class ConsoleLine extends Parent {
 
 
 
+  recognizeAndDisableDomElementsInAString(string) {
+    const chars = {
+      '<': '&lt;', '>': '&gt;', '"': "&quot;", '\n': '\r\n', '\r': ''
+    };
+    string = string.replace(/[<>"]/g, i => chars[i]);
+
+    return string;
+
+    // let parser = new DOMParser();
+    // const result = parser.parseFromString(string, 'text/html');
+
+    // let body = result.children[0].children[1];
+    // let copyString = string;
+    // let editedString = string.replace(/[<>"']/g, i => chars[i]);
+    // let resultString = string;
+
+    // [...body.children].forEach((element) => {
+    //   let dom = element.outerHTML.replace(/[\n]/g, i => chars[i]);
+    //   let editedDom = dom.replace(/[<>"']/g, i => chars[i]);
+
+    //   if (editedString.includes(editedDom)) {
+    //     const charsDom = {
+    //       '"': "&quot;", '<': '&lt;', '>': '&gt;'
+    //     };
+    //     let finalDom = dom.replaceAll(/[<>"]/g, i => charsDom[i]);
+    //     let foundInString = copyString.substring(editedString.indexOf(editedDom), editedString.indexOf(editedDom) + editedDom.length);
+    //     resultString = resultString.replace(foundInString, finalDom);
+    //   }
+    //   else {
+    //     console.log(editedString);
+    //     console.log(editedDom);
+    //   }
+    // });
+    //
+    // return resultString;
+  }
+
+  styleFunctionAndClassCodeInConsole(string) {
+    let copyString = string;
+    let resultString = '';
+
+    let lineNumber = copyString.split('\n').length;
+
+    // let lineLimit = 1000;
+    // if (lineNumber > lineLimit) {
+    // let c = 0;
+    copyString.split('\n').map((line) => {
+      // if (c < lineLimit) {
+      resultString += line + '\n';
+      // c++;
+      // }
+    });
+    //   content += '    ......    \n  }';
+    // }
+
+    return resultString;
+  }
+
 
   increaseThisIdElmtnsSecCopy() {
     let copy = this.thisIdElmtns;
@@ -1307,13 +1763,13 @@ class ConsoleLine extends Parent {
     return copy;
   }
 
-  createChildConsoleLine(currObjELmnt, objsChild) {
+  createChildConsoleLine(currObjELmnt, objsChild, prototypeOrNot) {
     // CHILDREN DON'T NEED FILE LOC AND LINE NUMBER
     let child = { message: objsChild, file: null, line: null }
 
     // SEND TO CHILD OF THIS OBJ IN CONSOLE
     let newthisIdElmtns = this.increaseThisIdElmtnsSecCopy();
-    const childObj = new ConsoleLine(currObjELmnt, child, newthisIdElmtns, this.consoleObj, this.typeOfLine);
+    const childObj = new ConsoleLine(currObjELmnt, child, newthisIdElmtns, this.consoleObj, this.typeOfLine, prototypeOrNot);
     childObj.start();
   }
 }
