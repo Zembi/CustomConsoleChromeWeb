@@ -23,6 +23,17 @@
          animation: BorderAnim 2s infinite;
       }
 
+      #workingBtn {
+        display: block;
+        background: black;
+        color: white;
+        font-size: 1rem;
+        border-radius: 0.2em;
+        border: 2px solid cadetblue;
+        padding: 1em;
+        margin: 2em auto;
+      }
+
       @keyframes BorderAnim{
          0% {
             border: 2px solid transparent;
@@ -54,7 +65,7 @@
     <h1 class='title'>This is a storage site of my programming tools.</h1>
   </div>
 
-  <button id='hellll'></button>
+  <button id='workingBtn'> CLICK ME, FOR CONSOLE ACTION!!</button>
 
   <script type="text/javascript">
     const consoleEl = document.getElementById('console');
@@ -62,33 +73,34 @@
     consoleObj.start();
 
 
+    document.getElementById('workingBtn').addEventListener('click', () => {
+      let ar = [12391293, 1239129381, function Help() { fjkefjifjie }];
+      console.log(ar);
+      // let ourh213231 = { message: ar, file: 'ooo.ks', line: '12' };
+      // consoleObj.addNewLineToConsole('msg', ourh213231);
+      let ar10 = [];
+      console.log(ar10);
+      // let ourh6 = { message: ar10, file: 'ooo.ks', line: '12' };
+      // consoleObj.addNewLineToConsole('msg', ourh6);
 
-    // let ar = [12391293, 1239129381, function Help() { fjkefjifjie }];
-    // console.log(ar);
-    // let ourh213231 = { message: ar, file: 'ooo.ks', line: '12' };
-    // consoleObj.addNewLineToConsole('msg', ourh213231);
-    // let ar10 = [];
-    // console.log(ar10);
-    // let ourh6 = { message: ar10, file: 'ooo.ks', line: '12' };
-    // consoleObj.addNewLineToConsole('msg', ourh6);
+      const map = new Map();
+      map.set(consoleObj, 'help');
+      map.set(12, 'help2');
+      console.log(map);
+      // let ourh2131 = { message: map, file: 'ooo.ks', line: '12' };
+      // consoleObj.addNewLineToConsole('msg', ourh2131);
 
-    // const map = new Map();
-    // map.set(consoleObj, 'help');
-    // map.set(12, 'help2');
-    // console.log(map);
-    // let ourh2131 = { message: map, file: 'ooo.ks', line: '12' };
-    // consoleObj.addNewLineToConsole('msg', ourh2131);
+      console.log(consoleObj);
+      // let ourh2138 = { message: consoleObj, file: 'ooo.ks', line: '12' };
+      // consoleObj.addNewLineToConsole('msg', ourh2138);
 
-    // console.log(consoleObj);
-    // let ourh2138 = { message: consoleObj, file: 'ooo.ks', line: '12' };
-    // consoleObj.addNewLineToConsole('msg', ourh2138);
-
-    // const set = new Set();
-    // set.add(consoleObj, 'help');
-    // set.add(12, 'help2');
-    // console.log(set);
-    // let ourh2 = { message: set, file: 'ooo.ks', line: '12' };
-    // consoleObj.addNewLineToConsole('msg', ourh2);
+      const set = new Set();
+      set.add(consoleObj, 'help');
+      set.add(12, 'help2');
+      console.log(set);
+      // let ourh2 = { message: set, file: 'ooo.ks', line: '12' };
+      // consoleObj.addNewLineToConsole('msg', ourh2);
+    });
 
 
 

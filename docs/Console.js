@@ -101,8 +101,8 @@ class Console {
 
     this.consoleStatusCheckFromLocalStorage();
     this.consoleCoreButtonsEvents();
-    // this.enableConsoleLogEvent();
-    // this.enable();
+    this.enableConsoleLogEvent();
+    this.enable();
 
     this.shortcutEvents();
   }
