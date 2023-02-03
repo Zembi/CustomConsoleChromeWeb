@@ -297,8 +297,8 @@
   text-decoration: underline 2px rgb(190, 165, 149);
 }
 .consoleObjBtnImg {
-  width: 0.7rem;
-  height: 0.7rem;
+  width: 0.6rem;
+  height: 0.6rem;
   content: url(Assets/whiteFilledArrow.png);
   transform: rotate(-90deg);
   margin: 4px 0 0 0;
@@ -322,6 +322,9 @@
 }
 .consoleObjBtn:hover .consoleLineArrayParenthesis {
   color: darkgray;
+}
+.consoleObjEntriesBtnP {
+  color: grey;
 }
 
 .consoleObjLineWrapInfo {

@@ -71,38 +71,45 @@
     const consoleEl = document.getElementById('console');
     const consoleObj = new Console(consoleEl);
     consoleObj.start();
+    consoleObj.disable();
 
 
     document.getElementById('workingBtn').addEventListener('click', () => {
       let ar = [12391293, 1239129381, function Help() { fjkefjifjie }];
       console.log(ar);
-      // let ourh213231 = { message: ar, file: 'ooo.ks', line: '12' };
-      // consoleObj.addNewLineToConsole('msg', ourh213231);
+      let array = { message: ar, file: 'ooo.ks', line: '12' };
+      consoleObj.addNewLineToConsole('msg', array);
+
       let ar10 = [];
       console.log(ar10);
-      // let ourh6 = { message: ar10, file: 'ooo.ks', line: '12' };
-      // consoleObj.addNewLineToConsole('msg', ourh6);
+      let emptyArray = { message: ar10, file: 'ooo.ks', line: '12' };
+      consoleObj.addNewLineToConsole('msg', emptyArray);
 
       const map = new Map();
       map.set(consoleObj, 'help');
       map.set(12, 'help2');
+      map.set([23293, 'fkefjkef'], consoleObj);
       console.log(map);
-      // let ourh2131 = { message: map, file: 'ooo.ks', line: '12' };
-      // consoleObj.addNewLineToConsole('msg', ourh2131);
+      let mapObj = { message: map, file: 'ooo.ks', line: '12' };
+      consoleObj.addNewLineToConsole('msg', mapObj);
 
       console.log(consoleObj);
-      // let ourh2138 = { message: consoleObj, file: 'ooo.ks', line: '12' };
-      // consoleObj.addNewLineToConsole('msg', ourh2138);
+      let consoleObject = { message: consoleObj, file: 'ooo.ks', line: '12' };
+      consoleObj.addNewLineToConsole('msg', consoleObject);
 
       const set = new Set();
       set.add(consoleObj, 'help');
       set.add(12, 'help2');
       console.log(set);
-      // let ourh2 = { message: set, file: 'ooo.ks', line: '12' };
-      // consoleObj.addNewLineToConsole('msg', ourh2);
+      let setObject = { message: set, file: 'ooo.ks', line: '12' };
+      consoleObj.addNewLineToConsole('msg', setObject);
+
+      console.log(document.getElementById('console'));
+      let domObject = { message: document.getElementById('console'), file: 'ooo.ks', line: '12' };
+      consoleObj.addNewLineToConsole('msg', domObject);
     });
 
-
+    document.getElementById('workingBtn').click();
 
     // consoleObj.disable();
     // consoleObj.enable();
