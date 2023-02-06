@@ -71,11 +71,24 @@
     const consoleEl = document.getElementById('console');
     const consoleObj = new Console(consoleEl);
     consoleObj.start();
-    consoleObj.disable();
+    // consoleObj.disable();
+
+    let help = JSON;
+    console.log(help);
+    // let aay = { message: help, file: 'ooo.ks', line: '12' };
+    // consoleObj.addNewLineToConsole('msg', aay);
+
+
+    let help2 = Math;
+    console.log(help2);
+    // let aay00 = { message: help2, file: 'ooo.ks', line: '12' };
+    // consoleObj.addNewLineToConsole('msg', aay00);
+
+    // document.getElementById('workingBtn').click();
 
 
     document.getElementById('workingBtn').addEventListener('click', () => {
-      let ar = [12391293, 1239129381, function Help() { fjkefjifjie }];
+      let ar = [12391293, '1239129381', function Help() { fjkefjifjie }];
       console.log(ar);
       let array = { message: ar, file: 'ooo.ks', line: '12' };
       consoleObj.addNewLineToConsole('msg', array);
@@ -88,7 +101,8 @@
       const map = new Map();
       map.set(consoleObj, 'help');
       map.set(12, 'help2');
-      map.set([23293, 'fkefjkef'], consoleObj);
+      map.set(consoleObj.enable, consoleObj);
+      map.set([12123], 'help2213');
       console.log(map);
       let mapObj = { message: map, file: 'ooo.ks', line: '12' };
       consoleObj.addNewLineToConsole('msg', mapObj);
@@ -108,8 +122,6 @@
       let domObject = { message: document.getElementById('console'), file: 'ooo.ks', line: '12' };
       consoleObj.addNewLineToConsole('msg', domObject);
     });
-
-    document.getElementById('workingBtn').click();
 
     // consoleObj.disable();
     // consoleObj.enable();
