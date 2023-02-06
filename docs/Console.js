@@ -11,8 +11,8 @@ var onlyOnce = (function () {
         link.id = cssId;
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        // link.href = 'https://zembi.github.io/CustomConsoleChromeWeb-V.1/docs/style.css';
-        link.href = 'docs/style.css';
+        link.href = 'https://zembi.github.io/CustomConsoleChromeWeb-V.1/docs/style.css';
+        // link.href = 'docs/style.css';
         link.media = 'all';
         head.appendChild(link);
       }
