@@ -11,8 +11,8 @@ var onlyOnce = (function () {
         link.id = cssId;
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = 'https://zembi.github.io/CustomConsoleChromeWeb-V.1/docs/style.css';
-        // link.href = 'docs/style.css';
+        // link.href = 'https://zembi.github.io/CustomConsoleChromeWeb-V.1/docs/style.css';
+        link.href = 'docs/style.css';
         link.media = 'all';
         head.appendChild(link);
       }
@@ -27,12 +27,12 @@ onlyOnce();
 // DO NOT USE CONSOLE.LOG FUNCTION ANYWHERE HERE
 // EITHER DISABLE THE FUNCTION OR USE OTHER TYPES OF DEBUG TOO
 class Console {
-  #started;
-  #enabOrDisab;
-  #consoleDefaultFunc;
+  started;
+  enabOrDisab;
+  consoleDefaultFunc;
   constructor(consoleElmnt) {
-    this.#started = false;
-    this.#enabOrDisab = true;
+    this.started = false;
+    this.enabOrDisab = true;
     this.consoleElmnt = consoleElmnt;
 
     this.consoleStatus = false;
@@ -83,9 +83,9 @@ class Console {
   }
 
   start() {
-    if (!this.#started) {
+    if (!this.started) {
       this.structureTheObject();
-      this.#started = true;
+      this.started = true;
     }
     else {
     }
@@ -135,45 +135,54 @@ class Console {
       </div>`;
   }
 
+  // GET TRACE AS STRING SO I CAN SHOW THE LINE OF MESSAGE ON MY CONSOLE
+  getStackTraceImportant(urlAndLine = null) {
+    // IF URL AND LINE DOESNT EXIST YET
+    if (urlAndLine === null) {
+      urlAndLine = Error().stack;
+    }
+
+    let ar = urlAndLine.split('\n');
+    let lastLine = ar[ar.length - 1];
+
+    // IMPORTANT URL TO SHOW WHERE MESSAGE CAME FROM, ON CONSOLE
+    let lastUrl = lastLine.split(' ');
+    lastUrl = lastUrl[lastUrl.length - 1];
+
+    // SPLIT URL AND GET FILE LOCATION AS WELL AS LINE NUMBER
+    let urlEnd = lastUrl.substring(lastUrl.length, -lastUrl.lastIndexOf('/'));
+    let urlImprtEnd = urlEnd.substring(0, urlEnd.lastIndexOf(':'));
+    let fileAndLine = urlImprtEnd.substring(urlImprtEnd.lastIndexOf('/') + 1, urlImprtEnd.length);
+    let file = fileAndLine.substring(0, fileAndLine.lastIndexOf(':'));
+    if (file === '') {
+      file = '(index)';
+    }
+    let line = fileAndLine.substring(fileAndLine.lastIndexOf(':') + 1, fileAndLine.length);
+
+    return { file, line };
+  }
+
   // FUNCTION THAT HELPS TRACE THE LINE OF THE MESAGE IN CONSOLE
   enableConsoleLogEvent() {
-    this.#consoleDefaultFunc = console.log;
-    // GET TRACE AS STRING SO I CAN SHOW THE LINE OF MESSAGE ON MY CONSOLE
-    let getStackTraceImportant = function () {
-      let urlAndLine = Error().stack;
-      let ar = urlAndLine.split('\n');
-      let lastLine = ar[ar.length - 1];
-
-      // IMPORTANT URL TO SHOW WHERE MESSAGE CAME FROM, ON CONSOLE
-      let lastUrl = lastLine.split(' ');
-      lastUrl = lastUrl[lastUrl.length - 1];
-
-      // SPLIT URL AND GET FILE LOCATION AS WELL AS LINE NUMBER
-      let urlEnd = lastUrl.substring(lastUrl.length, -lastUrl.lastIndexOf('/'));
-      let urlImprtEnd = urlEnd.substring(0, urlEnd.lastIndexOf(':'));
-      let fileAndLine = urlImprtEnd.substring(urlImprtEnd.lastIndexOf('/') + 1, urlImprtEnd.length);
-      let file = fileAndLine.substring(0, fileAndLine.lastIndexOf(':'));
-      if (file === '') {
-        file = '(index)';
-      }
-      let line = fileAndLine.substring(fileAndLine.lastIndexOf(':') + 1, fileAndLine.length);
-
-      return { file, line };
-    }
+    this.consoleDefaultFunc = console.log;
 
     let thisObj = this;
-    // CHANGE CONSOLE FUNCTION
-    window.console.log = function (message) {
-      let urlLine = getStackTraceImportant();
-      const msgAndInfo = { message, file: urlLine.file, line: urlLine.line };
+    // ----------CONSOLE LOG CASE----------
+    // window.console.log = function (message) {
+    //   let urlLine = thisObj.getStackTraceImportant();
+    //   const msgAndInfo = { message, file: urlLine.file, line: urlLine.line };
 
-      thisObj.addNewLineToConsole('msg', msgAndInfo);
-    }
+    //   thisObj.addNewLineToConsole('msg', msgAndInfo);
+    // }
 
-    window.onerror = function (error, url, line) {
-      thisObj.addNewLineToConsole('err', { message: error, file: url, line: line });
+    // ----------ERROR CASE----------
+    window.onerror = function (error, url, line, column, errorObj) {
+      let urlLine = thisObj.getStackTraceImportant(errorObj.stack);
+
+      thisObj.addNewLineToConsole('err', { message: errorObj, file: urlLine.file, line: urlLine.line });
     }
   }
+  // fel
 
   // STATUS INITIALIZATION
   consoleStatusCheckFromLocalStorage() {
@@ -465,20 +474,20 @@ class Console {
 
   // OPTION OF THE USER TO DISABLE THE CONSOLE AND CONTINUE SHOWING MESSAGES IN THE WEB CONSOLE
   disable() {
-    if (this.#started && this.#enabOrDisab) {
+    if (this.started && this.enabOrDisab) {
       let buffer = window.console.log;
-      window.console.log = this.#consoleDefaultFunc;
-      this.#consoleDefaultFunc = buffer;
-      this.#enabOrDisab = false;
+      window.console.log = this.consoleDefaultFunc;
+      this.consoleDefaultFunc = buffer;
+      this.enabOrDisab = false;
     }
   }
 
   enable() {
-    if (this.#started && !this.#enabOrDisab) {
+    if (this.started && !this.enabOrDisab) {
       let buffer = window.console.log;
-      window.console.log = this.#consoleDefaultFunc;
-      this.#consoleDefaultFunc = buffer;
-      this.#enabOrDisab = true;
+      window.console.log = this.consoleDefaultFunc;
+      this.consoleDefaultFunc = buffer;
+      this.enabOrDisab = true;
     }
   }
 
@@ -741,11 +750,14 @@ class ConsoleLine {
 
   // ------START SECTOR => ERROR------
   isErrorLineOfConsole() {
+    let errorObj = this.obj;
+
     this.coreParentOfObj.parentNode.classList.add('newConsoleLineWrapError');
     this.coreParentOfObj.classList.add('newConsoleLineError');
 
     this.parentOfObj.classList.add('errorConsolePar');
-    this.parentOfObj.innerHTML = this.obj;
+    // this.parentOfObj.innerHTML = errorObj.stack;
+    this.parentOfObj.innerHTML = '<span>' + this.customizeErrorMessageStack(errorObj); + '</span>';
 
     this.parentOfFileAndLine.innerHTML = '';
     this.parentOfFileAndLine.classList.add('errorConsoleMainAndDestinLine');
@@ -758,6 +770,50 @@ class ConsoleLine {
     spanInfo.className = 'errorConsoleDestinLine';
     this.parentOfFileAndLine.appendChild(spanInfo);
     this.parentOfFileAndLine = spanInfo;
+  }
+
+  customizeErrorMessageStack(errorObj) {
+    let stackAr = errorObj.stack.split('\n');
+    let result = stackAr[0] + '\n';
+
+    // REMOVE FIRST ELEMENT OF ARRAY AS IT DOESN'T CONTAIN URL
+    stackAr.shift();
+
+    stackAr.forEach((line) => {
+      // IMPORTANT URL TO SHOW WHERE MESSAGE CAME FROM, ON CONSOLE
+      let lastUrl = line.split(' ');
+      lastUrl = lastUrl[lastUrl.length - 1];
+
+      let urlWithParenth = '';
+
+      let containsParenthesis = false;
+      if (lastUrl[0] === '(' && lastUrl[lastUrl.length - 1] === ')') {
+        urlWithParenth = lastUrl;
+        lastUrl = lastUrl.slice(1);
+        lastUrl = lastUrl.substring(0, lastUrl.length - 1);
+        containsParenthesis = true;
+      }
+
+      // SPLIT URL AND GET FILE LOCATION AS WELL AS LINE NUMBER
+      let urlImprtEnd = lastUrl.substring(lastUrl.lastIndexOf('/') + 1, lastUrl.length);
+
+      // IF EMPTY FILE LOCATION, SET INDEX AS THE FILE LOCATION
+      let checkIfIndex = urlImprtEnd.substring(0, urlImprtEnd.indexOf(':'));
+      if (checkIfIndex === '') {
+        urlImprtEnd = '(index)' + urlImprtEnd;
+      }
+
+      let newLine = '';
+      if (containsParenthesis) {
+        newLine = line.replace(urlWithParenth, '(<span class="errorUrlChangedToLastFile">' + urlImprtEnd + '</span>)\n');
+      }
+      else {
+        newLine = line.replace(lastUrl, '<span class="errorUrlChangedToLastFile">' + urlImprtEnd + '</span\n');
+      }
+      result += newLine;
+    });
+
+    return result;
   }
   // ------END SECTOR <= ERROR------
 

@@ -213,6 +213,7 @@
 .errorConsolePar {
   justify-content: center;
   color: rgb(255, 128, 111);
+  letter-spacing: 1px;
   text-align: var(--consoleAlignHSQL0219);
 }
 
@@ -230,6 +231,11 @@
   animation: ColorErrorConsole 0.3s infinite alternate-reverse;
 }
 .errorConsoleDestinLine {
+}
+
+.errorUrlChangedToLastFile {
+  color: white;
+  text-decoration: underline;
 }
 /**/
 
