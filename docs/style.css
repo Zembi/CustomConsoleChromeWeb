@@ -5,32 +5,33 @@
   --consoleAlignHSQL0219: null;
 }
 
-*::after, *::before {
-   border: none;
-   box-sizing: border-box;
-   margin: 0;
-   padding: 0;
+*::after,
+*::before {
+  border: none;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 /* width */
 ::-webkit-scrollbar {
-   width: 4px;
- }
- 
- /* Track */
- ::-webkit-scrollbar-track {
-   background: rgb(0, 0, 0, 0.4); 
- }
-  
- /* Handle */
- ::-webkit-scrollbar-thumb {
-   background: white; 
- }
- 
- /* Handle on hover */
- ::-webkit-scrollbar-thumb:hover {
-   background: rgb(255, 166, 0);
- }
+  width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(0, 0, 0, 0.4);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: white;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(255, 166, 0);
+}
 
 
 /* CONSOLE */
@@ -51,9 +52,11 @@
   z-index: 20000000000000;
   transition: height 0.3s, background 0.3s;
 }
+
 .openCoreConsole {
   height: var(--consoleChangeHeightHSQL0219);
 }
+
 .closedCoreConsole {
   height: 0;
 }
@@ -66,6 +69,7 @@
   margin-top: -32px;
   z-index: 2;
 }
+
 #consoleTitle button {
   background: black;
   color: white;
@@ -75,13 +79,16 @@
   padding: 2px 6px;
   margin: 0;
 }
+
 #consoleTitle button:hover {
   color: rgb(255, 166, 0);
 }
+
 #consoleTitle button:active {
   background: rgb(255, 166, 0);
   color: black;
 }
+
 #consoleTitle button h2 {
   padding: 0;
   margin: 0;
@@ -98,12 +105,14 @@
   overflow: auto;
   padding: 0rem 1rem 3rem 1rem;
 }
+
 #consoleContent hr {
   height: 2px;
   background: rgb(48, 45, 43);
   border-radius: 0.5em;
   border-width: 0;
 }
+
 #consoleContent hr:first-of-type {
   height: 6px;
   border-width: 0;
@@ -117,6 +126,7 @@
   word-break: break-all;
   margin: 0;
 }
+
 .newConsoleLine {
   display: flex;
   flex-direction: var(--flexDirectHSQL0219);
@@ -126,9 +136,11 @@
   padding: 0.1rem;
   margin: 0.2em 0;
 }
+
 .newConsoleLine:last-of-type {
   display: block;
 }
+
 #lastLineInConsole hr {
   margin: 0.4rem 0 1rem 0;
 }
@@ -162,9 +174,11 @@
   overflow: hidden;
   margin: 1px 0 0 0;
 }
+
 .newConsoleLineWrapMsg:hover {
   background: rgb(0, 0, 0, 0.2)
 }
+
 .newConsoleLineMsg {
   display: flex;
   flex-direction: row;
@@ -184,6 +198,7 @@
   box-sizing: border-box;
   margin: 0 1.2rem;
 }
+
 /* ONLY FIRST LINE */
 
 .msgConsoleMainAndDestinLine {
@@ -204,17 +219,109 @@
 .newConsoleLineWrapError {
   background: rgb(41, 0, 0);
 }
+
 .newConsoleLineWrapError:hover {
   background: rgb(41, 0, 0);
 }
-.newConsoleLineError {
+
+.newConsoleLineError {}
+
+.consoleErrorObjLine {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  max-width: 100%;
+  padding: 0 0;
 }
 
 .errorConsolePar {
   justify-content: center;
-  color: rgb(255, 128, 111);
   letter-spacing: 1px;
   text-align: var(--consoleAlignHSQL0219);
+}
+
+.beforeConsoleErrorObjBtn {
+  display: flex;
+  justify-content: var(--consoleAlignHSQL0219);
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.consoleErrorObjBtn {
+  display: flex;
+  flex-direction: row;
+  background-color: transparent;
+  background-origin: content-box;
+  border: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 0;
+}
+
+.consoleErrorObjBtnDecorate {
+  text-decoration: underline 2px rgb(190, 165, 149);
+}
+
+.consoleErrorObjBtnImg {
+  width: 0.6rem;
+  height: 0.6rem;
+  content: url(Assets/whiteFilledArrow.png);
+  transform: rotate(-90deg);
+  margin: 3px 0 0 0;
+}
+
+.consoleErrorObjBtn:hover .consoleErrorObjBtnImg {
+  content: url(Assets/whiteFilledArrow2.png);
+}
+
+.consoleErrorObjBtnOpenedImg {
+  transform: rotate(0) !important;
+}
+
+.consoleErrorObjBtnP {
+  flex: none;
+  color: rgb(255, 128, 111);
+  font-size: 1rem;
+  padding-left: 4px;
+  margin: 0;
+}
+
+.consoleErrorObjBtn:hover .consoleErrorObjBtnP {
+  color: darkgray;
+}
+
+.consoleErrorStackOveralLine {
+  margin: 5px 0 5px 10px;
+}
+
+.consoleErrorStackCauseLine {
+  color: white;
+  font-style: italic;
+  letter-spacing: normal;
+  white-space: pre;
+}
+
+.consoleErrorStackOveralLineLine {
+  margin-top: 10px;
+}
+
+.consoleErrorStackFileLineLine {
+  color: rgb(130, 203, 228);
+  text-decoration: underline;
+  letter-spacing: normal;
+}
+
+.consoleErrorStackMsgAllines {
+  display: flex;
+  flex-direction: column;
+  align-content: right;
+  flex-wrap: nowrap;
+}
+
+.consoleErrorStackMsgLine {
+  display: flex;
+  overflow: hidden;
 }
 
 .errorConsoleMainAndDestinLine {
@@ -223,6 +330,7 @@
   font-style: italic;
   white-space: pre;
 }
+
 .errorMainConsoleDestinLine {
   text-align: center;
   text-decoration: underline 1px solid rgb(41, 0, 0);
@@ -230,13 +338,18 @@
   box-sizing: border-box;
   animation: ColorErrorConsole 0.3s infinite alternate-reverse;
 }
-.errorConsoleDestinLine {
+
+.errorConsoleDestinLineBetw {
+  flex: 1;
 }
+
+.errorConsoleDestinLine {}
 
 .errorUrlChangedToLastFile {
   color: white;
   text-decoration: underline;
 }
+
 /**/
 
 
@@ -246,9 +359,11 @@
   font-size: 1rem;
   font-weight: 900;
 }
+
 #consolePointerPar {
   display: block;
 }
+
 .consoleCountPointer {
   color: rgb(194, 157, 132);
   font-size: 1rem;
@@ -272,9 +387,9 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  max-width: 100%;
   padding: 0 0;
 }
+
 .beforeConsoleObjBtn {
   display: flex;
   justify-content: left;
@@ -282,6 +397,7 @@
   box-sizing: border-box;
   padding: 0;
 }
+
 .beforeConsoleObjBtnFirst {
   display: flex;
   justify-content: var(--consoleAlignHSQL0219);
@@ -290,7 +406,6 @@
 .consoleObjBtn {
   display: flex;
   flex-direction: row;
-  align-self: baseline;
   align-items: center;
   background-color: transparent;
   background-origin: content-box;
@@ -303,6 +418,7 @@
 .consoleObjBtnDecorate {
   text-decoration: underline 2px rgb(190, 165, 149);
 }
+
 .consoleObjBtnImg {
   width: 0.6rem;
   height: 0.6rem;
@@ -310,9 +426,11 @@
   transform: rotate(-90deg);
   margin: 0;
 }
+
 .consoleObjBtn:hover .consoleObjBtnImg {
   content: url(Assets/whiteFilledArrow2.png);
 }
+
 .consoleObjBtnOpenedImg {
   transform: rotate(0) !important;
 }
@@ -324,15 +442,20 @@
   padding-left: 4px;
   margin: 0;
 }
+
 .consoleObjPartLineBtnP {
   padding: 0;
+  padding-left: 3px;
 }
+
 .consoleObjBtn:hover .consoleObjBtnP {
   color: darkgray;
 }
+
 .consoleObjBtn:hover .consoleLineArrayParenthesis {
   color: darkgray;
 }
+
 .consoleObjEntriesBtnP {
   color: grey;
 }
@@ -340,12 +463,15 @@
 .consoleObjLineMathInfo {
   /* color: rgb(155, 131, 221); */
 }
+
 .consoleObjLineRegExpInfo {
   color: greenyellow;
 }
+
 .consoleObjLineDateInfo {
   color: lightblue;
 }
+
 .consoleObjLineJSONInfo {
   /* color: rgb(240, 237, 194); */
 }
@@ -353,15 +479,16 @@
 .consoleObjLineWrapInfo {
   display: flex;
   justify-content: var(--consoleAlignHSQL0219);
-  width: 100%;
   box-sizing: border-box;
-  padding: 0 0.1rem;
+  padding: 0.3rem 0.1rem 0 0.1rem;
   margin: 0;
 }
+
 .openedConsoleObjLineInfo {
   height: auto;
   overflow: visible;
 }
+
 .closedConsoleObjLineInfo {
   height: 0;
   overflow: hidden;
@@ -374,34 +501,44 @@
   box-sizing: border-box;
   margin-left: 2px;
 }
+
 .consoleObjLineInfoP {
   display: flex;
   flex-direction: row;
   align-items: baseline;
   align-self: left;
   padding: 0;
-  margin: 0.1rem 0 0 0;
+  margin: 0.2rem 0 0 0;
 }
+
 .consoleObjLineLeftSp {
   color: rgb(93, 171, 239);
   font-size: 0.9rem;
   font-weight: bold;
 }
+
 /* (LEFT SIDE) for GETTERS */
 .consoleObjLineLeftGettersSp {
   color: rgb(89, 222, 166);
 }
+
 /* (LEFT SIDE) for SETTERS */
 .consoleObjLineLeftSettersSp {
   color: rgb(189, 162, 74);
 }
+
 /* (LEFT SIDE) for METHODS */
 .consoleObjLineLeftMethodsSp {
   color: rgb(63, 114, 155);
 }
-.consoleObjLineMidSp {
 
+/* (LEFT SIDE) for SYMBOLS */
+.consoleObjLineLeftSymbolPropertiesSp {
+  color: rgb(182, 74, 74);
 }
+
+.consoleObjLineMidSp {}
+
 .consoleObjLineRightSp {
   flex: 1;
   max-width: 100%;
@@ -409,11 +546,13 @@
   overflow: hidden;
   padding: 0 0 0 6px;
 }
+
 .consoleObjLineRightIfMixed {
   display: flex;
   justify-content: left;
   align-items: center;
 }
+
 .consoleObjLineRightIfMixedBtn {
   display: flex;
   align-items: center;
@@ -424,13 +563,20 @@
   padding: 0;
   margin: 0;
 }
-.consoleObjLineRightIfMixedBtn > *, .consoleObjLineRightIfMixedBtn > * > *, .consoleObjLineRightIfMixedBtn > * > * > *,  .consoleObjLineRightIfMixedBtn > * > * > * > *, .consoleObjLineRightIfMixedBtn > * > * > * > * > *, .consoleObjLineRightIfMixedBtn > * > * > * > * > * > * {
+
+.consoleObjLineRightIfMixedBtn>*,
+.consoleObjLineRightIfMixedBtn>*>*,
+.consoleObjLineRightIfMixedBtn>*>*>*,
+.consoleObjLineRightIfMixedBtn>*>*>*>*,
+.consoleObjLineRightIfMixedBtn>*>*>*>*>*,
+.consoleObjLineRightIfMixedBtn>*>*>*>*>*>* {
   color: white !important;
 }
 
 .consoleObjLineSecondary {
   color: rgb(93, 176, 215);
 }
+
 .consoleObjLinePrototype {
   color: grey;
 }
@@ -441,32 +587,39 @@
   cursor: pointer;
   padding: 1px 4px;
 }
+
 .consoleDomWrap:hover {
   background: rgb(0, 0, 0, 0.4);
 }
+
 .consoleDomTagN {
   color: rgb(93, 176, 215);
 }
+
 .consoleDomId {
   color: rgb(242, 123, 59);
 }
+
 .consoleDomClasses {
   color: rgb(103, 220, 156);
 }
+
 .consoleDomHoverMouse {
   background: rgba(211, 207, 6, 0.7) !important;
-  /* color: red !important; */
+  /* color: brown !important; */
   border-color: transparent !important;
   transition: background 0.2s;
 }
-.consoleDomHoverMouseOverflowForce {
-}
+
+.consoleDomHoverMouseOverflowForce {}
 
 .consoleLineArrayParenthesis {
+  height: 100%;
   color: white;
   font-size: 0.8rem;
   padding-left: 4px;
 }
+
 .consoleArrayLineInfoP {
   display: flex;
   flex-direction: row;
@@ -474,7 +627,7 @@
   align-self: left;
   text-align: left;
   padding: 0;
-  margin: 0.1rem 0 0 0;
+  margin: 0.2rem 0 0 0;
 }
 
 .consoleObjLineBoolean {
@@ -493,8 +646,13 @@
   color: rgb(219, 117, 0);
   font-style: italic;
 }
+
 .consoleObjLineString {
   color: rgb(255, 166, 0);
+}
+
+.consoleLineObjSymbolBeforeAfter {
+  color: rgb(220, 224, 164);
 }
 
 .consoleObjLineSymbol {
@@ -506,6 +664,7 @@
   flex-direction: row;
   font-size: 0.8rem;
 }
+
 .consoleObjLineFunctionMain {
   color: rgb(184, 119, 0);
   font-size: 1rem;
@@ -516,10 +675,12 @@
   border-top: 2px solid transparent;
   padding: 2px 0;
 }
+
 /* (For CLASS) extends */
 .consoleObjLineClassExtendsMain {
   color: rgb(105, 183, 121);
 }
+
 /* (For CLASS) Object that extends */
 .consoleObjLineClassSpecialOccasionsMain {
   color: rgb(224, 108, 117);
@@ -529,10 +690,12 @@
 .consoleObjLineFunctionParenthesisMain {
   color: rgb(250, 181, 154);
 }
+
 /* (For FUNCTION) for parameters in parenthesis */
 .consoleObjLineFunctionParametersMain {
   color: rgb(49, 138, 223);
 }
+
 /* (For FUNCTION) => */
 .consoleObjLineFunctionSpecialSymbolMain {
   color: cyan;
@@ -547,9 +710,11 @@
   padding: 2px;
   margin: 0;
 }
+
 .consoleObjLineFunctionSecondaryPartLine {
   border-bottom: none;
 }
+
 .consoleObjLineFunctionSecondaryBtn {
   background: transparent;
   color: rgba(255, 255, 255, 1);
@@ -561,9 +726,11 @@
   cursor: pointer;
   padding: 2px;
 }
+
 .consoleObjLineFunctionSecondaryBtn:hover {
   color: rgba(255, 255, 255, 0.75);
 }
+
 .consoleObjLineFunctionSecondaryBtnContent {
   max-height: 100px;
   background: transparent;
@@ -575,6 +742,7 @@
   overflow: hidden;
   letter-spacing: 1.5px;
 }
+
 .consoleObjLineFunctionSecondaryBtnContent:hover {
   background: rgb(0, 0, 0, 0.5);
   cursor: crosshair;
@@ -589,6 +757,7 @@
   color: darkgray;
   font-style: italic;
 }
+
 /**/
 
 
@@ -597,6 +766,7 @@
   justify-content: right;
   background: rgb(19, 18, 18);
 }
+
 .imprtntConsoleBtn {
   position: relative;
   background: white;
@@ -608,9 +778,11 @@
   padding: 2px 6px;
   margin: 4px 10px;
 }
+
 .imprtntConsoleBtn:hover {
   background: rgb(255, 166, 0);
 }
+
 .imprtntConsoleBtn:active {
   background: darkgrey;
 }
@@ -618,6 +790,7 @@
 #sizesOfCoreConsoleSlct {
   padding: 0;
 }
+
 /* END OF CONSOLE */
 
 
@@ -629,6 +802,7 @@
     border-top: 1px solid rgb(255, 128, 111);
     border-bottom: 1px solid rgb(255, 128, 111);
   }
+
   to {
     color: rgb(255, 128, 111);
     border-top: 1px solid white;
