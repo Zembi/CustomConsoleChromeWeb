@@ -27,9 +27,8 @@ and not, in the default one of your broswer. Future versions will be posted, so 
     const consoleObj = new Console(consoleElmnt);
 
 
-4-Finally, to activate the Console, call the function start()
+4-Finally, the custom console is ready for usage.
 
-    consoleObj.start(); // consoleObj is the variable that contains the Console object (see previous step)
     //.... any call of the console.log() function from now on, will be executed, only in the custom Console
 <hr>    
 <h3 align='center'>Be aware of</h3>
