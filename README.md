@@ -1,7 +1,7 @@
 <h2 align='center'>CustomConsoleChromeWeb</h2>
 Created a custom web console, using it on my projects, for my convience. You can try it out, too. It is not completed yet, as there are a lot of things I want
 to add on. The idea is that after following the steps down below, by calling the function console.log(), the messages will be displayed in the custom Console
-and not, in the default one of your broswer. Future versions will be posted, so if you are interested, be aware! Any ideas about the project, will be appreciated.
+and not, in the default one of your broswer. Future versions will be posted, so if you are interested, be aware! New ideas would be appreciated.
 <br>
 <hr>
 <h3 align='center'>IN HEADER TAG</h3>
