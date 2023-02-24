@@ -1,4 +1,5 @@
 
+
 // CALL THE CSS FILE OF CONSOLE
 const onlyOnceRunningScriptOfImportantConsoleAddOns = (function () {
   let executed = false;
@@ -6,6 +7,7 @@ const onlyOnceRunningScriptOfImportantConsoleAddOns = (function () {
     if (!executed) {
       const head = document.querySelector('head');
 
+      // ADD THE CSS FILE
       const cssId = 'overallConsoleStyleFromWeb';
       if (!document.getElementById(cssId)) {
         const link = document.createElement('link');
@@ -25,16 +27,17 @@ const onlyOnceRunningScriptOfImportantConsoleAddOns = (function () {
 
 onlyOnceRunningScriptOfImportantConsoleAddOns();
 
+
 // DO NOT USE CONSOLE.LOG FUNCTION ANYWHERE HERE
 // EITHER DISABLE THE FUNCTION OR USE OTHER TYPES OF DEBUG TOO
 class Console {
   started;
-  enabOrDisab;
+  #enabOrDisab;
   consoleDefaultFunc;
-  constructor(consoleElmnt) {
+  constructor() {
     this.started = false;
-    this.enabOrDisab = true;
-    this.consoleElmnt = consoleElmnt;
+    this.#enabOrDisab = true;
+    this.consoleElmnt = null;
     this.allEvents = [];
 
     this.consoleStatus = false;
@@ -49,6 +52,9 @@ class Console {
 
     this.consoleSize = null;
 
+    this.consoleBackgroundLibrary = new Map();
+    this.consoleBackgroundCurrOption = null;
+
     // VALUES OF VARS
     this.consoleUniCode = 'HSQL0219';
     // LOCAL STORAGE
@@ -57,15 +63,11 @@ class Console {
     this.consoleChangeHeightCssVar = '--consoleChangeHeight' + this.consoleUniCode;
     this.flexDirectCssVar = '--flexDirect' + this.consoleUniCode;
     this.consoleAlignCssVar = '--consoleAlign' + this.consoleUniCode;
+    this.consoleBackgroundCssVar = '--consoleBackground' + this.consoleUniCode;
 
     this.whatToDelete = null;
 
     this.start();
-  }
-
-  coreConsoleElements() {
-    this.consoleBtn = this.consoleElmnt.querySelector('#consoleTitle').querySelector('button');
-    this.consoleContentElmnt = this.consoleElmnt.querySelector('#consoleContent');
   }
 
   get GetAlign() {
@@ -89,6 +91,13 @@ class Console {
     this.consoleSize = newConsoleSize;
   }
 
+  get GetConsoleBackground() {
+    return this.consoleBackground;
+  }
+  set SetConsoleBackground(value) {
+    this.consoleBackground = value;
+  }
+
   start() {
     if (!this.started) {
       this.structureTheObject();
@@ -102,19 +111,28 @@ class Console {
     this.htmlConsoleStructure();
     this.coreConsoleElements();
 
-    this.resizeConsole(this.consoleChangeHeightCssVar, '25%');
+    this.initializeColorOptionsOfConsole();
+    this.resizeConsole('25%');
     this.initializationMessage();
     this.addNewLineToConsole('msg', 'Test line', true);
 
     this.consoleStatusCheckFromLocalStorage();
     this.consoleCoreButtonsEvents();
-    this.enableConsoleLogEvent();
+    // this.enableConsoleLogEvent();
     this.enable();
 
     this.shortcutEvents();
   }
 
   htmlConsoleStructure() {
+    // -ADD THE HTML ELEMENT TO THE PAGE
+    const consoleEl = document.createElement('div');
+    consoleEl.id = 'console';
+    document.querySelector('body').appendChild(consoleEl);
+
+    this.consoleElmnt = consoleEl;
+
+
     this.consoleElmnt.classList.add('consoleMainElement');
 
     this.consoleElmnt.classList.add('closedCoreConsole');
@@ -139,8 +157,15 @@ class Console {
               <option value='35%'>35%</option>
               <option value='25%'>25%</option>
         </select>
+        <button class='imprtntConsoleBtn' id='changeConsoleBackgroundBtn' title='Alt + R'></button>
       </div>`;
   }
+
+  coreConsoleElements() {
+    this.consoleBtn = this.consoleElmnt.querySelector('#consoleTitle').querySelector('button');
+    this.consoleContentElmnt = this.consoleElmnt.querySelector('#consoleContent');
+  }
+
 
   // GET TRACE AS STRING SO I CAN SHOW THE LINE OF MESSAGE ON MY CONSOLE
   getStackTraceImportant(urlAndLine = null) {
@@ -183,12 +208,12 @@ class Console {
 
     let thisObj = this;
     // ----------CONSOLE LOG CASE----------
-    // window.console.log = function (message) {
-    //   let urlLine = thisObj.getStackTraceImportant();
-    //   const msgAndInfo = { message, file: urlLine.file, line: urlLine.line };
+    window.console.log = function (message) {
+      let urlLine = thisObj.getStackTraceImportant();
+      const msgAndInfo = { message, file: urlLine.file, line: urlLine.line };
 
-    //   thisObj.addNewLineToConsole('msg', msgAndInfo);
-    // }
+      thisObj.addNewLineToConsole('msg', msgAndInfo);
+    }
 
     // ----------ERROR CASE----------
     window.onerror = function (error, url, line, column, errorObj) {
@@ -210,30 +235,30 @@ class Console {
       this.openConsole();
     }
 
-    // HEIGHT INITIALIZATION
-    if (localStoreStatus != null) {
-      let consoleHeight = localStoreStatus[1];
-      let arrOptions = Array.from(this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').querySelectorAll('option'));
-
-      arrOptions.map((option) => {
-        if (option.value === consoleHeight) {
-          this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').value = option.value;
-        }
-      });
-      //consoleHeight = consoleHeight.slice(0, consoleHeight.indexOf('%'));
-      this.resizeConsole(this.consoleChangeHeightCssVar, consoleHeight);
-    }
-
     // ALIGN INITIALIZATION
     if (localStoreStatus != null) {
-      this.initialAlign(this.flexDirectCssVar, this.consoleAlignCssVar, localStoreStatus[2]);
+      this.initialAlign(localStoreStatus[2]);
     }
     else {
-      this.initialAlign(this.flexDirectCssVar, this.consoleAlignCssVar, 'center');
+      this.initialAlign('center');
     }
 
-    let buttonInfo = this.nextAlign.toUpperCase();
-    this.consoleElmnt.querySelector('#changeConsoleAlignBtn').innerHTML = `Align [${buttonInfo}]`;
+    // HEIGHT INITIALIZATION
+    if (localStoreStatus != null) {
+      this.initialConsoleHeight(localStoreStatus[1]);
+    }
+    else {
+      this.initialConsoleHeight('35%');
+    }
+
+    // BACKGROUND INITIALIZATION
+    if (localStoreStatus != null) {
+      // console.log(this.consoleBackgroundLibrary.get('Color 1'));
+      this.setConsolesBackground(localStoreStatus[3]);
+    }
+    else {
+      this.setConsolesBackground(this.consoleBackgroundCurrOption);
+    }
 
 
     this.consoleBtn.addEventListener('click', () => {
@@ -244,28 +269,19 @@ class Console {
         this.openConsole();
       }
 
-      let consoleFunct = [this.getConsoleCurrentStatus(), this.consoleSize, this.alignContent];
-      consoleFunct = JSON.stringify(consoleFunct);
-      localStorage.setItem(this.localStorageVarString, consoleFunct);
+      this.updateLocalVariable();
     });
 
-    let consoleFunct = [this.getConsoleCurrentStatus(), this.consoleSize, this.alignContent];
-    consoleFunct = JSON.stringify(consoleFunct);
-    localStorage.setItem(this.localStorageVarString, consoleFunct);
+    this.updateLocalVariable();
   }
 
   // CORE CONSOLE FUNCTIONS
   consoleCoreButtonsEvents() {
     // ALIGN CONSOLE EVENT
     this.consoleElmnt.querySelector('#changeConsoleAlignBtn').addEventListener('click', () => {
-      this.changeAlign(this.consoleAlignCssVar);
+      this.changeAlign();
 
-      let buttonInfo = this.nextAlign.toUpperCase();
-      this.consoleElmnt.querySelector('#changeConsoleAlignBtn').innerHTML = `Align[${buttonInfo}]`;
-
-      let consoleFunct = [this.getConsoleCurrentStatus(), this.consoleSize, this.alignContent];
-      consoleFunct = JSON.stringify(consoleFunct);
-      localStorage.setItem(this.localStorageVarString, consoleFunct);
+      this.updateLocalVariable();
     });
 
     // CLEAR CONSOLE EVENT
@@ -277,13 +293,23 @@ class Console {
     // CHANGE SIZE CONSOLE EVENT
     this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').addEventListener('change', () => {
       let newHeight = this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').value;
-      this.resizeConsole(this.consoleChangeHeightCssVar, newHeight);
+      this.resizeConsole(newHeight);
 
-
-      let consoleFunct = [this.getConsoleCurrentStatus(), this.consoleSize, this.alignContent];
-      consoleFunct = JSON.stringify(consoleFunct);
-      localStorage.setItem(this.localStorageVarString, consoleFunct);
+      this.updateLocalVariable();
     });
+
+    // CHANGE BACKGROUND COLOR OF CONSOLE EVENT
+    this.consoleElmnt.querySelector('#changeConsoleBackgroundBtn').addEventListener('click', () => {
+      this.changeBackground();
+
+      this.updateLocalVariable();
+    });
+  }
+
+  updateLocalVariable() {
+    let consoleFunct = [this.getConsoleCurrentStatus(), this.consoleSize, this.alignContent, this.consoleBackgroundCurrOption];
+    consoleFunct = JSON.stringify(consoleFunct);
+    localStorage.setItem(this.localStorageVarString, consoleFunct);
   }
 
 
@@ -369,6 +395,8 @@ class Console {
     this.consoleNumCounter++;
   }
 
+
+  // OPEN/CLOSE EVENT OF CONSOLE
   closeConsole() {
     this.consoleElmnt.classList.remove('openCoreConsole');
     this.consoleElmnt.classList.add('closedCoreConsole');
@@ -408,40 +436,102 @@ class Console {
     });
   }
 
-  initialAlign(flexDirect, consoleAlignCssVar, currAlign) {
-    let root = document.querySelector(':root');
 
-    currAlign = currAlign.toLowerCase();
+  // ALIGN EVENT OF CONSOLE
+  initialAlign(currAlign) {
+    this.consoleElmnt.style.setProperty(this.flexDirectCssVar, 'row');
+    this.consoleElmnt.style.setProperty(this.consoleAlignCssVar, currAlign);
 
-    root.style.setProperty(flexDirect, 'row');
-    root.style.setProperty(consoleAlignCssVar, currAlign);
-
-    this.alignContent = currAlign;
-    if (currAlign === 'center') {
-      this.nextAlign = 'left';
-    }
-    else {
-      this.nextAlign = 'center';
-    }
+    this.changeAlign(currAlign, true);
 
     document.getElementById('consolePointer').innerHTML = this.consoleIndexSymbol;
   }
 
-  changeAlign(consoleAlignCssVar) {
-    let root = document.querySelector(':root');
+  changeAlign(currAlign = null, status = false) {
+    if (status) {
+      currAlign = currAlign.toLowerCase();
 
-    if (this.alignContent === 'center') {
-      this.nextAlign = this.alignContent;
-      this.alignContent = 'left';
+      this.alignContent = currAlign;
+      if (currAlign === 'center') {
+        this.nextAlign = 'left';
+      }
+      else {
+        this.nextAlign = 'center';
+      }
     }
     else {
-      this.nextAlign = this.alignContent;
-      this.alignContent = 'center';
+      if (this.alignContent === 'center') {
+        this.nextAlign = this.alignContent;
+        this.alignContent = 'left';
+      }
+      else {
+        this.nextAlign = this.alignContent;
+        this.alignContent = 'center';
+      }
+
+      this.consoleElmnt.style.setProperty(this.consoleAlignCssVar, this.alignContent);
     }
 
-    root.style.setProperty(consoleAlignCssVar, this.alignContent);
+    let buttonInfo = this.alignContent.toUpperCase();
+    let buttonInfoNext = this.nextAlign.toUpperCase();
+    this.consoleElmnt.querySelector('#changeConsoleAlignBtn').innerHTML = `Align_${buttonInfo} [=>${buttonInfoNext}]`;
   }
 
+
+  // BACKGROUND EVENT OF CONSOLE
+  initializeColorOptionsOfConsole() {
+    this.consoleBackgroundLibrary.set('Color 1', 'rgba(55, 55, 55, 0)');
+    this.consoleBackgroundLibrary.set('Color 2', 'rgba(55, 55, 55, 0.4)');
+    this.consoleBackgroundLibrary.set('Color 3', 'rgba(55, 55, 55, 0.9)');
+    this.consoleBackgroundLibrary.set('Color 4', 'rgb(55, 55, 55)');
+
+    this.consoleBackgroundCurrOption = 'Color 3';
+  }
+
+  setConsolesBackground(currBackgroundColorOption) {
+    let color = this.consoleBackgroundLibrary.get(currBackgroundColorOption);
+    this.consoleElmnt.style.setProperty(this.consoleBackgroundCssVar, color);
+
+    this.consoleBackgroundCurrOption = currBackgroundColorOption;
+    this.consoleElmnt.querySelector('#changeConsoleBackgroundBtn').innerHTML = currBackgroundColorOption;
+    this.consoleElmnt.querySelector('#changeConsoleBackgroundBtn').title = color;
+  }
+
+  changeBackground() {
+    let storeFirst = null;
+    let next = false;
+    let c = 0;
+    this.consoleBackgroundLibrary.forEach((value, key) => {
+      // STORE FIRST KEY INCASE IT REACHES THE LAST ELEMENT
+      if (c === 0) {
+        storeFirst = { key, value };
+      }
+
+      if (next) {
+        next = false;
+        this.consoleBackgroundCurrOption = key;
+        return;
+      }
+
+      if (this.consoleBackgroundCurrOption === key) {
+        // IF LAST ITEM THEN GET THE FIRST ELEMENT
+        if (c === (this.consoleBackgroundLibrary.size - 1)) {
+          this.consoleBackgroundCurrOption = storeFirst.key;
+          return;
+        }
+        else {
+          next = true;
+        }
+      }
+
+      c++;
+    });
+
+    this.setConsolesBackground(this.consoleBackgroundCurrOption);
+  }
+
+
+  // CLEAR EVENT OF CONSOLE
   clearConsoleEvent() {
     this.consoleNumCounter = -1;
     document.getElementById('consoleContent').innerHTML = '';
@@ -449,11 +539,24 @@ class Console {
     this.addNewLineToConsole('msg', 'Test line', true);
   }
 
-  resizeConsole(consoleHeightCssVar, newHeight) {
-    let root = document.querySelector(':root');
-    root.style.setProperty(consoleHeightCssVar, newHeight);
+
+  // ADJUST HEIGHT EVENT OF CONSOLE
+  initialConsoleHeight(consoleHeight) {
+    let arrOptions = Array.from(this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').querySelectorAll('option'));
+
+    arrOptions.map((option) => {
+      if (option.value === consoleHeight) {
+        this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').value = option.value;
+      }
+    });
+    this.resizeConsole(consoleHeight);
+  }
+
+  resizeConsole(newHeight) {
+    this.consoleElmnt.style.setProperty(this.consoleChangeHeightCssVar, newHeight);
     this.consoleSize = newHeight;
   }
+
 
   // ADD SHORTCUT KEYS AND EVENTS
   shortcutEvents() {
@@ -478,6 +581,10 @@ class Console {
         this.consoleElmnt.querySelector('#sizesOfCoreConsoleSlct').focus();
         e.preventDefault();
       }
+      if (e.key.toLowerCase() === 'r' && specialKey && this.consoleStatus) {
+        this.consoleElmnt.querySelector('#changeConsoleBackgroundBtn').focus();
+        e.preventDefault();
+      }
       if (e.key.toLowerCase() === 'p' && specialKey) {
         localStorage.removeItem(this.localStorageVarString);
         e.preventDefault();
@@ -489,20 +596,20 @@ class Console {
 
   // OPTION OF THE USER TO DISABLE THE CONSOLE AND CONTINUE SHOWING MESSAGES IN THE WEB CONSOLE
   disable() {
-    if (this.started && this.enabOrDisab) {
+    if (this.started && this.#enabOrDisab) {
       let buffer = window.console.log;
       window.console.log = this.consoleDefaultFunc;
       this.consoleDefaultFunc = buffer;
-      this.enabOrDisab = false;
+      this.#enabOrDisab = false;
     }
   }
 
   enable() {
-    if (this.started && !this.enabOrDisab) {
+    if (this.started && !this.#enabOrDisab) {
       let buffer = window.console.log;
       window.console.log = this.consoleDefaultFunc;
       this.consoleDefaultFunc = buffer;
-      this.enabOrDisab = true;
+      this.#enabOrDisab = true;
     }
   }
 
@@ -559,6 +666,11 @@ class ConsoleLine {
         this.lineIsMixedObjs(fullLine);
         // this.basicStructureItems(fullLine);
       }
+      else if (this.specialOperation === 'forIteratorEntries') {
+        this.typeOf = 'iteratorEntries';
+        this.lineIsMixedObjs(fullLine);
+        // this.basicStructureItems(fullLine);
+      }
       else {
         this.basicStructureItems(fullLine);
       }
@@ -603,6 +715,30 @@ class ConsoleLine {
         }
         else {
           this.lineIsSet(fullLine);
+        }
+      }
+      else if (this.isIteratorObject(this.obj)) {
+        if (this.isMapIterator(this.obj)) {
+          this.typeOf = 'mapIterator';
+          if (this.specialOperation === '__entries__') {
+            this.lineIsEntries();
+          }
+          else {
+            this.lineIsSimpleObject(fullLine, true);
+          }
+        }
+        else if (this.isSetIterator(this.obj)) {
+          this.typeOf = 'setIterator';
+          if (this.specialOperation === '__entries__') {
+            this.lineIsEntries();
+          }
+          else {
+            this.lineIsSimpleObject(fullLine, true);
+          }
+        }
+        else {
+          this.typeOf = 'simpleIterator';
+          this.lineIsSimpleObject(fullLine);
         }
       }
       else if (typeof this.obj === 'object') {
@@ -669,6 +805,41 @@ class ConsoleLine {
   }
   isSet(key) {
     return (key instanceof Set);
+  }
+  isIteratorObject(key) {
+    try {
+      return typeof key[Symbol.iterator] === 'function';
+    }
+    catch (e) {
+      return false;
+    }
+  }
+  isMapIterator(key) {
+    if (key[Symbol.toStringTag] === 'Map Iterator') {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  isSetIterator(key) {
+    if (key[Symbol.toStringTag] === 'Set Iterator') {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  isIteratorEntriesObject(key) {
+    // console.log(key.entries());
+    try {
+
+      key.entries;
+      return true;
+    }
+    catch (e) {
+      return false;
+    }
   }
   isFunction(key) {
     return (key && {}.toString.call(key) === '[object Function]');
@@ -1140,6 +1311,7 @@ class ConsoleLine {
           }
         });
       }
+      this.parentOfObj = wrapOfBtn;
     }
   }
   lineIsDomAsHtml(fullLine) {
@@ -1497,7 +1669,7 @@ class ConsoleLine {
   }
 
   // 6.CONSOLE LINE REACTION TO CASUAL OBJ
-  lineIsSimpleObject(fullLine) {
+  lineIsSimpleObject(fullLine, iteratorEntries = false) {
     // CREATE THE MAIN CORE OF HTML CONSOLE OBJECT LINE
     let wholeLineObj = document.createElement('div');
     wholeLineObj.className = 'consoleObjLine';
@@ -1543,7 +1715,13 @@ class ConsoleLine {
       }
       // --------------------------------------
       else {
-        btnP.innerHTML = this.obj.constructor.name;
+        if (iteratorEntries) {
+          let helperCapitalize = this.typeOf.charAt(0).toUpperCase() + this.typeOf.slice(1);
+          btnP.innerHTML = helperCapitalize;
+        }
+        else {
+          btnP.innerHTML = this.obj.constructor.name;
+        }
       }
 
       btn.appendChild(btnP);
@@ -1582,8 +1760,15 @@ class ConsoleLine {
           store.wrapObjInfo.classList.toggle('closedConsoleObjLineInfo');
 
           if (store.btnImg.classList.contains('consoleObjBtnOpenedImg')) {
-            thisObj.lineGetVariables(store.objInfo);
-            thisObj.lineGetStaticMethods(store.objInfo);
+            if (!iteratorEntries) {
+              thisObj.lineGetVariables(store.objInfo);
+              thisObj.lineGetStaticMethods(store.objInfo);
+            }
+            else {
+              if (thisObj.typeOf === 'mapIterator' || thisObj.typeOf === 'setIterator') {
+                thisObj.lineNeedsEntries(store.objInfo);
+              }
+            }
 
             if (thisObj.specialOperation === '__proto__') {
               thisObj.lineGetSimpleMethods(store.objInfo);
@@ -1837,45 +2022,57 @@ class ConsoleLine {
 
         if (store.btnImg.classList.contains('consoleObjBtnOpenedImg')) {
           // OBJ'S CHILDREN CHECK
-          let setC = 0;
-          thisObj.obj.forEach((value, key) => {
-            let lineOfObj = document.createElement('span');
-            lineOfObj.className = 'consoleArrayLineInfoP';
-            lineOfObj.id = 'consoleArrayLineInfoP' + thisObj.uniqueId + '' + thisObj.thisIdElmtns.secondaryC;
-            store.objInfo.appendChild(lineOfObj);
+          // IF IT IS A SET OR MAP OBJECT'S CHILD
+          if (thisObj.typeOf === 'map' || thisObj.typeOf === 'set') {
+            let setC = 0;
+            thisObj.obj.forEach((value, key) => {
+              let valueObj = thisObj.lineOfEachEntry(store.objInfo, setC);
 
-            let keyObj = document.createElement('span');
-            keyObj.className = 'consoleObjLineLeftSp';
-            if (thisObj.typeOf === 'map') {
-              keyObj.innerHTML = setC;
-            }
-            else if (thisObj.typeOf === 'set') {
-              keyObj.innerHTML = setC;
-            }
-            lineOfObj.appendChild(keyObj);
-            let splitObj = document.createElement('span');
-            splitObj.className = 'consoleObjLineMidSp';
-            splitObj.innerHTML = ':';
-            lineOfObj.appendChild(splitObj);
-            let valueObj = document.createElement('span');
-            valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine consoleObjLineRightIfMixed';
-            lineOfObj.appendChild(valueObj);
+              if (thisObj.typeOf === 'map') {
+                let map = new Map();
+                map.set(key, value);
+                thisObj.createChildConsoleLine(valueObj, map, 'forMapEntries');
+              }
+              else if (thisObj.typeOf === 'set') {
+                let set = new Set();
+                set.add(key);
+                thisObj.createChildConsoleLine(valueObj, set, 'forSetEntries');
+              }
 
-            if (thisObj.typeOf === 'map') {
+              setC++;
+            });
+          }
+          // // IF IT IS AN ITERATOR OBJECT'S CHILD
+          else if (thisObj.typeOf === 'setIterator' || thisObj.typeOf === 'mapIterator') {
+            let setC = 0;
+            console.log('----------------------');
+            console.log(thisObj.obj);
+            let copyOfIter = new Set();
+            copyOfIter = thisObj.obj[Symbol.iterator]();
+            let iteration = copyOfIter.next();
+            while (!iteration.done) {
+              let valueObj = thisObj.lineOfEachEntry(store.objInfo, setC);
+
+              let type = null;
+              if (thisObj.typeOf === 'mapIterator') {
+                type = 'forMapEntries';
+              }
+              else {
+                type = 'forSetEntries';
+              }
+
               let map = new Map();
-              map.set(key, value);
+              map.set(iteration.value[0], iteration.value[1]);
               thisObj.createChildConsoleLine(valueObj, map, 'forMapEntries');
-            }
-            else if (thisObj.typeOf === 'set') {
-              let set = new Set();
-              set.add(key);
-              thisObj.createChildConsoleLine(valueObj, set, 'forSetEntries');
-            }
-            // let helperCapitalize = thisObj.typeOf.toLowerCase();
-            // helperCapitalize = helperCapitalize.charAt(0).toUpperCase() + helperCapitalize.slice(1);
 
-            setC++;
-          });
+              iteration = copyOfIter.next();
+              setC++;
+            }
+
+            console.log(thisObj.obj);
+            console.log(copyOfIter);
+            console.log('----------------------');
+          }
         }
         else {
           store.objInfo.innerHTML = '';
@@ -1885,7 +2082,6 @@ class ConsoleLine {
 
     // OPEN FIRST TIME
     btn.click();
-
   }
 
   // 9.CONSOLE REACTION TO BOOLEAN
@@ -1925,7 +2121,7 @@ class ConsoleLine {
     //     }
     //   }
     // }
-    this.parentOfObj.innerHTML += `<span><span class='consoleLineObjStringSymbolBeforeAfter'>${symbol} </span>${disableIfHtmlIsToShowUp}<span class='consoleLineObjStringSymbolBeforeAfter'>${symbol} </span</span>`;
+    this.parentOfObj.innerHTML += `<span><span class='consoleLineObjStringSymbolBeforeAfter'>${symbol}</span>${disableIfHtmlIsToShowUp}<span class='consoleLineObjStringSymbolBeforeAfter'>${symbol} </span</span>`;
 
     // STYLING
     this.parentOfObj.classList.add('consoleObjLineString');
@@ -2406,6 +2602,28 @@ class ConsoleLine {
     lineOfObj.appendChild(valueObj);
 
     this.createChildConsoleLine(valueObj, this.obj, '__entries__');
+  }
+  //ADDITIONALLY, EACH CHILD OF ENTRIES STRUCTURE HTML RETURNING WHERE IT WILL STORE THE VALUE
+  lineOfEachEntry(parentToStore, id) {
+    let lineOfObj = document.createElement('span');
+    lineOfObj.className = 'consoleArrayLineInfoP';
+    lineOfObj.id = 'consoleArrayLineInfoP' + this.uniqueId + '' + this.thisIdElmtns.secondaryC;
+    parentToStore.appendChild(lineOfObj);
+
+    let keyObj = document.createElement('span');
+    keyObj.className = 'consoleObjLineLeftSp';
+    keyObj.innerHTML = id;
+
+    lineOfObj.appendChild(keyObj);
+    let splitObj = document.createElement('span');
+    splitObj.className = 'consoleObjLineMidSp';
+    splitObj.innerHTML = ':';
+    lineOfObj.appendChild(splitObj);
+    let valueObj = document.createElement('span');
+    valueObj.className = 'consoleObjLineRightSp insideConsoleObjLine consoleObjLineRightIfMixed';
+    lineOfObj.appendChild(valueObj);
+
+    return valueObj;
   }
 
   // 2.CONSOLE LINE REACTON TO LENGTH OF ARRAY OR MAP OR SET ITEM

@@ -9,15 +9,34 @@
    <title>Custom Console</title>
 
    <style>
+      *::after,
+      *::before {
+         border: none;
+         box-sizing: border-box;
+      }
+
+      body {
+         background: rgb(27, 27, 27);
+         color: lightgray;
+         margin: 0;
+         padding: 0;
+      }
+
       button {
          user-select: none;
+      }
+
+      #helloWrapWrap {
+         width: 100%;
+         border-radius: 0;
+         box-shadow: 0 2px 10px black;
       }
 
       #helloWrap {
          display: flex;
          justify-content: center;
          background: transparent;
-         margin-top: 1rem;
+         padding: 1em;
       }
 
       #helloWrap .title {
@@ -33,6 +52,7 @@
       .mainContainerOfExampleBtns {
          display: flex;
          flex-direction: column;
+         background: rgb(255, 255, 255, 0.1);
       }
 
       #allBtnsWrap {
@@ -51,7 +71,7 @@
          border: 2px solid cadetblue;
          cursor: pointer;
          padding: 0.5em;
-         margin: 2em 0;
+         margin: 0.1em 0 0 0;
       }
 
       .differentTypesOfConsoleMsgsBtn:hover {
@@ -110,9 +130,11 @@
 </head>
 
 <body>
-   <div id='console'></div>
-   <div id='helloWrap'>
-      <h1 class='title'>This is a storage site of my programming tools.</h1>
+
+   <div id='helloWrapWrap'>
+      <div id='helloWrap'>
+         <h1 class='title'>This is a storage site of my programming tools.</h1>
+      </div>
    </div>
 
    <div class='mainContainerOfExampleBtns'>
@@ -181,26 +203,19 @@
    </div>
 
    <script type="text/javascript">
-      const consoleEl = document.getElementById('console');
-      const consoleObj = new Console(consoleEl);
-      // consoleObj.hide();
-      // consoleObj.show();
+      // -INITIALIZE THE CONSOLE OBJECT
+      let consoleObj = new Console();
 
       // ARRAYLIST CREATION
       document.getElementById('arrayList').addEventListener('click', () => {
          let item = [12391293, '1239129381', function Help() { fjkefjifjie }];
-         let object = { message: item, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', object);
-
-         // let all = { message: document.querySelectorAll('.consoleObjLine'), file: 'ooo.ks', line: '12' }
-         // consoleObj.addNewLineToConsole('msg', all);
+         mainCoreFunction(item);
       });
 
       // NODELIST CREATION
       document.getElementById('nodeList').addEventListener('click', () => {
          let item = document.querySelectorAll('.differentTypesOfConsoleMsgsBtn');
-         let object = { message: item, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', object);
+         mainCoreFunction(item);
       });
 
       // MAP CREATION
@@ -210,109 +225,158 @@
          item.set(12, 'no12');
          item.set(consoleObj.enable, consoleObj);
          item.set([12123], 'array');
-         let object = { message: item, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', object);
+         mainCoreFunction(item);
+      });
+
+      // MAP ITERATION CREATION
+      document.getElementById('map').addEventListener('click', () => {
+         let item = new Map();
+         item.set(consoleObj, 'item');
+         item.set(12, 'no12');
+         item.set(consoleObj.enable, consoleObj);
+         item.set([12123], 'array');
+         mainCoreFunction(item.entries());
       });
 
       // SET CREATION
       document.getElementById('set').addEventListener('click', () => {
          let item = new Set();
-         item.add(consoleObj, 'item');
+         item.add(consoleObj);
          item.add(12, 'no12');
-         let object = { message: item, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', object);
+         // mainCoreFunction(item);
       });
+
+
+
+
+      let item = new Set();
+      let myNumbers = { hello: 'll' };
+      // SET ITERATION CREATION
+      document.getElementById('set').addEventListener('click', () => {
+         item.add(consoleObj);
+         item.add(12);
+         item.add(consoleObj.enable);
+         item.add([12123]);
+         item = item.entries();
+         mainCoreFunction(item);
+
+
+         myNumbers[Symbol.iterator] = function () {
+            let n = 0;
+            done = false;
+            return {
+               next() {
+                  n += 10;
+                  if (n == 100) { done = true }
+                  return { value: n, done: done };
+               }
+            };
+         }
+         mainCoreFunction(myNumbers);
+
+      });
+      document.addEventListener('keydown', (e) => {
+         let specialKey = e.altKey;
+
+         if (e.key === '2' && specialKey) {
+            console.log(item);
+            console.log(myNumbers);
+            e.preventDefault();
+         }
+      });
+
+
+
+
+
+
 
       // DOM ELEMENT CREATION
       document.getElementById('domElement').addEventListener('click', () => {
          let item = document.querySelector('.differentTypesOfConsoleMsgsBtn');
-         let object = { message: item, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', object);
+         mainCoreFunction(item);
       });
 
       // OBJECT CREATION
       document.getElementById('object').addEventListener('click', () => {
          let item = consoleObj;
-         let object = { message: item, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', object);
+         mainCoreFunction(item);
+
+         console.log(item);
       });
 
       // FUNCTION CREATION
       document.getElementById('function').addEventListener('click', () => {
          let item = consoleObj.enable;
-         let object = { message: item, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', object);
+         mainCoreFunction(item);
       });
 
       // DATE CREATION
       document.getElementById('date').addEventListener('click', () => {
          let item = new Date();
-         let object = { message: item, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', object);
+         mainCoreFunction(item);
       });
 
       // MATH CREATION
       document.getElementById('math').addEventListener('click', () => {
          let item = Math;
-         let object = { message: item, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', object);
+         mainCoreFunction(item);
       });
 
       // JSON CREATION
       document.getElementById('json').addEventListener('click', () => {
          let item = JSON;
-         let object = { message: item, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', object);
+         mainCoreFunction(item);
       });
 
       // BOOLEAN CREATION
       document.getElementById('boolean').addEventListener('click', () => {
          let item = new Boolean(0);
-         let object = { message: item, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', object);
+         mainCoreFunction(item);
       });
 
       // NUMBER CREATION
       document.getElementById('number').addEventListener('click', () => {
          let item = new Number(0);
-         let object = { message: item, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', object);
+         mainCoreFunction(item);
       });
 
       // BIGINT CREATION
       document.getElementById('bigInt').addEventListener('click', () => {
          let item = BigInt(9999999999);
-         let object = { message: item, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', object);
+         mainCoreFunction(item);
       });
 
       // STRING CREATION
       document.getElementById('string').addEventListener('click', () => {
          let item = new String('This is a string.');
-         let object = { message: item, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', object);
+         mainCoreFunction(item);
       });
 
       // REGEXP CREATION
       document.getElementById('regExp').addEventListener('click', () => {
          let item = RegExp("ab+c", "i");
-         let object = { message: item, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', object);
+         mainCoreFunction(item);
       });
 
       // SYMBOL CREATION
       document.getElementById('symbol').addEventListener('click', () => {
          let item = Symbol('Symbol_Object');
-         let object = { message: item, file: 'ooo.ks', line: '12' };
-         consoleObj.addNewLineToConsole('msg', object);
+         mainCoreFunction(item);
       });
 
       // PROTOTYPE CREATION
       document.getElementById('prototype').addEventListener('click', () => {
          let item = Object.getPrototypeOf(consoleObj);
+         mainCoreFunction(item);
+      });
+
+      // consoleObj.disable();
+      function mainCoreFunction(item) {
+         console.dir(item);
          let object = { message: item, file: 'ooo.ks', line: '12' };
          consoleObj.addNewLineToConsole('msg', object);
-      });
+      }
 
 
       // PRESS ALL BUTTONS AT ONCE

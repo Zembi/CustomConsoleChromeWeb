@@ -1,35 +1,28 @@
-:root {
+.consoleMainElement {
   /* CONSOLE VARS with UNICODE: HSQL0219*/
   --consoleChangeHeightHSQL0219: null;
   --flexDirectHSQL0219: row;
   --consoleAlignHSQL0219: null;
-}
-
-*::after,
-*::before {
-  border: none;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  --consoleBackgroundHSQL0219: null;
 }
 
 /* width */
-::-webkit-scrollbar {
-  width: 4px;
+.consoleMainElement ::-webkit-scrollbar {
+  width: 10px;
 }
 
 /* Track */
-::-webkit-scrollbar-track {
+.consoleMainElement ::-webkit-scrollbar-track {
   background: rgb(0, 0, 0, 0.4);
 }
 
 /* Handle */
-::-webkit-scrollbar-thumb {
+.consoleMainElement ::-webkit-scrollbar-thumb {
   background: white;
 }
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
+.consoleMainElement ::-webkit-scrollbar-thumb:hover {
   background: rgb(255, 166, 0);
 }
 
@@ -37,6 +30,10 @@
 /* CONSOLE */
 .consoleMainElement * {
   font-family: Arial, Helvetica, sans-serif;
+  border: none;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 .consoleMainElement {
@@ -44,7 +41,7 @@
   position: fixed;
   flex-direction: column;
   width: 100%;
-  background: rgb(55, 55, 55, 0.9);
+  background: var(--consoleBackgroundHSQL0219);
   bottom: 0;
   left: 0;
   overflow: visible;
@@ -644,7 +641,7 @@
 
 .consoleLineObjStringSymbolBeforeAfter {
   color: rgb(219, 117, 0);
-  font-style: italic;
+  /* font-style: italic; */
 }
 
 .consoleObjLineString {
